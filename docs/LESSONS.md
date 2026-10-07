@@ -164,7 +164,9 @@ paragraph.** Enforce the experimental design, not just the signal:
 - **Credit counters must be reset per connection, and `seg_recv` channels keep stale `rx.credits`.** Two leaks in our
   CoC apps: `coc-duplex-central`'s `cen_avail` (and function-local `static` counters in the CoC sinks) carried over
   to the next connection, and with `seg_recv` the host never resets a reused channel's `rx.credits`, so the previous
-  connection's leftovers (~60) went out as the next connection's initial credits. Under peripheral-only resets the
+  connection's leftovers (~60) went out as the next connection's initial credits. That is not a Zephyr defect: the
+  `bt_l2cap_chan_give_credits()` docs require a reused channel to be default-initialized or memset, and our apps
+  didn't (our #121544 note suggesting otherwise was corrected on the issue). Under peripheral-only resets the
   sink's balance climbed 32 → 735 and produced the published ~1:2 split. Fix: reset counters where a fresh window
   is granted and `atomic_set(&chan.rx.credits, 0)` before connect/accept. Any CoC rig that reconnects without
   rebooting both boards is exposed. [coc-credit-fixes-20261006]
