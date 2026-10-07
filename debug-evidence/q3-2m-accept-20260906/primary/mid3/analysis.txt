@@ -1,0 +1,46 @@
+=== STRUCTURAL GATES ===
+  [PASS] exactly one CAPTURE-START  (1)
+  [PASS] exactly one CAPTURE-END  (1)
+  [PASS] exactly one FROZEN  (1)
+  [PASS] capture duration ~ declared cap  (30002ms vs cap=30000ms)
+  [PASS] no malformed REC  (0)
+  [PASS] FROZEN & LOSS present  ()
+  [PASS] parsed==FROZEN==LOSS records  (parsed=1526 frozen=1526 loss=1526)
+  [PASS] ring_full_drops==0  ()
+  [PASS] LOSS.addr_minus_end==0  (0)
+  [PASS] LOSS.end_minus_recorded==0  (0)
+  [PASS] LOSS.reversal==0  (0)
+  [PASS] LOSS.stale_addr==0  (0)
+  [PASS] oseq contiguous  ()
+snapshot slop central=(149, 135)ms (sum 284) periph=(97, 171)ms (sum 268) ; combined ceil 3% of 30002ms = 900ms
+=== CONFIG BINDING ===
+  [PASS] combined slop <= 3% of capture (tight lower bound)  (C=284 P=268 ceil=900)
+  [PASS] chan_count==2  (2)
+  [PASS] map=={10,11}  (000c000000)
+  [PASS] observer cfg present  ({'phy': 2, 'aa': 2316320358, 'crcinit': 5779181, 'ch': 10, 'cap_ms': 30000})
+  [PASS] observer AA==connection  (0x8a103e66/0x8a103e66)
+  [PASS] observer CRCInit==connection  ()
+  [PASS] observer channel in {10,11}  (10)
+  [PASS] observer PHY==2M  (2)
+  [PASS] endpoint AA==observer AA  ()
+  [PASS] central AA==periph AA  ()
+  [PASS] distinct DEVICEIDs (C!=P)  (ff62faa3572a17b3/25ade47dfb0977df)
+  [PASS] central actual-TX delta > 0  (txC=772)
+  [PASS] periph resp-opportunity delta > 0  (txP=770)
+=== Q3 STEP ANALYSIS (METRICS ONLY; the runner owns the cell verdict) ===
+Q3-CONTRACT step_tol=4 expect_step=1568 dur_tol_ms=1500 guard_ticks=160000 min_plateau=30 baseline_tol_ticks=2 retention_min=0.95 xval_tol_us=8 null_thr_ticks=64 host_jitter_ms=50 boundary_slop_ms=1000 changepoint=max-abs-mean-split reg_min=52 reg_max=150 reg_phys=2 reg_types=3 expect_pre_us=150 expect_post_us=52 plateau_iqr_max=16 plateau_drift_max=5 plateau_blocks=4 plateau_block_max=5 plateau_conc_eps=10 plateau_conc_frac=0.95 phase_retention_min=0.95 steady_tol_ticks=4 steady_settle_min_ms=2000 abba_arm_seq=['f150', 'f52', 'f52', 'f150'] abba_expect_step=1568 abba_tol_ticks=4
+anchors: [Ts=10664ms,cs=42537481]..[Te=40666ms,ce=522617641] dur=480080160t (~30005ms) cap=30000ms ; boundary slops {'clear_slop_ms': 100, 'freeze_slop_ms': 68}
+transition window (reltick): lo=98025850 hi=103930410 unc=+/-800080t (REQ..later-DONE + guard 160000)
+whole-cell retention: central 98.8% periph 99.1% (763 pairs; denom C=772 P=770; >= 95%)
+plateaus: pre=150 post=605 excluded(straddle)=8
+  shape PRE {'iqr': 9, 'drift': 0, 'conc_frac': 1.0} POST {'iqr': 9, 'drift': 1.0, 'conc_frac': 1.0} (IQR<=16 drift<=5 conc(+/-10)>=0.95) OK
+  phase-retention (F-time snapshots, >= 0.95 FROZEN): {'C': {'pre_tx': 155, 'post_tx': 617, 'pre_ret': 0.968, 'post_ret': 0.981}, 'P': {'pre_tx': 154, 'post_tx': 616, 'pre_ret': 0.974, 'post_ret': 0.982}} OK
+  [diagnostic] phase-rate pre 1.532e-06 vs post 1.612e-06 pairs/tick imbalance 5.0% (NOT a gate -- early-connection transient)
+  PRE  median gap_proxy = 2791.0t (tIFS~=150.50us)  [frozen baseline 2791 +/-2 OK]
+  POST median gap_proxy = 1222t (tIFS~=52.44us)
+PRIMARY step = 1569.0t vs 1568t : |d|=1.0 (<= 4) class=AGREEMENT
+  cross-val: on-air 98.06us vs on-chip 150-100 delta 98us |d|=0.06 (<= 8us) OK
+  [secondary/diagnostic] independent change point (max-abs-mean-split, >= 30/side) @ 102613880t inside window? True
+=== METRICS-OK: on-air step == 50us within tol AND on-chip agrees (cell still QUARANTINED) ===
+
+=== analyzer exit 0; cell verdict ACCEPT (obs_image_verified=True endpoint_builds_valid=True quarantine_reason=-) ===

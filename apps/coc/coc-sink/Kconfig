@@ -1,0 +1,10 @@
+config APP_CREDIT_BATCH
+	bool "Return credits in batches instead of one credit PDU per segment"
+	help
+	  Default (n): one credit is returned per received segment, and the host sends one
+	  L2CAP credit PDU per call, so most of this sink's replies are 12-byte credit PDUs
+	  instead of empty packets. y: refill the window in one PDU when fewer than 24 of
+	  RX_CREDITS remain (like coc-duplex-sink). The board reboots per rep in the
+	  one-way procedure, so the function-local count never goes stale there.
+
+source "Kconfig.zephyr"

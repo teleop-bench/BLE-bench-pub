@@ -1,0 +1,28 @@
+BLE-bench
+Copyright 2026 teleop-bench
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This repository contains modifications to the Zephyr RTOS project
+(https://github.com/zephyrproject-rtos/zephyr) under `zephyr-patches/` and
+published, already applied, on the `fsu-m0` (v4.4.1) and `fsu-m0-v442`
+(v4.4.2) branches of the fork at https://github.com/teleop-bench/zephyr.
+Zephyr is itself licensed under the Apache License, Version 2.0; those files
+retain the copyrights of their original Zephyr authors.
+
+The Bluetooth LE Frame Space Update controller implementation in
+`zephyr-patches/fsu-m0-series/0002-*` is imported from unmerged upstream
+Zephyr pull requests and is the work of its original authors:
+  - Andries Kruithof (Nordic Semiconductor), PR #82324
+    https://github.com/zephyrproject-rtos/zephyr/pull/82324
+  - Vinayak Kariappa Chettimada (Nordic Semiconductor), PR #99473
+    https://github.com/zephyrproject-rtos/zephyr/pull/99473
+Subsequent patches in that series build on their work.
+
+Compiled firmware images (*.hex) in this repository also contain
+third-party code: Nordic nrfx drivers (BSD-3-Clause) in all images, and,
+in the 65 images listed in THIRD-PARTY-NOTICES.md, Nordic's proprietary
+SoftDevice Controller and MPSL libraries (LicenseRef-Nordic-5-Clause),
+which are not covered by the Apache License 2.0 and may only be used with
+Nordic Semiconductor integrated circuits. The required notices are
+reproduced in THIRD-PARTY-NOTICES.md.

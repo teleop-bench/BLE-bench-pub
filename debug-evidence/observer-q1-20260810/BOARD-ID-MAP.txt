@@ -1,0 +1,22 @@
+DK-A  jlink_dev_id=1057719509  console=/dev/cu.usbmodem0010577195093  DEVICEID=25ade47dfb0977df
+DK-B  jlink_dev_id=1057794857  console=/dev/cu.usbmodem0010577948573  DEVICEID=ff62faa3572a17b3
+
+The matrix harness flashed/reset each generator board by EXPLICIT J-Link
+dev-id (west flash --dev-id / nrfutil device reset --serial-number), and each
+board's console is a fixed USB VCOM. So matrix filenames (_DKA_/_DKB_) map
+deterministically to these physical chips. DEVICEID was added to the generator
+AFTER the matrix (boot-time printk only; no RF/timer/DPPI change), so matrix
+generator dumps show INFO.PART only; this map ties dev-id <-> DEVICEID <-> chip.
+
+RAW EVIDENCE: board-id-boot-logs/DKA_boot.txt and DKB_boot.txt are unedited
+boot captures (current DEVICEID firmware) showing each chip's DEVICEID.
+
+EXPLICIT LIMITATION: DEVICEID was added AFTER the matrix, so the matrix
+generator dumps (matrix/*_gen.txt) print INFO.PART only and do NOT themselves
+carry a per-run DEVICEID. No historical harness/runner transcript was saved
+(west flash output went to /dev/null). Therefore the historical _DKA_/_DKB_
+file association rests on the operator's harness mapping (explicit --dev-id per
+board) + the deterministic per-board USB console port, NOT on an in-capture
+DEVICEID for those specific runs. The boot logs here prove the two chips are
+distinct and map dev-id<->DEVICEID; they do not retroactively stamp the matrix
+captures. Future runs self-identify (firmware now prints DEVICEID).

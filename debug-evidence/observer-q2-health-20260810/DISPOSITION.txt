@@ -1,0 +1,24 @@
+Q2 endpoint-only CONNECTION HEALTH (no observer), HARDENED command-gated harness.
+Startup: reset both -> Q2READY(dev/boottag) from each -> periph 'A' advertise ->
+ADV-READY -> central 'C' connect -> Q2CONN -> preflight. The harness ignores all
+rows before the last Q2READY (stale UART buffer), verifies DEVICEIDs, boottag,
+single session, Q2CONN map, and counter advance; verdicts archived in verdict.txt.
+
+RESULT (reconciled -- supersedes the earlier "37ch too sparse", which was a
+stale-buffer + short-window artifact):
+- 2-channel {10,11} (map=000c000000): HEALTH PASS -- all 14 checks. verdict.txt.
+- 37-channel   (map=ffffffff1f): HEALTH PASS -- all 14 checks. verdict.txt.
+Both: distinct DEVICEIDs, one boot/role, one Q2CONN, AA match, single session,
+NO disconnect, central & periph sched AND tx all advance.
+
+ROOT CAUSES (both mine, NOT a controller connectivity failure):
+1. Runner reset-race (reset periph then central) rebooted the just-connected
+   central. Fixed by deterministic command-gated startup.
+2. tx=0: ISR counters indexed lll->data_chan_use (CSA#1 unmapped state), not the
+   actual remapped channel. Fixed via lll_conn_q2_curchan (single-connection
+   scope). Central=actual-TX, periph=CRC-good response-opportunity (conservative).
+
+COUNTER MODEL (per review): sched and tx are NOT one-to-one; sched is a
+health/packets-per-event diagnostic ONLY. Denominators are the tx deltas
+(central actual-TX; periph response-opportunity). The old central-tx==sched /
+periph-tx<=sched analyzer gates were REMOVED (they'd reject a healthy run).

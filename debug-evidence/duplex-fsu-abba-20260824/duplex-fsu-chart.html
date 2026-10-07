@@ -1,0 +1,106 @@
+<title>GATT duplex FSU vs interval (ABBA n=4)</title>
+<style>
+  :root{
+    --paper:#f5f2ea; --ink:#1b1813; --soft:#6f675b; --faint:#b7ad9c; --rule:#e2dccd;
+    --open:#26221c; --sdc:#a8481f; --gain:#a8481f26;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --paper:#151209; --ink:#ece5d6; --soft:#a29886; --faint:#5c5344;
+      --rule:#2e281d; --open:#e8e0cf; --sdc:#e0894f; --gain:#e0894f2e; }
+  }
+  :root[data-theme="light"]{ --paper:#f5f2ea; --ink:#1b1813; --soft:#6f675b; --faint:#b7ad9c; --rule:#e2dccd; --open:#26221c; --sdc:#a8481f; --gain:#a8481f26; }
+  :root[data-theme="dark"]{ --paper:#151209; --ink:#ece5d6; --soft:#a29886; --faint:#5c5344; --rule:#2e281d; --open:#e8e0cf; --sdc:#e0894f; --gain:#e0894f2e; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:760px;margin:0 auto;padding:48px 26px 60px}
+  .eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--soft);margin:0 0 12px}
+  h1{font-size:26px;font-weight:600;line-height:1.14;margin:0 0 8px;letter-spacing:-.01em;text-wrap:balance}
+  .dek{font-size:16px;color:var(--soft);max-width:60ch;margin:0 0 8px}
+  .dek b{color:var(--ink);font-weight:600}
+  figure{margin:26px 0 0}
+  svg{width:100%;height:auto;display:block;overflow:visible}
+  .ax{fill:var(--faint);font-size:11px;font-family:ui-monospace,Menlo,monospace}
+  .axlab{fill:var(--soft);font-size:12px}
+  .slab{font-size:12px;font-weight:600}
+  .legend{display:flex;flex-wrap:wrap;gap:18px 24px;margin:20px 0 0;font-size:13px;color:var(--soft);align-items:center}
+  .lk{display:inline-flex;align-items:center;gap:8px}
+  .lk svg{width:32px;height:12px}
+  .note{font-size:13px;color:var(--soft);max-width:68ch;margin:20px 0 0;line-height:1.5}
+  .note b{color:var(--ink)}
+  .foot{font-size:11.5px;color:var(--soft);margin-top:22px;padding-top:14px;border-top:1px solid var(--rule);max-width:70ch;font-family:ui-monospace,Menlo,monospace;line-height:1.5}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">nRF54L15 &middot; 2M &middot; open Zephyr GATT duplex &middot; ABBA n=4</p>
+  <h1>GATT duplex: FSU converts once the interval leaves the saturated regime</h1>
+  <p class="dek">Bluetooth&nbsp;6.0's Frame Space Update does nothing for two-way (duplex) traffic at short intervals &mdash; the event is already full &mdash; but beyond that the freed airtime <b>does</b> convert, peaking at 25&nbsp;ms. Aggregate throughput (A&rarr;B + B&rarr;A), drift-cancelled ABBA.</p>
+
+  <figure><svg id="cx" viewBox="0 0 700 400" role="img" aria-label="GATT duplex aggregate throughput vs interval; FSU-on and FSU-off nearly equal at 15ms, then FSU-on pulls clearly ahead at 25, 37.5 and 50ms"></svg></figure>
+
+  <div class="legend">
+    <span class="lk"><svg viewBox="0 0 32 12"><line x1="1" y1="6" x2="31" y2="6" stroke="var(--open)" stroke-width="2.4"/></svg> FSU on (52&thinsp;&micro;s tIFS)</span>
+    <span class="lk"><svg viewBox="0 0 32 12"><line x1="1" y1="6" x2="31" y2="6" stroke="var(--soft)" stroke-width="1.8" stroke-dasharray="4 3"/></svg> FSU off (150&thinsp;&micro;s)</span>
+    <span class="lk"><svg viewBox="0 0 32 12"><rect x="1" y="2" width="30" height="8" fill="var(--gain)"/></svg> FSU dividend</span>
+    <span class="lk"><svg viewBox="0 0 32 12"><line x1="16" y1="1" x2="16" y2="11" stroke="var(--faint)" stroke-width="1.4"/></svg> &plusmn;1 SD (n=4; 37.5/50&nbsp;ms n=8)</span>
+  </div>
+
+  <p class="note"><b>Reading it:</b> <b>15&nbsp;ms is neutral</b> (+1%, lines overlap &mdash; no FSU headroom in a saturated short event). <b>25&nbsp;ms is the decisive peak</b> (+11.9%, well separated). 37.5 and 50&nbsp;ms stay positive (+6.4% / +9.3%), and the +6.4% at 37.5&nbsp;ms reproduced across two ABBA blocks (n=8) so the effect is solid &mdash; but those two <b>are within measurement noise of each other</b> (per-point SD ~3&ndash;5%), so don't read 50&nbsp;&gt;&nbsp;37.5 as real. The dividend is <b>non-monotonic, not a smooth ramp</b>: FSU frees a fixed airtime slice per packet that only converts when it accumulates to a <b>whole extra packet</b>, so the %-gain is quantized (25&nbsp;ms lands on a clean packet boundary; 37.5&nbsp;ms falls just short). Bottom line: <b>~0 in the saturated regime, real and meaningful (+6&ndash;12%) beyond it.</b></p>
+
+  <p class="foot">Method: open Zephyr GATT duplex (central blast + peripheral echo), aggregate = central echo-received + peripheral blast-received, steady-window medians, ABBA order (off,on,on,off,off,on,on,off) drift-cancelled. n=4 per point at 15/25&nbsp;ms; n=8 (two pooled ABBA blocks) at 37.5/50&nbsp;ms. Whiskers &plusmn;1 SD. 2&times; nRF54L15, 2M PHY. Evidence: debug-evidence/duplex-fsu-abba-20260824/. Same-bench FSU effect; absolute KB/s are RF-day-specific. 1&nbsp;KB = 1024&nbsp;B.</p>
+</div>
+
+<script>
+const IV=[15,25,37.5,50];
+// whiskers = mean +/- 1 SD. 15/25ms n=4; 37.5/50ms n=8 (two pooled ABBA blocks).
+const OFF={mean:[168.8,159.8,157.8,150.0], lo:[164.9,157.9,151.8,145.0], hi:[172.7,161.7,163.8,155.0]};
+const ON ={mean:[170.4,178.8,167.9,164.0], lo:[166.6,177.5,160.2,158.1], hi:[174.2,180.1,175.6,169.9]};
+const DLT=['+1%','+11.9%','+6.4%','+9.3%'];
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const svg=document.getElementById('cx'); const add=e=>{svg.appendChild(e);return e};
+const W=700,H=400,m={t:30,r:70,b:52,l:48}, iw=W-m.l-m.r, ih=H-m.t-m.b;
+const xlo=10,xhi=54, X=v=>m.l+(v-xlo)/(xhi-xlo)*iw;
+const ylo=135,yhi=190, Y=v=>m.t+(1-(v-ylo)/(yhi-ylo))*ih;
+// y grid
+[140,150,160,170,180,190].forEach(v=>{ add(el('line',{x1:m.l,y1:Y(v),x2:m.l+iw,y2:Y(v),stroke:'var(--rule)','stroke-width':1}));
+  add(el('text',{x:m.l-8,y:Y(v)+4,'text-anchor':'end',class:'ax'})).textContent=v; });
+add(el('text',{x:m.l-8,y:m.t-10,'text-anchor':'end',class:'ax'})).textContent='KB/s';
+// x axis
+add(el('line',{x1:m.l,y1:m.t+ih,x2:m.l+iw,y2:m.t+ih,stroke:'var(--faint)','stroke-width':1}));
+IV.forEach(v=>add(el('text',{x:X(v),y:m.t+ih+18,'text-anchor':'middle',class:'ax'})).textContent=v);
+add(el('text',{x:m.l+iw/2,y:H-6,'text-anchor':'middle',class:'axlab'})).textContent='connection interval (ms)';
+// FSU dividend shaded band (between off-mean and on-mean)
+let d='M';
+IV.forEach((x,i)=>{ d+=(i?'L':'')+X(x)+' '+Y(ON.mean[i])+' '; });
+for(let i=IV.length-1;i>=0;i--){ d+='L'+X(IV[i])+' '+Y(OFF.mean[i])+' '; }
+d+='Z'; add(el('path',{d,fill:'var(--gain)'}));
+// n=4 range whiskers
+[[OFF,'var(--faint)'],[ON,'var(--faint)']].forEach(([S,c])=>{
+  IV.forEach((x,i)=>{
+    add(el('line',{x1:X(x),y1:Y(S.lo[i]),x2:X(x),y2:Y(S.hi[i]),stroke:c,'stroke-width':1.4}));
+    add(el('line',{x1:X(x)-3,y1:Y(S.lo[i]),x2:X(x)+3,y2:Y(S.lo[i]),stroke:c,'stroke-width':1.4}));
+    add(el('line',{x1:X(x)-3,y1:Y(S.hi[i]),x2:X(x)+3,y2:Y(S.hi[i]),stroke:c,'stroke-width':1.4}));
+  });
+});
+// mean lines
+function line(S,stroke,dash,w){
+  const p=S.mean.map((v,i)=>(i?'L':'M')+X(IV[i])+' '+Y(v)).join(' ');
+  add(el('path',{d:p,fill:'none',stroke,'stroke-width':w,'stroke-linejoin':'round','stroke-dasharray':dash||'none'}));
+  S.mean.forEach((v,i)=>add(el('circle',{cx:X(IV[i]),cy:Y(v),r:3,fill:'var(--paper)',stroke,'stroke-width':1.7})));
+}
+line(OFF,'var(--soft)','4 3',1.8);
+line(ON,'var(--open)',null,2.4);
+// right-edge labels
+add(el('text',{x:X(50)+8,y:Y(ON.mean[3])+4,class:'slab',fill:'var(--open)'})).textContent='FSU on';
+add(el('text',{x:X(50)+8,y:Y(OFF.mean[3])+4,class:'slab',fill:'var(--soft)'})).textContent='off';
+// delta labels above each interval
+IV.forEach((x,i)=>{
+  const c = i===1 ? 'var(--sdc)' : 'var(--soft)';
+  add(el('text',{x:X(x),y:Y(Math.max(ON.hi[i],OFF.hi[i]))-8,'text-anchor':'middle',class:'slab',fill:c})).textContent=DLT[i];
+});
+// mark 25ms as the decisive point
+add(el('text',{x:X(25),y:m.t-14,'text-anchor':'middle',class:'ax',fill:'var(--sdc)'})).textContent='decisive (non-overlap)';
+</script>

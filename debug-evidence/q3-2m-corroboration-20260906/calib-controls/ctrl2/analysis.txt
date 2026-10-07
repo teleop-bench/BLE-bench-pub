@@ -1,0 +1,42 @@
+=== STRUCTURAL GATES ===
+  [PASS] exactly one CAPTURE-START  (1)
+  [PASS] exactly one CAPTURE-END  (1)
+  [PASS] exactly one FROZEN  (1)
+  [PASS] capture duration ~ declared cap  (30005ms vs cap=30000ms)
+  [PASS] no malformed REC  (0)
+  [PASS] FROZEN & LOSS present  ()
+  [PASS] parsed==FROZEN==LOSS records  (parsed=1490 frozen=1490 loss=1490)
+  [PASS] ring_full_drops==0  ()
+  [PASS] LOSS.addr_minus_end==0  (0)
+  [PASS] LOSS.end_minus_recorded==0  (0)
+  [PASS] LOSS.reversal==0  (0)
+  [PASS] LOSS.stale_addr==0  (0)
+  [PASS] oseq contiguous  ()
+snapshot slop central=(67, 110)ms (sum 177) periph=(22, 137)ms (sum 159) ; combined ceil 3% of 30005ms = 900ms
+=== CONFIG BINDING ===
+  [PASS] combined slop <= 3% of capture (tight lower bound)  (C=177 P=159 ceil=900)
+  [PASS] chan_count==2  (2)
+  [PASS] map=={10,11}  (000c000000)
+  [PASS] observer cfg present  ({'phy': 2, 'aa': 3450108867, 'crcinit': 12720915, 'ch': 10, 'cap_ms': 30000})
+  [PASS] observer AA==connection  (0xcda47bc3/0xcda47bc3)
+  [PASS] observer CRCInit==connection  ()
+  [PASS] observer channel in {10,11}  (10)
+  [PASS] observer PHY==2M  (2)
+  [PASS] endpoint AA==observer AA  ()
+  [PASS] central AA==periph AA  ()
+  [PASS] distinct DEVICEIDs (C!=P)  (ff62faa3572a17b3/25ade47dfb0977df)
+  [PASS] central actual-TX delta > 0  (txC=750)
+  [PASS] periph resp-opportunity delta > 0  (txP=750)
+  [diag] packets-per-event: central tx/sched=750/750 periph tx/sched=750/750 (diagnostic only, not a gate)
+
+=== METRICS (mode=symmetric) === clean=1490 pairs=745
+  gap_proxy_dev = 2791 ticks  IQR=8  -> calibrated tIFS estimate ~= 150.50us (NOT 174.4us; that includes the ~40us preamble/AA offset)
+  (a symmetric CANDIDATE reference -- becomes an ESTABLISHED gap_proxy_dev only if THIS cell ACCEPTs; see final verdict)
+  paired-retention LOWER BOUND >= 745/750 = 99.3% PASS (denominator over-counts by the slop, so this is a floor -- true retention is higher)
+  symmetric order-derived RSSI sep=4.0dB (<= 6) PASS
+  -> gap_proxy ACCEPTED CANDIDATE = 2791 ticks (one run = CANDIDATE only; frozen ESTABLISHED reference needs >=2 accepted controls via combine_calib.py)
+Q2RESULT mode=symmetric verdict=ACCEPT gap_proxy_med=2791 pairs=745
+
+=== ACCEPT: Q2 gates pass ===
+
+=== analyzer exit 0; cell verdict ACCEPT (obs_image_verified=True endpoint_builds_valid=True quarantine_reason=-) ===

@@ -1,0 +1,22 @@
+transport stack fsu        KB/s  sanity
+---------------------------------------------------------
+GATT open on          189  PHY2M fsu52
+GATT open off         157  PHY2M 
+GATT SDC  on          177  PHY2M 
+GATT SDC  off         155  PHY2M DLE251 
+CoC  open on        157.1  PHY2M DLE251 fsu52
+CoC  open off       158.0  PHY2M DLE251 
+CoC  SDC  on        178.2  PHY2M DLE251 
+CoC  SDC  off       152.7  PHY2M DLE251 
+
+[1m== Deltas (the transferable results) ==[0m
+  FSU GATT/open: 189 vs 157 KB/s  -> +20.4%
+  FSU GATT/SDC: 177 vs 155 KB/s  -> +14.2%
+  open-vs-SDC GATT (FSU-off): open 157 vs SDC 155 KB/s  -> +1.3% (≈parity expected)
+  FSU CoC/open: 157 vs 158 KB/s  -> -0.6%
+  FSU CoC/SDC: 178 vs 153 KB/s  -> +16.7%
+  open-vs-SDC CoC (FSU-off): open 158 vs SDC 153 KB/s  -> +3.5% (≈parity expected)
+
+  Reproduce these DELTAS, not the absolute KB/s (RF-day specific). Full detail: REPRODUCE.md / docs/overviews/.
+
+Captures + results in: /tmp/runall2

@@ -1,0 +1,44 @@
+[calib] frozen gap_proxy_dev=3047 ticks (contract re-verified); artifact=$HOME/Desktop/develop/zenoh-pico-ble-test/debug-evidence/gap-proxy-calibration-20260811.json
+=== STRUCTURAL GATES ===
+  [PASS] exactly one CAPTURE-START  (1)
+  [PASS] exactly one CAPTURE-END  (1)
+  [PASS] exactly one FROZEN  (1)
+  [PASS] capture duration ~ declared cap  (30001ms vs cap=30000ms)
+  [PASS] no malformed REC  (0)
+  [PASS] FROZEN & LOSS present  ()
+  [PASS] parsed==FROZEN==LOSS records  (parsed=815 frozen=815 loss=815)
+  [PASS] ring_full_drops==0  ()
+  [PASS] LOSS.addr_minus_end==0  (0)
+  [PASS] LOSS.end_minus_recorded==0  (0)
+  [PASS] LOSS.reversal==0  (0)
+  [PASS] LOSS.stale_addr==0  (0)
+  [PASS] oseq contiguous  ()
+snapshot slop central=(130, 42)ms (sum 172) periph=(79, 52)ms (sum 131) ; combined ceil 3% of 30001ms = 900ms
+=== CONFIG BINDING ===
+  [PASS] combined slop <= 3% of capture (tight lower bound)  (C=172 P=131 ceil=900)
+  [PASS] chan_count==2  (2)
+  [PASS] map=={10,11}  (000c000000)
+  [PASS] observer cfg present  ({'phy': 1, 'aa': 728899784, 'crcinit': 16189722, 'ch': 10, 'cap_ms': 30000})
+  [PASS] observer AA==connection  (0x2b7220c8/0x2b7220c8)
+  [PASS] observer CRCInit==connection  ()
+  [PASS] observer channel in {10,11}  (10)
+  [PASS] observer PHY==1M  (1)
+  [PASS] endpoint AA==observer AA  ()
+  [PASS] central AA==periph AA  ()
+  [PASS] distinct DEVICEIDs (C!=P)  (25ade47dfb0977df/ff62faa3572a17b3)
+  [PASS] central actual-TX delta > 0  (txC=422)
+  [PASS] periph resp-opportunity delta > 0  (txP=415)
+  [diag] packets-per-event: central tx/sched=422/422 periph tx/sched=415/420 (diagnostic only, not a gate)
+
+=== METRICS (mode=nearfar) === clean=814 pairs=405
+  gap_proxy median=3047 (tIFS~=150.50us) vs frozen gap_proxy_dev=3047 |d|=0 (<= 2) PASS IQR=8
+  central retention LOWER BOUND >= 405/422 = 96.0% PASS
+  periph  retention LOWER BOUND >= 409/415 = 98.6% PASS
+  paired  retention LOWER BOUND >= 405/415 = 97.6% PASS
+  attribution ordering-vs-RSSI disagreements=0 PASS
+  near/far sep=41.7dB (>= 20) far=-72dBm in[(-85, -70)] PASS
+Q2RESULT mode=nearfar verdict=ACCEPT gap_proxy_med=3047 pairs=405
+
+=== ACCEPT: Q2 gates pass ===
+
+=== analyzer exit 0; cell verdict ACCEPT (obs_image_verified=True endpoint_builds_valid=True quarantine_reason=-) ===

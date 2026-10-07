@@ -1,0 +1,83 @@
+config APP_HB_SENDER
+	bool "Periodic safety-heartbeat sender (§14.9 DRAFT)"
+	default n
+	select GPIO
+	help
+	  Sends fixed-period heartbeats {epoch u32, seq u32} to the peripheral's
+	  dedicated heartbeat characteristic, decoupled from the RTT ping/pong
+	  (acks are diagnostics only). Fresh frame per period — a busy TX path
+	  drops the stale heartbeat rather than queueing it. Button sw0 SUPPRESSES
+	  sending one-way until reboot (fault-injection test hook — the task keeps
+	  running); the "alive" GPIO distinguishes suppressed sending from power
+	  loss on the logic analyzer.
+
+if APP_HB_SENDER
+
+config APP_HB_PERIOD_MS
+	int "Heartbeat period (ms)"
+	default 20
+	range 5 1000
+
+endif # APP_HB_SENDER
+
+config APP_LOAD_RAMP
+	bool "Latency-under-load ramp: pings + self-stepping bulk load"
+	default n
+	help
+	  Keeps the serialized RTT pings running and adds a rate-limited bulk
+	  stream to the peripheral's bulk-sink characteristic, stepping the
+	  target rate 0/25/50/75/100/125/150 KB/s every 60 s, logging LOADRAMP
+	  markers. One build measures a whole ramp.
+
+config APP_LOAD_POLITE
+	bool "Load ramp: completion-pace bulk to 1-outstanding (mitigation arm)"
+	depends on APP_LOAD_RAMP
+	default n
+	help
+	  Mitigation arm of the latency-under-load ramp. Instead of fire-and-forget
+	  bulk writes, gate each bulk write on the previous write's completion
+	  callback via a 1-permit semaphore, keeping at most one bulk write in the
+	  TX path so the stop-signal ping is not stuck behind a deep bulk backlog.
+
+config APP_TPUT_BLAST
+	bool "Throughput blast mode (replaces RTT pings with max-payload writes)"
+	default n
+
+config APP_TPUT_PAYLOAD_CAP
+	int "Phase-A diagnosis: cap blast payload bytes (0 = off)"
+	default 0
+	range 0 247
+
+config APP_SCI_INTERVAL_125US
+	int "SDC cell S1: request this connection interval (125 us units; 0 = off)"
+	default 0
+	range 0 480
+
+config APP_SDC6X_DELAY_S
+	int "Delay before 6.x feature requests (SCI/FSU) after subscribe (s)"
+	default 3
+	help
+	  Must exceed any expected GAP auto connection-parameter update:
+	  ull_conn_update_parameters resets the tifs fields to defaults, so an
+	  update landing after FSU adoption silently reverts the spacing.
+
+config APP_FSU_MIN_US
+	int "SDC cell F1: FSU requested minimum frame space (us)"
+	default 0
+	range 0 10000
+
+config APP_FSU_MAX_US
+	int "SDC cell F1: FSU requested maximum frame space (us; 0 = no FSU request)"
+	default 0
+	range 0 10000
+
+config APP_GO_FAST_1MS
+	bool "§6.1 positive control: drop to 2M/1ms (pin_interval=false)"
+	default n
+
+config APP_CONN_INT_UNITS
+	int "Pinned connection interval (1.25 ms units): 6=7.5ms 12=15ms 24=30ms"
+	default 6
+	range 6 3200
+
+source "Kconfig.zephyr"

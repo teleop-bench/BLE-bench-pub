@@ -1,0 +1,24 @@
+*** Booting Zephyr OS build v4.4.1-4-g6a2245e1dc81 ***
+[00:38:52.528,544] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+[00:38:52.528,557] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+[00:38:52.528,569] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 1[0m
+[00:38:52.528,908] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+[00:38:52.528,955] [0m<inf> bt_hci_core: Identity: D6:C7:60:B1:D3:0E (random)[0m
+[00:38:52.528,972] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+[00:38:52.528,987] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+
+=== nRF54L15 RTT ping-pong PERIPHERAL (echo) ===
+advertising
+GAP connected interval=7500
+CCC: notify ENABLED
+[00:38:53.384,776] [1;31m<err> os: ***** USAGE FAULT *****[0m
+[00:38:53.384,782] [1;31m<err> os:   Attempt to execute undefined instruction[0m
+[00:38:53.384,791] [1;31m<err> os: r0/a1:  0x200010b0  r1/a2:  0x200010b0  r2/a3:  0x20002fd0[0m
+[00:38:53.384,797] [1;31m<err> os: r3/a4:  0x00000001 r12/ip:  0x20002ed4 r14/lr:  0x00012eab[0m
+[00:38:53.384,801] [1;31m<err> os:  xpsr:  0x0100002e[0m
+[00:38:53.384,805] [1;31m<err> os: Faulting instruction address (r15/pc): 0x00013e98[0m
+[00:38:53.384,822] [1;31m<err> os: >>> ZEPHYR FATAL ERROR 36: Unknown error on CPU 0[0m
+[00:38:53.384,826] [1;31m<err> os: Fault during interrupt handling
+[0m
+[00:38:53.384,854] [1;31m<err> os: Current thread: 0x20001300 (unknown)[0m
+[00:38:53.453,681] [1;31m<err> os: Halting system[0m

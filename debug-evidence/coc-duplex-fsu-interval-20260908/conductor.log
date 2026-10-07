@@ -1,0 +1,114 @@
+[14:53] conductor started; waiting for Stage 2 (SDC sweep) to reach 160 measurements
+[15:30] Stage 2 hit 160 rows; settling + verifying boards idle
+[15:30] boards idle -> Stage 3 duplex
+[15:30] === duplex open: SMOKE (1 round) ===
+  7p5_on_r1: DL   188 UL     0 agg   188  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  7p5_off_r1: DL   158 UL     0 agg   158  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_on_r1: DL   189 UL     0 agg   189  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_off_r1: DL   157 UL     0 agg   157  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_on_r1: DL   198 UL     0 agg   198  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_off_r1: DL   169 UL     0 agg   169  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_on_r1: DL   186 UL     0 agg   186  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_off_r1: DL   169 UL     0 agg   169  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_on_r1: DL   196 UL     0 agg   196  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_off_r1: DL   170 UL     0 agg   170  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+DONE
+[15:36] duplex open smoke: 0/10 cells accepted
+[15:36] ABORT duplex open: smoke failed (0 accepted) — not running full
+[15:36] === duplex sdc: SMOKE (1 round) ===
+  7p5_on_r1: DL    91 UL    92 agg   183  PASS
+  7p5_off_r1: DL   126 UL     0 agg   126  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_on_r1: DL    94 UL    95 agg   189  PASS
+  15_off_r1: DL   156 UL     0 agg   156  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_on_r1: DL   103 UL   103 agg   206  PASS
+  25_off_r1: DL   160 UL     0 agg   160  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_on_r1: DL   187 UL     0 agg   187  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_off_r1: DL   163 UL     0 agg   163  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_on_r1: DL   188 UL     0 agg   188  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_off_r1: DL   165 UL     0 agg   165  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+DONE
+[15:41] duplex sdc smoke: 3/10 cells accepted
+[15:41] === duplex sdc: FULL (8 rounds) ===
+  7p5_on_r1: DL   157 UL     0 agg   157  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  7p5_off_r1: DL    92 UL    93 agg   185  PASS
+  15_on_r1: DL    94 UL    95 agg   189  PASS
+  15_off_r1: DL   156 UL     0 agg   156  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_on_r1: DL   179 UL     0 agg   179  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_off_r1: DL   160 UL     0 agg   160  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_on_r1: DL   188 UL     0 agg   188  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_off_r1: DL   163 UL     0 agg   163  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_on_r1: DL   186 UL     0 agg   186  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_off_r1: DL   164 UL     0 agg   164  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_off_r2: DL   165 UL     0 agg   165  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_on_r2: DL   188 UL     0 agg   188  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_off_r2: DL   163 UL     0 agg   163  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_on_r2: DL   188 UL     0 agg   188  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_off_r2: DL   160 UL     0 agg   160  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_on_r2: DL   179 UL     0 agg   179  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_off_r2: DL   157 UL     0 agg   157  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_on_r2: DL   173 UL     0 agg   173  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  7p5_off_r2: DL    92 UL    93 agg   185  PASS
+  7p5_on_r2: DL   157 UL     0 agg   157  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  7p5_on_r3: DL   157 UL     0 agg   157  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  7p5_off_r3: DL    92 UL    93 agg   185  PASS
+  15_on_r3: DL   172 UL     0 agg   172  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_off_r3: DL    92 UL    93 agg   185  PASS
+  25_on_r3: DL   179 UL     0 agg   179  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_off_r3: DL   160 UL     0 agg   160  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_on_r3: DL   188 UL     0 agg   188  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_off_r3: DL   164 UL     0 agg   164  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_on_r3: DL   188 UL     0 agg   188  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_off_r3: DL   165 UL     0 agg   165  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_off_r4: DL   164 UL     0 agg   164  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_on_r4: DL   188 UL     0 agg   188  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_off_r4: DL   163 UL     0 agg   163  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_on_r4: DL   189 UL     0 agg   189  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_off_r4: DL    94 UL    94 agg   188  PASS
+  25_on_r4: DL   179 UL     0 agg   179  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_off_r4: DL   157 UL     0 agg   157  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_on_r4: DL   173 UL     0 agg   173  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  7p5_off_r4: DL    92 UL    93 agg   185  PASS
+  7p5_on_r4: DL    92 UL    93 agg   185  PASS
+  7p5_on_r5: DL    92 UL    93 agg   185  PASS
+  7p5_off_r5: DL    92 UL    92 agg   184  PASS
+  15_on_r5: DL    95 UL    95 agg   190  PASS
+  15_off_r5: DL   156 UL     0 agg   156  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_on_r5: DL   179 UL     0 agg   179  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_off_r5: DL   160 UL     0 agg   160  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_on_r5: DL   189 UL     0 agg   189  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_off_r5: DL   164 UL     0 agg   164  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_on_r5: DL   188 UL     0 agg   188  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_off_r5: DL   165 UL     0 agg   165  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_off_r6: DL   164 UL     0 agg   164  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_on_r6: DL   188 UL     0 agg   188  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_off_r6: DL   163 UL     0 agg   163  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_on_r6: DL   189 UL     0 agg   189  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_off_r6: DL   160 UL     0 agg   160  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_on_r6: DL   179 UL     0 agg   179  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_off_r6: DL    92 UL    93 agg   185  PASS
+  15_on_r6: DL   173 UL     0 agg   173  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  7p5_off_r6: DL   125 UL     0 agg   125  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  7p5_on_r6: DL   157 UL     0 agg   157  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  7p5_on_r7: DL    92 UL    92 agg   184  PASS
+  7p5_off_r7: DL   125 UL     0 agg   125  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_on_r7: DL   173 UL     0 agg   173  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_off_r7: DL   156 UL     0 agg   156  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_on_r7: DL   179 UL     0 agg   179  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_off_r7: DL   160 UL     0 agg   160  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_on_r7: DL   188 UL     0 agg   188  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_off_r7: DL   163 UL     0 agg   163  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_on_r7: DL   189 UL     0 agg   189  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_off_r7: DL   165 UL     0 agg   165  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_off_r8: DL   165 UL     0 agg   165  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  50_on_r8: DL   189 UL     0 agg   189  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_off_r8: DL   164 UL     0 agg   164  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  37p5_on_r8: DL   189 UL     0 agg   189  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_off_r8: DL   160 UL     0 agg   160  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  25_on_r8: DL   179 UL     0 agg   179  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  15_off_r8: DL    92 UL    92 agg   184  PASS
+  15_on_r8: DL   173 UL     0 agg   173  REJECT ['UPLINK STALLED (0 KB/s) — reconnect wedge; EXCLUDE this rep + count the stall']
+  7p5_off_r8: DL    91 UL    92 agg   183  PASS
+  7p5_on_r8: DL    92 UL    93 agg   185  PASS
+DONE
+[16:27] duplex sdc FULL done
+[16:27] STAGE 3 COMPLETE (both duplex stacks)

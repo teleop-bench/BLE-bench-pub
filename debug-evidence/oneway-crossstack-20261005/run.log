@@ -1,0 +1,286 @@
+== building 64 images into <SCRATCH>/b2777530-2abd-4537-b0c5-d116f2eaefd4/scratchpad/ow/b-full
+  built max/gatt-open/sink
+  built max/gatt-open/c-off-6
+  built max/gatt-open/c-on-6
+  built max/gatt-open/c-off-12
+  built max/gatt-open/c-on-12
+  built max/gatt-open/c-off-20
+  built max/gatt-open/c-on-20
+  built max/gatt-open/c-off-30
+  built max/gatt-open/c-on-30
+  built max/gatt-open/c-off-40
+  built max/gatt-open/c-on-40
+  built std/gatt-open/sink
+  built std/gatt-open/c-on-6
+  built std/gatt-open/c-off-6
+  built std/gatt-open/c-on-40
+  built std/gatt-open/c-off-40
+  built max/gatt-sdc/sink
+  built max/gatt-sdc/c-off-6
+  built max/gatt-sdc/c-on-6
+  built max/gatt-sdc/c-off-12
+  built max/gatt-sdc/c-on-12
+  built max/gatt-sdc/c-off-20
+  built max/gatt-sdc/c-on-20
+  built max/gatt-sdc/c-off-30
+  built max/gatt-sdc/c-on-30
+  built max/gatt-sdc/c-off-40
+  built max/gatt-sdc/c-on-40
+  built std/gatt-sdc/sink
+  built std/gatt-sdc/c-on-6
+  built std/gatt-sdc/c-off-6
+  built std/gatt-sdc/c-on-40
+  built std/gatt-sdc/c-off-40
+  built max/coc-open/sink
+  built max/coc-open/c-off-6
+  built max/coc-open/c-on-6
+  built max/coc-open/c-off-12
+  built max/coc-open/c-on-12
+  built max/coc-open/c-off-20
+  built max/coc-open/c-on-20
+  built max/coc-open/c-off-30
+  built max/coc-open/c-on-30
+  built max/coc-open/c-off-40
+  built max/coc-open/c-on-40
+  built std/coc-open/sink
+  built std/coc-open/c-on-6
+  built std/coc-open/c-off-6
+  built std/coc-open/c-on-40
+  built std/coc-open/c-off-40
+  built max/coc-sdc/sink
+  built max/coc-sdc/c-off-6
+  built max/coc-sdc/c-on-6
+  built max/coc-sdc/c-off-12
+  built max/coc-sdc/c-on-12
+  built max/coc-sdc/c-off-20
+  built max/coc-sdc/c-on-20
+  built max/coc-sdc/c-off-30
+  built max/coc-sdc/c-on-30
+  built max/coc-sdc/c-off-40
+  built max/coc-sdc/c-on-40
+  built std/coc-sdc/sink
+  built std/coc-sdc/c-on-6
+  built std/coc-sdc/c-off-6
+  built std/coc-sdc/c-on-40
+  built std/coc-sdc/c-off-40
+== design gates
+  64 images: matched pairs, profile present on both boards, host parity across stacks, FSU-capable sinks — OK
+  central 1057719509 /dev/cu.usbmodem0010577195093 / peripheral 1057794857 /dev/cu.usbmodem0010577948573
+== headroom: std vs max, FSU on
+{"tag": "headroom-std-gatt-open-6-on-r1", "kbps": 188.5, "spacing": 52, "onset_s": 6.698, "reject": []}
+{"tag": "headroom-max-gatt-open-6-on-r1", "kbps": 190.0, "spacing": 52, "onset_s": 6.062, "reject": []}
+{"tag": "headroom-std-gatt-sdc-6-on-r1", "kbps": 158.0, "spacing": 70, "onset_s": 15.667, "reject": []}
+{"tag": "headroom-max-gatt-sdc-6-on-r1", "kbps": 158.0, "spacing": 70, "onset_s": 15.76, "reject": []}
+{"tag": "headroom-std-coc-open-6-on-r1", "kbps": 157.0, "spacing": 52, "onset_s": 2.233, "reject": []}
+{"tag": "headroom-max-coc-open-6-on-r1", "kbps": 157.0, "spacing": 52, "onset_s": 2.25, "reject": []}
+{"tag": "headroom-std-coc-sdc-6-on-r1", "kbps": 126.0, "spacing": 65, "onset_s": 2.143, "reject": []}
+{"tag": "headroom-max-coc-sdc-6-on-r1", "kbps": 125.0, "spacing": 65, "onset_s": 2.284, "reject": []}
+{"tag": "headroom-std-gatt-open-40-on-r1", "kbps": 195.0, "spacing": 52, "onset_s": 7.426, "reject": []}
+{"tag": "headroom-max-gatt-open-40-on-r1", "kbps": 195.0, "spacing": 52, "onset_s": 7.424, "reject": []}
+{"tag": "headroom-std-gatt-sdc-40-on-r1", "kbps": 185.0, "spacing": 70, "onset_s": 15.981, "reject": []}
+{"tag": "headroom-max-gatt-sdc-40-on-r1", "kbps": 185.0, "spacing": 70, "onset_s": 16.122, "reject": []}
+{"tag": "headroom-std-coc-open-40-on-r1", "kbps": 184.5, "spacing": 52, "onset_s": 2.939, "reject": ["FSU did NOT hold throughout (sustained-drop): {'first_third': 188, 'last_third': 181, 'peak': 189, 'max_below_run_s': 3, 'transient_dips': 0} \u2014 likely mid-run revert (check responder BT_GAP_AUTO_UPDATE_CONN_PARAMS=n)"]}
+{"tag": "headroom-max-coc-open-40-on-r1", "kbps": 185.0, "spacing": 52, "onset_s": 2.789, "reject": []}
+{"tag": "headroom-std-coc-sdc-40-on-r1", "kbps": 182.5, "spacing": 65, "onset_s": 3.007, "reject": []}
+{"tag": "headroom-max-coc-sdc-40-on-r1", "kbps": 180.0, "spacing": 65, "onset_s": 3.038, "reject": []}
+{"tag": "headroom-max-coc-sdc-40-on-r2", "kbps": 184.0, "spacing": 65, "onset_s": 2.962, "reject": []}
+{"tag": "headroom-std-coc-sdc-40-on-r2", "kbps": 180.5, "spacing": 65, "onset_s": 2.993, "reject": []}
+{"tag": "headroom-max-coc-open-40-on-r2", "kbps": 183.5, "spacing": 52, "onset_s": 2.984, "reject": []}
+{"tag": "headroom-std-coc-open-40-on-r2", "kbps": 184.0, "spacing": 52, "onset_s": 3.225, "reject": []}
+{"tag": "headroom-max-gatt-sdc-40-on-r2", "kbps": 185.0, "spacing": 70, "onset_s": 15.991, "reject": []}
+{"tag": "headroom-std-gatt-sdc-40-on-r2", "kbps": 185, "spacing": 70, "onset_s": 15.956, "reject": []}
+{"tag": "headroom-max-gatt-open-40-on-r2", "kbps": 191.0, "spacing": 52, "onset_s": 7.424, "reject": []}
+{"tag": "headroom-std-gatt-open-40-on-r2", "kbps": 188.5, "spacing": 52, "onset_s": 7.429, "reject": []}
+{"tag": "headroom-max-coc-sdc-6-on-r2", "kbps": 126.0, "spacing": 65, "onset_s": 2.289, "reject": []}
+{"tag": "headroom-std-coc-sdc-6-on-r2", "kbps": 126.0, "spacing": 65, "onset_s": 2.293, "reject": []}
+{"tag": "headroom-max-coc-open-6-on-r2", "kbps": 157.0, "spacing": 52, "onset_s": 2.247, "reject": []}
+{"tag": "headroom-std-coc-open-6-on-r2", "kbps": 157.0, "spacing": 52, "onset_s": 2.108, "reject": []}
+{"tag": "headroom-max-gatt-sdc-6-on-r2", "kbps": 158.0, "spacing": 70, "onset_s": 15.684, "reject": []}
+{"tag": "headroom-std-gatt-sdc-6-on-r2", "kbps": 158.0, "spacing": 70, "onset_s": 15.772, "reject": []}
+{"tag": "headroom-max-gatt-open-6-on-r2", "kbps": 190.0, "spacing": 52, "onset_s": 6.762, "reject": []}
+{"tag": "headroom-std-gatt-open-6-on-r2", "kbps": 190.0, "spacing": 52, "onset_s": 6.094, "reject": []}
+== headroom (FSU on; max vs std, mean of 2 reps)
+   7.50ms gatt open: std  189.2  max  190.0  ( +0.4%)
+   7.50ms gatt sdc : std  158.0  max  158.0  ( +0.0%)
+   7.50ms coc  open: std  157.0  max  157.0  ( +0.0%)
+   7.50ms coc  sdc : std  126.0  max  125.5  ( -0.4%)
+  50.00ms gatt open: std  191.8  max  193.0  ( +0.7%)
+  50.00ms gatt sdc : std  185.0  max  185.0  ( +0.0%)
+  50.00ms coc  open: std  184.0  max  184.2  ( +0.1%)
+  50.00ms coc  sdc : std  181.5  max  182.0  ( +0.3%)
+== sweep (profile max), interleaved
+{"tag": "sweep-max-gatt-open-6-off-r1", "kbps": 156.0, "spacing": 150, "onset_s": 5.965, "reject": []}
+{"tag": "sweep-max-gatt-open-6-on-r1", "kbps": 190.0, "spacing": 52, "onset_s": 10.099, "reject": []}
+{"tag": "sweep-max-gatt-sdc-6-off-r1", "kbps": 127.0, "spacing": 150, "onset_s": 15.667, "reject": []}
+{"tag": "sweep-max-gatt-sdc-6-on-r1", "kbps": 158.0, "spacing": 70, "onset_s": 19.569, "reject": []}
+{"tag": "sweep-max-coc-open-6-off-r1", "kbps": 157.0, "spacing": 150, "onset_s": 2.275, "reject": []}
+{"tag": "sweep-max-coc-open-6-on-r1", "kbps": 157.0, "spacing": 52, "onset_s": 6.222, "reject": []}
+{"tag": "sweep-max-coc-sdc-6-off-r1", "kbps": 125.5, "spacing": 150, "onset_s": 2.295, "reject": []}
+{"tag": "sweep-max-coc-sdc-6-on-r1", "kbps": 125.0, "spacing": 65, "onset_s": 6.216, "reject": []}
+{"tag": "sweep-max-gatt-open-12-off-r1", "kbps": 158.0, "spacing": 150, "onset_s": 6.841, "reject": []}
+{"tag": "sweep-max-gatt-open-12-on-r1", "kbps": 190, "spacing": 52, "onset_s": 9.958, "reject": []}
+{"tag": "sweep-max-gatt-sdc-12-off-r1", "kbps": 142.0, "spacing": 150, "onset_s": 15.088, "reject": []}
+{"tag": "sweep-max-gatt-sdc-12-on-r1", "kbps": 174.0, "spacing": 70, "onset_s": 19.734, "reject": []}
+{"tag": "sweep-max-coc-open-12-off-r1", "kbps": 156.5, "spacing": 150, "onset_s": 2.429, "reject": []}
+{"tag": "sweep-max-coc-open-12-on-r1", "kbps": 188.0, "spacing": 52, "onset_s": 6.287, "reject": []}
+{"tag": "sweep-max-coc-sdc-12-off-r1", "kbps": 141.0, "spacing": 150, "onset_s": 2.336, "reject": []}
+{"tag": "sweep-max-coc-sdc-12-on-r1", "kbps": 157.0, "spacing": 65, "onset_s": 6.303, "reject": []}
+{"tag": "sweep-max-gatt-open-20-off-r1", "kbps": 161.0, "spacing": 150, "onset_s": 6.091, "reject": []}
+{"tag": "sweep-max-gatt-open-20-on-r1", "kbps": 190.0, "spacing": 52, "onset_s": 10.107, "reject": []}
+{"tag": "sweep-max-gatt-sdc-20-off-r1", "kbps": 162, "spacing": 150, "onset_s": 16.15, "reject": []}
+{"tag": "sweep-max-gatt-sdc-20-on-r1", "kbps": 181.0, "spacing": 70, "onset_s": 19.118, "reject": []}
+{"tag": "sweep-max-coc-open-20-off-r1", "kbps": 160.0, "spacing": 150, "onset_s": 2.476, "reject": []}
+{"tag": "sweep-max-coc-open-20-on-r1", "kbps": 187.5, "spacing": 52, "onset_s": 6.4, "reject": []}
+{"tag": "sweep-max-coc-sdc-20-off-r1", "kbps": 150.5, "spacing": 150, "onset_s": 2.588, "reject": []}
+{"tag": "sweep-max-coc-sdc-20-on-r1", "kbps": 178.0, "spacing": 65, "onset_s": 6.477, "reject": []}
+{"tag": "sweep-max-gatt-open-30-off-r1", "kbps": 163.5, "spacing": 150, "onset_s": 7.226, "reject": []}
+{"tag": "sweep-max-gatt-open-30-on-r1", "kbps": 195.5, "spacing": 52, "onset_s": 11.187, "reject": []}
+{"tag": "sweep-max-gatt-sdc-30-off-r1", "kbps": 164.0, "spacing": 150, "onset_s": 16.11, "reject": []}
+{"tag": "sweep-max-gatt-sdc-30-on-r1", "kbps": 183.5, "spacing": 70, "onset_s": 20.209, "reject": []}
+{"tag": "sweep-max-coc-open-30-off-r1", "kbps": 162.5, "spacing": 150, "onset_s": 2.665, "reject": []}
+{"tag": "sweep-max-coc-open-30-on-r1", "kbps": 188.0, "spacing": 52, "onset_s": 6.581, "reject": []}
+{"tag": "sweep-max-coc-sdc-30-off-r1", "kbps": 155.5, "spacing": 150, "onset_s": 2.803, "reject": []}
+{"tag": "sweep-max-coc-sdc-30-on-r1", "kbps": 182.0, "spacing": 65, "onset_s": 6.75, "reject": []}
+{"tag": "sweep-max-gatt-open-40-off-r1", "kbps": 166.0, "spacing": 150, "onset_s": 7.455, "reject": []}
+{"tag": "sweep-max-gatt-open-40-on-r1", "kbps": 191.0, "spacing": 52, "onset_s": 11.324, "reject": []}
+{"tag": "sweep-max-gatt-sdc-40-off-r1", "kbps": 162.0, "spacing": 150, "onset_s": 16.125, "reject": []}
+{"tag": "sweep-max-gatt-sdc-40-on-r1", "kbps": 185, "spacing": 70, "onset_s": 16.112, "reject": []}
+{"tag": "sweep-max-coc-open-40-off-r1", "kbps": 162.5, "spacing": 150, "onset_s": 2.869, "reject": []}
+{"tag": "sweep-max-coc-open-40-on-r1", "kbps": 188.5, "spacing": 52, "onset_s": 6.765, "reject": []}
+{"tag": "sweep-max-coc-sdc-40-off-r1", "kbps": 156.0, "spacing": 150, "onset_s": 2.991, "reject": []}
+{"tag": "sweep-max-coc-sdc-40-on-r1", "kbps": 183.0, "spacing": 65, "onset_s": 7.066, "reject": []}
+{"tag": "sweep-max-coc-sdc-40-on-r2", "kbps": 183.5, "spacing": 65, "onset_s": 2.98, "reject": []}
+{"tag": "sweep-max-coc-sdc-40-off-r2", "kbps": 159.5, "spacing": 150, "onset_s": 6.811, "reject": []}
+{"tag": "sweep-max-coc-open-40-on-r2", "kbps": 186.5, "spacing": 52, "onset_s": 2.922, "reject": []}
+{"tag": "sweep-max-coc-open-40-off-r2", "kbps": 165.0, "spacing": 150, "onset_s": 6.712, "reject": []}
+{"tag": "sweep-max-gatt-sdc-40-on-r2", "kbps": 183.0, "spacing": 70, "onset_s": 16.098, "reject": []}
+{"tag": "sweep-max-gatt-sdc-40-off-r2", "kbps": 161.5, "spacing": 150, "onset_s": 19.983, "reject": []}
+{"tag": "sweep-max-gatt-open-40-on-r2", "kbps": 194.5, "spacing": 52, "onset_s": 7.428, "reject": []}
+{"tag": "sweep-max-gatt-open-40-off-r2", "kbps": 166.0, "spacing": 150, "onset_s": 11.148, "reject": []}
+{"tag": "sweep-max-coc-sdc-30-on-r2", "kbps": 181.5, "spacing": 65, "onset_s": 2.726, "reject": []}
+{"tag": "sweep-max-coc-sdc-30-off-r2", "kbps": 156.0, "spacing": 150, "onset_s": 6.692, "reject": []}
+{"tag": "sweep-max-coc-open-30-on-r2", "kbps": 189.0, "spacing": 52, "onset_s": 2.709, "reject": []}
+{"tag": "sweep-max-coc-open-30-off-r2", "kbps": 163.0, "spacing": 150, "onset_s": 6.634, "reject": []}
+{"tag": "sweep-max-gatt-sdc-30-on-r2", "kbps": 183.5, "spacing": 70, "onset_s": 16.101, "reject": []}
+{"tag": "sweep-max-gatt-sdc-30-off-r2", "kbps": 164.5, "spacing": 150, "onset_s": 20.215, "reject": []}
+{"tag": "sweep-max-gatt-open-30-on-r2", "kbps": 196.0, "spacing": 52, "onset_s": 7.183, "reject": []}
+{"tag": "sweep-max-gatt-open-30-off-r2", "kbps": 165.0, "spacing": 150, "onset_s": 10.007, "reject": []}
+{"tag": "sweep-max-coc-sdc-20-on-r2", "kbps": 179.0, "spacing": 65, "onset_s": 2.485, "reject": []}
+{"tag": "sweep-max-coc-sdc-20-off-r2", "kbps": 151.0, "spacing": 150, "onset_s": 6.526, "reject": []}
+{"tag": "sweep-max-coc-open-20-on-r2", "kbps": 188.0, "spacing": 52, "onset_s": 2.531, "reject": []}
+{"tag": "sweep-max-coc-open-20-off-r2", "kbps": 158.0, "spacing": 150, "onset_s": 6.393, "reject": []}
+{"tag": "sweep-max-gatt-sdc-20-on-r2", "kbps": 181.0, "spacing": 70, "onset_s": 16.187, "reject": []}
+{"tag": "sweep-max-gatt-sdc-20-off-r2", "kbps": 161.5, "spacing": 150, "onset_s": 18.997, "reject": []}
+{"tag": "sweep-max-gatt-open-20-on-r2", "kbps": 187.0, "spacing": 52, "onset_s": 6.109, "reject": []}
+{"tag": "sweep-max-gatt-open-20-off-r2", "kbps": 162.0, "spacing": 150, "onset_s": 10.059, "reject": []}
+{"tag": "sweep-max-coc-sdc-12-on-r2", "kbps": 157.0, "spacing": 65, "onset_s": 2.406, "reject": []}
+{"tag": "sweep-max-coc-sdc-12-off-r2", "kbps": 141.0, "spacing": 150, "onset_s": 6.183, "reject": []}
+{"tag": "sweep-max-coc-open-12-on-r2", "kbps": 187.5, "spacing": 52, "onset_s": 2.429, "reject": []}
+{"tag": "sweep-max-coc-open-12-off-r2", "kbps": 157.0, "spacing": 150, "onset_s": 6.252, "reject": []}
+{"tag": "sweep-max-gatt-sdc-12-on-r2", "kbps": 174.0, "spacing": 70, "onset_s": 15.075, "reject": []}
+{"tag": "sweep-max-gatt-sdc-12-off-r2", "kbps": 142.0, "spacing": 150, "onset_s": 19.803, "reject": []}
+{"tag": "sweep-max-gatt-open-12-on-r2", "kbps": 189.0, "spacing": 52, "onset_s": 6.877, "reject": []}
+{"tag": "sweep-max-gatt-open-12-off-r2", "kbps": 158.0, "spacing": 150, "onset_s": 10.069, "reject": []}
+{"tag": "sweep-max-coc-sdc-6-on-r2", "kbps": 126.0, "spacing": 65, "onset_s": 2.374, "reject": []}
+{"tag": "sweep-max-coc-sdc-6-off-r2", "kbps": 125.0, "spacing": 150, "onset_s": 6.219, "reject": []}
+{"tag": "sweep-max-coc-open-6-on-r2", "kbps": 157.0, "spacing": 52, "onset_s": 2.301, "reject": []}
+{"tag": "sweep-max-coc-open-6-off-r2", "kbps": 157.0, "spacing": 150, "onset_s": 6.107, "reject": []}
+{"tag": "sweep-max-gatt-sdc-6-on-r2", "kbps": 158, "spacing": 70, "onset_s": 15.792, "reject": []}
+{"tag": "sweep-max-gatt-sdc-6-off-r2", "kbps": 127.0, "spacing": 150, "onset_s": 19.556, "reject": []}
+{"tag": "sweep-max-gatt-open-6-on-r2", "kbps": 188.0, "spacing": 52, "onset_s": 6.697, "reject": []}
+{"tag": "sweep-max-gatt-open-6-off-r2", "kbps": 158, "spacing": 150, "onset_s": 10.067, "reject": []}
+{"tag": "sweep-max-gatt-open-6-off-r3", "kbps": 158.0, "spacing": 150, "onset_s": 6.116, "reject": []}
+{"tag": "sweep-max-gatt-open-6-on-r3", "kbps": 190.0, "spacing": 52, "onset_s": 10.069, "reject": []}
+{"tag": "sweep-max-gatt-sdc-6-off-r3", "kbps": 127.0, "spacing": 150, "onset_s": 15.804, "reject": []}
+{"tag": "sweep-max-gatt-sdc-6-on-r3", "kbps": 158.0, "spacing": 70, "onset_s": 19.632, "reject": []}
+{"tag": "sweep-max-coc-open-6-off-r3", "kbps": 157.0, "spacing": 150, "onset_s": 2.246, "reject": []}
+{"tag": "sweep-max-coc-open-6-on-r3", "kbps": 157.0, "spacing": 52, "onset_s": 6.165, "reject": []}
+{"tag": "sweep-max-coc-sdc-6-off-r3", "kbps": 125.5, "spacing": 150, "onset_s": 2.3, "reject": []}
+{"tag": "sweep-max-coc-sdc-6-on-r3", "kbps": 125.5, "spacing": 65, "onset_s": 6.145, "reject": []}
+{"tag": "sweep-max-gatt-open-12-off-r3", "kbps": 158.0, "spacing": 150, "onset_s": 6.84, "reject": []}
+{"tag": "sweep-max-gatt-open-12-on-r3", "kbps": 190.0, "spacing": 52, "onset_s": 10.087, "reject": []}
+{"tag": "sweep-max-gatt-sdc-12-off-r3", "kbps": 142.0, "spacing": 150, "onset_s": 15.072, "reject": []}
+{"tag": "sweep-max-gatt-sdc-12-on-r3", "kbps": 174, "spacing": 70, "onset_s": 19.707, "reject": []}
+{"tag": "sweep-max-coc-open-12-off-r3", "kbps": 157.0, "spacing": 150, "onset_s": 2.418, "reject": []}
+{"tag": "sweep-max-coc-open-12-on-r3", "kbps": 189.0, "spacing": 52, "onset_s": 6.287, "reject": []}
+{"tag": "sweep-max-coc-sdc-12-off-r3", "kbps": 141.0, "spacing": 150, "onset_s": 2.409, "reject": []}
+{"tag": "sweep-max-coc-sdc-12-on-r3", "kbps": 157.0, "spacing": 65, "onset_s": 6.303, "reject": []}
+{"tag": "sweep-max-gatt-open-20-off-r3", "kbps": 147.0, "spacing": 150, "onset_s": 6.112, "reject": []}
+{"tag": "sweep-max-gatt-open-20-on-r3", "kbps": 190.0, "spacing": 52, "onset_s": 6.936, "reject": []}
+{"tag": "sweep-max-gatt-sdc-20-off-r3", "kbps": 162.0, "spacing": 150, "onset_s": 16.015, "reject": []}
+{"tag": "sweep-max-gatt-sdc-20-on-r3", "kbps": 179.0, "spacing": 70, "onset_s": 16.06, "reject": []}
+{"tag": "sweep-max-coc-open-20-off-r3", "kbps": 160.0, "spacing": 150, "onset_s": 2.45, "reject": []}
+{"tag": "sweep-max-coc-open-20-on-r3", "kbps": 186.5, "spacing": 52, "onset_s": 6.272, "reject": []}
+{"tag": "sweep-max-coc-sdc-20-off-r3", "kbps": 151.0, "spacing": 150, "onset_s": 2.442, "reject": []}
+{"tag": "sweep-max-coc-sdc-20-on-r3", "kbps": 179.0, "spacing": 65, "onset_s": 6.486, "reject": []}
+{"tag": "sweep-max-gatt-open-30-off-r3", "kbps": 164.0, "spacing": 150, "onset_s": 7.233, "reject": []}
+{"tag": "sweep-max-gatt-open-30-on-r3", "kbps": 194.5, "spacing": 52, "onset_s": 11.132, "reject": []}
+{"tag": "sweep-max-gatt-sdc-30-off-r3", "kbps": 165.0, "spacing": 150, "onset_s": 15.988, "reject": []}
+{"tag": "sweep-max-gatt-sdc-30-on-r3", "kbps": 184.0, "spacing": 70, "onset_s": 20.395, "reject": []}
+{"tag": "sweep-max-coc-open-30-off-r3", "kbps": 161.0, "spacing": 150, "onset_s": 2.547, "reject": []}
+{"tag": "sweep-max-coc-open-30-on-r3", "kbps": 185.0, "spacing": 52, "onset_s": 6.683, "reject": []}
+{"tag": "sweep-max-coc-sdc-30-off-r3", "kbps": 157.0, "spacing": 150, "onset_s": 2.714, "reject": []}
+{"tag": "sweep-max-coc-sdc-30-on-r3", "kbps": 182.0, "spacing": 65, "onset_s": 6.721, "reject": []}
+{"tag": "sweep-max-gatt-open-40-off-r3", "kbps": 166.0, "spacing": 150, "onset_s": 7.295, "reject": []}
+{"tag": "sweep-max-gatt-open-40-on-r3", "kbps": 191.0, "spacing": 52, "onset_s": 11.28, "reject": []}
+{"tag": "sweep-max-gatt-sdc-40-off-r3", "kbps": 162.0, "spacing": 150, "onset_s": 16.141, "reject": []}
+{"tag": "sweep-max-gatt-sdc-40-on-r3", "kbps": 185.0, "spacing": 70, "onset_s": 19.989, "reject": []}
+{"tag": "sweep-max-coc-open-40-off-r3", "kbps": 164.5, "spacing": 150, "onset_s": 2.86, "reject": []}
+{"tag": "sweep-max-coc-open-40-on-r3", "kbps": 182.5, "spacing": 52, "onset_s": 6.757, "reject": []}
+{"tag": "sweep-max-coc-sdc-40-off-r3", "kbps": 157.0, "spacing": 150, "onset_s": 2.959, "reject": []}
+{"tag": "sweep-max-coc-sdc-40-on-r3", "kbps": 184.0, "spacing": 65, "onset_s": 6.761, "reject": []}
+{"tag": "sweep-max-coc-sdc-40-on-r4", "kbps": 181.0, "spacing": 65, "onset_s": 2.999, "reject": []}
+{"tag": "sweep-max-coc-sdc-40-off-r4", "kbps": 160.0, "spacing": 150, "onset_s": 6.889, "reject": []}
+{"tag": "sweep-max-coc-open-40-on-r4", "kbps": 188.5, "spacing": 52, "onset_s": 2.987, "reject": []}
+{"tag": "sweep-max-coc-open-40-off-r4", "kbps": 165.0, "spacing": 150, "onset_s": 6.692, "reject": []}
+{"tag": "sweep-max-gatt-sdc-40-on-r4", "kbps": 185.0, "spacing": 70, "onset_s": 16.116, "reject": []}
+{"tag": "sweep-max-gatt-sdc-40-off-r4", "kbps": 162.5, "spacing": 150, "onset_s": 16.095, "reject": []}
+{"tag": "sweep-max-gatt-open-40-on-r4", "kbps": 193, "spacing": 52, "onset_s": 7.461, "reject": []}
+{"tag": "sweep-max-gatt-open-40-off-r4", "kbps": 162.0, "spacing": 150, "onset_s": 11.297, "reject": []}
+{"tag": "sweep-max-coc-sdc-30-on-r4", "kbps": 182.0, "spacing": 65, "onset_s": 2.75, "reject": []}
+{"tag": "sweep-max-coc-sdc-30-off-r4", "kbps": 157.0, "spacing": 150, "onset_s": 6.579, "reject": []}
+{"tag": "sweep-max-coc-open-30-on-r4", "kbps": 187.0, "spacing": 52, "onset_s": 2.672, "reject": []}
+{"tag": "sweep-max-coc-open-30-off-r4", "kbps": 163.0, "spacing": 150, "onset_s": 6.432, "reject": []}
+{"tag": "sweep-max-gatt-sdc-30-on-r4", "kbps": 184.0, "spacing": 70, "onset_s": 15.999, "reject": []}
+{"tag": "sweep-max-gatt-sdc-30-off-r4", "kbps": 165.0, "spacing": 150, "onset_s": 20.201, "reject": []}
+{"tag": "sweep-max-gatt-open-30-on-r4", "kbps": 196.0, "spacing": 52, "onset_s": 7.207, "reject": []}
+{"tag": "sweep-max-gatt-open-30-off-r4", "kbps": 165.0, "spacing": 150, "onset_s": 10.004, "reject": []}
+{"tag": "sweep-max-coc-sdc-20-on-r4", "kbps": 179.0, "spacing": 65, "onset_s": 2.574, "reject": []}
+{"tag": "sweep-max-coc-sdc-20-off-r4", "kbps": 151.0, "spacing": 150, "onset_s": 6.488, "reject": []}
+{"tag": "sweep-max-coc-open-20-on-r4", "kbps": 187.5, "spacing": 52, "onset_s": 2.495, "reject": []}
+{"tag": "sweep-max-coc-open-20-off-r4", "kbps": 160.0, "spacing": 150, "onset_s": 6.464, "reject": []}
+{"tag": "sweep-max-gatt-sdc-20-on-r4", "kbps": 181.0, "spacing": 70, "onset_s": 16.164, "reject": []}
+{"tag": "sweep-max-gatt-sdc-20-off-r4", "kbps": 160.0, "spacing": 150, "onset_s": 19.09, "reject": []}
+{"tag": "sweep-max-gatt-open-20-on-r4", "kbps": 190.0, "spacing": 52, "onset_s": 6.121, "reject": []}
+{"tag": "sweep-max-gatt-open-20-off-r4", "kbps": 161.5, "spacing": 150, "onset_s": 9.959, "reject": []}
+{"tag": "sweep-max-coc-sdc-12-on-r4", "kbps": 157.0, "spacing": 65, "onset_s": 2.455, "reject": []}
+{"tag": "sweep-max-coc-sdc-12-off-r4", "kbps": 141.0, "spacing": 150, "onset_s": 6.306, "reject": []}
+{"tag": "sweep-max-coc-open-12-on-r4", "kbps": 189.0, "spacing": 52, "onset_s": 2.378, "reject": []}
+{"tag": "sweep-max-coc-open-12-off-r4", "kbps": 157.0, "spacing": 150, "onset_s": 6.272, "reject": []}
+{"tag": "sweep-max-gatt-sdc-12-on-r4", "kbps": 174.0, "spacing": 70, "onset_s": 15.944, "reject": []}
+{"tag": "sweep-max-gatt-sdc-12-off-r4", "kbps": 142.0, "spacing": 150, "onset_s": 19.82, "reject": []}
+{"tag": "sweep-max-gatt-open-12-on-r4", "kbps": 189.5, "spacing": 52, "onset_s": 6.708, "reject": []}
+{"tag": "sweep-max-gatt-open-12-off-r4", "kbps": 158.0, "spacing": 150, "onset_s": 9.949, "reject": []}
+{"tag": "sweep-max-coc-sdc-6-on-r4", "kbps": 125.5, "spacing": 65, "onset_s": 2.158, "reject": []}
+{"tag": "sweep-max-coc-sdc-6-off-r4", "kbps": 126.0, "spacing": 150, "onset_s": 6.224, "reject": []}
+{"tag": "sweep-max-coc-open-6-on-r4", "kbps": 157.0, "spacing": 52, "onset_s": 2.125, "reject": []}
+{"tag": "sweep-max-coc-open-6-off-r4", "kbps": 157.0, "spacing": 150, "onset_s": 6.027, "reject": []}
+{"tag": "sweep-max-gatt-sdc-6-on-r4", "kbps": 158.0, "spacing": 70, "onset_s": 15.733, "reject": []}
+{"tag": "sweep-max-gatt-sdc-6-off-r4", "kbps": 127, "spacing": 150, "onset_s": 15.6, "reject": []}
+{"tag": "sweep-max-gatt-open-6-on-r4", "kbps": 189.5, "spacing": 52, "onset_s": 6.112, "reject": []}
+{"tag": "sweep-max-gatt-open-6-off-r4", "kbps": 158.0, "spacing": 150, "onset_s": 10.087, "reject": []}
+== one-way FSU, same session, equal tuning (profile max); KB/s receiver-delivered
+-- GATT
+  interval | Zephyr off -> on (FSU gain)          | SDC off -> on (FSU gain)             | Zephyr - SDC (off / on)
+    7.50ms | 157.5 -> 189.4 (+20.2% ± 1.9, n=4) | 127.0 -> 158.0 (+24.4% ± 0.0, n=4) | +30.5± 1.6 / +31.4± 1.5
+   15.00ms | 158.0 -> 189.6 (+20.0% ± 0.5, n=4) | 142.0 -> 174.0 (+22.5% ± 0.0, n=4) | +16.0± 0.0 / +15.6± 0.8
+   25.00ms | 157.9 -> 189.2 (+20.1% ± 9.9, n=4) | 161.4 -> 180.5 (+11.9% ± 1.7, n=4) |  -3.5±12.3 /  +8.8± 3.3
+   37.50ms | 164.4 -> 195.5 (+18.9% ± 0.7, n=4) | 164.6 -> 183.8 (+11.6% ± 0.3, n=4) |  -0.2± 1.0 / +11.8± 1.4
+   50.00ms | 165.0 -> 192.4 (+16.6% ± 3.1, n=4) | 162.0 -> 184.5 (+13.9% ± 0.7, n=4) |  +3.0± 3.7 /  +7.9± 4.1
+-- COC
+  interval | Zephyr off -> on (FSU gain)          | SDC off -> on (FSU gain)             | Zephyr - SDC (off / on)
+    7.50ms | 157.0 -> 157.0 ( +0.0% ± 0.0, n=4) | 125.5 -> 125.5 ( +0.0% ± 0.9, n=4) | +31.5± 0.6 / +31.5± 0.6
+   15.00ms | 156.9 -> 188.4 (+20.1% ± 0.7, n=4) | 141.0 -> 157.0 (+11.3% ± 0.0, n=4) | +15.9± 0.4 / +31.4± 1.2
+   25.00ms | 159.5 -> 187.4 (+17.5% ± 1.7, n=4) | 150.9 -> 178.8 (+18.5% ± 0.2, n=4) |  +8.6± 1.8 /  +8.6± 1.4
+   37.50ms | 162.4 -> 187.2 (+15.3% ± 0.9, n=4) | 156.4 -> 181.9 (+16.3% ± 0.8, n=4) |  +6.0± 2.2 /  +5.4± 3.0
+   50.00ms | 164.2 -> 186.5 (+13.6% ± 3.4, n=4) | 158.1 -> 182.9 (+15.7% ± 3.2, n=4) |  +6.1± 1.8 /  +3.6± 6.2

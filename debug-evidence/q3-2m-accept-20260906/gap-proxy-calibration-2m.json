@@ -1,0 +1,49 @@
+{
+  "status": "ESTABLISHED",
+  "contract": {
+    "min_controls": 2,
+    "spread_max_ticks": 2,
+    "rounding": "round-half-to-even",
+    "proxy": "prev-END -> next-ADDRESS"
+  },
+  "lineage": {
+    "source_commit": "3073d5845d07a208d889a6037492a24d9f9420d0",
+    "analyze_q2": "407467f2073ea435f99fade2f246ad2353b3b0f294e32f728fae7b587365fa13",
+    "combine_calib": "69ddee031968bc29a0a2fbcb7428d1ae6fd69ffc93757e957d3b6fcaa404edb3",
+    "protocol": "MISSING"
+  },
+  "inputs": [
+    {
+      "dir": "calib-controls/ctrl1",
+      "verdict": "ACCEPT",
+      "median": 2790.5,
+      "manifest_sha256": "72f191591d9be149a5e580bb27bbac048397a3a97ca78aeae1497cc228b371b1",
+      "source_commit": "3073d5845d07a208d889a6037492a24d9f9420d0",
+      "sha256": {
+        "obs": "992cdff8034e3e8a820922051f8cb75a208da583953998014795c1bcaf99d601",
+        "central": "0d1e703aadd849adbae2b8c52a85354d950db7616e556af77a1e2346ec93b11a",
+        "periph": "573f557ea48680e1ffede8649a0cd4f446a415ecf040abba248944d0797111c0"
+      }
+    },
+    {
+      "dir": "calib-controls/ctrl2",
+      "verdict": "ACCEPT",
+      "median": 2791,
+      "manifest_sha256": "ed88739a58e19d79f6430aae9312fdf237b19530624d6e6e132973b69b48f4ea",
+      "source_commit": "3073d5845d07a208d889a6037492a24d9f9420d0",
+      "sha256": {
+        "obs": "89923083c2e9424279e821c2ebeef57c7c578b1cd50b335e91384a57db4e8f26",
+        "central": "24e9dc48f2641c9e52776cde44e2d90fb300986fbe040b424a490a7520a0ec40",
+        "periph": "5e88a41efe793f030c482c73158260d71f559def19128ffbbc6bc111543995da"
+      }
+    }
+  ],
+  "medians": [
+    2790.5,
+    2791
+  ],
+  "median_of_medians": 2790.75,
+  "spread_ticks": 0.5,
+  "frozen_gap_proxy_dev": 2791,
+  "calibrated_tifs_us": 150.5
+}

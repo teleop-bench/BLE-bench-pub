@@ -1,0 +1,132 @@
+{
+  "status": "ABBA-CONFIRMED",
+  "contract": {
+    "arm_seq": [
+      "f150",
+      "f52",
+      "f52",
+      "f150"
+    ],
+    "expect_step": 1568,
+    "tol_ticks": 4,
+    "estimator": "((A1-B1)+(A2-B2))/2"
+  },
+  "lineage": {
+    "source_commit": "7f35f885669cf484cc38ac31d17c2e189c81ecc5",
+    "analyze_q2": "407467f2073ea435f99fade2f246ad2353b3b0f294e32f728fae7b587365fa13",
+    "analyze_q3": "cfe7f11911e3645ca84158ef542e42a2a0201c9b0ec47226d547a5ae7fe2fb9a",
+    "combine_abba": "5985dffc1a10ce1f3abadfbaf2e3e4e3204561c50063287ceb1f1f929d42a14b",
+    "protocol": "da2ef5d19a3236ef02fe636ea0f768e10c10667805c9eb3d4e3c7cf617c8bdbf",
+    "contract": {
+      "step_tol": 4,
+      "expect_step": 1568,
+      "dur_tol_ms": 1500,
+      "guard_ticks": 160000,
+      "min_plateau": 30,
+      "baseline_tol_ticks": 2,
+      "retention_min": 0.95,
+      "xval_tol_us": 8,
+      "null_thr_ticks": 64,
+      "host_jitter_ms": 50,
+      "boundary_slop_ms": 1000,
+      "changepoint": "max-abs-mean-split",
+      "reg_min": 52,
+      "reg_max": 150,
+      "reg_phys": 2,
+      "reg_types": 3,
+      "expect_pre_us": 150,
+      "expect_post_us": 52,
+      "plateau_iqr_max": 16,
+      "plateau_drift_max": 5,
+      "plateau_blocks": 4,
+      "plateau_block_max": 5,
+      "plateau_conc_eps": 10,
+      "plateau_conc_frac": 0.95,
+      "phase_retention_min": 0.95,
+      "steady_tol_ticks": 4,
+      "steady_settle_min_ms": 2000,
+      "abba_arm_seq": [
+        "f150",
+        "f52",
+        "f52",
+        "f150"
+      ],
+      "abba_expect_step": 1568,
+      "abba_tol_ticks": 4
+    }
+  },
+  "inputs": [
+    {
+      "dir": "abba-0-f150",
+      "arm": "f150",
+      "abba_seq": 0,
+      "median": 2791,
+      "onchip_med": 145,
+      "AA": "0xcd028f1a",
+      "manifest_sha256": "a5cc14da21819b0f14acfb8b803b92195593b844065fbf18d9e76eaa85fca890",
+      "source_commit": "7f35f885669cf484cc38ac31d17c2e189c81ecc5",
+      "sha256": {
+        "obs": "2d60c7f7a4469b7b1c312ee70655157a826c4d34078c7142c3b77bd1a7eb9ba7",
+        "central": "f0eeebb8100866040a0b8bad2c56771adfcbe66cc7b76ccb29bb438dcb653eb6",
+        "periph": "b5f062ccf311f7cca777a5d0251590617b100d6ba352dca7c029d48e922f1193"
+      }
+    },
+    {
+      "dir": "abba-1-f52",
+      "arm": "f52",
+      "abba_seq": 1,
+      "median": 1223,
+      "onchip_med": 47,
+      "AA": "0x48a6a072",
+      "manifest_sha256": "018a8051da75205e9d42364bf3ea7a56f52c2dcea7a81eb21e134cb9ca5c9e2c",
+      "source_commit": "7f35f885669cf484cc38ac31d17c2e189c81ecc5",
+      "sha256": {
+        "obs": "cad45c9f11cdbc6950632ef4ac5f23e2ea45ccb51188db36bace8f09fe48f7a8",
+        "central": "b9b5d688c3c3cb505b4fd241095b296df2e70e083ab134cf9e63ca985e8f2584",
+        "periph": "e5789520a1e1e784b69b081c3875d6c0585c6a3a1914aa782b5432f182350f94"
+      }
+    },
+    {
+      "dir": "abba-2-f52",
+      "arm": "f52",
+      "abba_seq": 2,
+      "median": 1223.0,
+      "onchip_med": 47,
+      "AA": "0x470c2678",
+      "manifest_sha256": "063906002e6657de2be7320c91972ea2e840abe4abcaf1f8da98ecdb735c9862",
+      "source_commit": "7f35f885669cf484cc38ac31d17c2e189c81ecc5",
+      "sha256": {
+        "obs": "9c593cbed3da451a90916660cf7c8888054d9d1aebacd4142ff4065d143c6c7d",
+        "central": "9b0b69ef1739e5b35a7d15d017ed357fc3c5fb5a92c8e6260ec1a46906ec7038",
+        "periph": "b9d6bde94b48ccc60015a420ca4c36a936d9fc2066d3fe2dcbfadcaf637552e0"
+      }
+    },
+    {
+      "dir": "abba-3-f150",
+      "arm": "f150",
+      "abba_seq": 3,
+      "median": 2790.5,
+      "onchip_med": 145,
+      "AA": "0x58682078",
+      "manifest_sha256": "6ab7ea68c51fa0e5dc354328957119e6d0bf94ae505746be64530cb27169515d",
+      "source_commit": "7f35f885669cf484cc38ac31d17c2e189c81ecc5",
+      "sha256": {
+        "obs": "ac2aba941f983384712917354cd4f60c7557365ca3758cd85c5040328d95f142",
+        "central": "be7420c219fc4698fb6981a217165ec3947a37609fc13d4ca4d79d3213e38dcb",
+        "periph": "c4ab4614b1e3ae7e7afffb489e4ae4cadaf3dda1960a180930c30a4c4bf3acbf"
+      }
+    }
+  ],
+  "medians": [
+    2791,
+    1223,
+    1223.0,
+    2790.5
+  ],
+  "step_A1_B1": 1568,
+  "step_A2_B2": 1567.5,
+  "estimate_ticks": 1567.75,
+  "drift_half_ticks": 0.25,
+  "deviation_ticks": 0.25,
+  "estimate_tifs_step_us": 97.984375
+}

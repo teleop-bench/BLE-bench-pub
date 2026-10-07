@@ -1,0 +1,713 @@
+*** Booting nRF Connect SDK v3.4.0-99553055607b ***
+*** Using Zephyr OS v4.4.0-bf801e4e3d19 ***
+[00:00:00.014,004] [0m<inf> bt_sdc_hci_driver: SoftDevice Controller build revision: 
+                                            c8 da 30 98 f9 f0 34 a4  4b 6e ba d3 08 19 cc 0c |..0...4. Kn......
+                                            ea 51 da 47                                      |.Q.G             [0m
+[00:00:00.015,368] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+[00:00:00.015,381] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+[00:00:00.015,392] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 200.12506 Build 888207768[0m
+[00:00:00.015,789] [0m<inf> bt_hci_core: HCI transport: SDC[0m
+[00:00:00.015,838] [0m<inf> bt_hci_core: Identity: FC:BE:FF:FA:E6:8B (random)[0m
+[00:00:00.015,854] [0m<inf> bt_hci_core: HCI: version 6.3 (0x11) revision 0x3039, manufacturer 0x0059[0m
+[00:00:00.015,870] [0m<inf> bt_hci_core: LMP: version 6.3 (0x11) subver 0x3039[0m
+
+=== nRF54L15 RTT ping-pong CENTRAL ===
+scan rc=0
+GAP connected interval=7500
+MTU err=0 mtu=247
+PHY tx=2 rx=2
+discovery start (post-PHY +500ms) interval=7500 phy2m=1
+SUBSCRIBED, vh=18
+BLAST: phy_update->2M rc=0
+BLAST first16_call_us: 124 118 118 120 121 121 120 120 120 113 54 50 49 50 49 50
+PHY tx=2 rx=2
+t=1s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=109 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=121 exkBps=26 cgap_us[min/avg/max]=127/2507/7501
+BLAST phy=2/2 att=131 ok=131 enomem=0 err=0 call_us[min/avg/max]=49/2283/7491 okgap_max_us=7501
+BLASTC comp=391 exkBps=93 cgap_us[min/avg/max]=2393/2551/7501
+BLAST phy=2/2 att=391 ok=391 enomem=0 err=0 call_us[min/avg/max]=2325/2537/7490 okgap_max_us=7501
+t=2s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=501 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+t=3s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=899 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2392/2512/7501
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2340/2499/7490 okgap_max_us=7501
+SCI: supported min interval=750 us, groups=1
+SCI: conn_rate_request 400 x125us rc=0
+SCI: rate_changed status=0x00 interval=50000 us subrate=1 lat=0
+BLASTC comp=386 exkBps=91 cgap_us[min/avg/max]=2393/2586/14800
+BLAST phy=2/2 att=386 ok=386 enomem=0 err=0 call_us[min/avg/max]=2376/2571/14790 okgap_max_us=14800
+t=4s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=1286 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=385 exkBps=91 cgap_us[min/avg/max]=2390/2597/21239
+BLAST phy=2/2 att=385 ok=385 enomem=0 err=0 call_us[min/avg/max]=2380/2586/21228 okgap_max_us=21239
+t=5s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=1671 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=361 exkBps=86 cgap_us[min/avg/max]=2394/2770/47606
+BLAST phy=2/2 att=361 ok=361 enomem=0 err=0 call_us[min/avg/max]=2379/2759/47595 okgap_max_us=47606
+t=6s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=2032 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=396 exkBps=94 cgap_us[min/avg/max]=2390/2525/4789
+BLAST phy=2/2 att=396 ok=396 enomem=0 err=0 call_us[min/avg/max]=2378/2514/4778 okgap_max_us=4789
+t=7s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=2428 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=393 exkBps=93 cgap_us[min/avg/max]=2394/2544/4789
+BLAST phy=2/2 att=393 ok=393 enomem=0 err=0 call_us[min/avg/max]=2380/2533/4778 okgap_max_us=4789
+t=8s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=2821 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=400 exkBps=95 cgap_us[min/avg/max]=2391/2500/4446
+BLAST phy=2/2 att=400 ok=400 enomem=0 err=0 call_us[min/avg/max]=2380/2489/4429 okgap_max_us=4440
+t=9s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=3221 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=384 exkBps=91 cgap_us[min/avg/max]=2393/2604/40417
+BLAST phy=2/2 att=384 ok=384 enomem=0 err=0 call_us[min/avg/max]=2380/2593/40406 okgap_max_us=40417
+t=10s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=3605 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2388/2506/6857
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2377/2495/6846 okgap_max_us=6857
+t=11s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=4004 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2394/2638/50001
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2381/2627/49990 okgap_max_us=50001
+t=12s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=4383 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+t=13s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=4775 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=393 exkBps=93 cgap_us[min/avg/max]=2388/2555/18840
+BLAST phy=2/2 att=393 ok=393 enomem=0 err=0 call_us[min/avg/max]=2377/2545/18836 okgap_max_us=4790
+BLASTC comp=393 exkBps=93 cgap_us[min/avg/max]=2393/2533/11649
+BLAST phy=2/2 att=393 ok=393 enomem=0 err=0 call_us[min/avg/max]=2325/2522/11640 okgap_max_us=18908
+t=14s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=5169 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+t=15s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=5552 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=384 exkBps=91 cgap_us[min/avg/max]=2392/2615/33223
+BLAST phy=2/2 att=384 ok=384 enomem=0 err=0 call_us[min/avg/max]=2380/2604/33212 okgap_max_us=33223
+BLASTC comp=378 exkBps=90 cgap_us[min/avg/max]=2394/2633/38017
+BLAST phy=2/2 att=378 ok=378 enomem=0 err=0 call_us[min/avg/max]=2323/2622/38006 okgap_max_us=38017
+t=16s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=5931 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=397 exkBps=94 cgap_us[min/avg/max]=2389/2518/6825
+BLAST phy=2/2 att=397 ok=397 enomem=0 err=0 call_us[min/avg/max]=2378/2508/6814 okgap_max_us=6825
+t=17s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=6328 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=397 exkBps=94 cgap_us[min/avg/max]=2393/2518/4789
+BLAST phy=2/2 att=397 ok=397 enomem=0 err=0 call_us[min/avg/max]=2381/2508/4778 okgap_max_us=4789
+t=18s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=6725 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2387/2512/4789
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2376/2501/4779 okgap_max_us=4789
+t=19s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=7123 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2394/2638/54435
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2379/2627/54425 okgap_max_us=54435
+t=20s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=7502 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2390/2512/4789
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2379/2501/4778 okgap_max_us=4789
+t=21s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=7900 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=393 exkBps=93 cgap_us[min/avg/max]=2393/2544/14047
+BLAST phy=2/2 att=393 ok=393 enomem=0 err=0 call_us[min/avg/max]=2378/2533/14036 okgap_max_us=14047
+t=22s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=8293 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=392 exkBps=93 cgap_us[min/avg/max]=2390/2551/14054
+BLAST phy=2/2 att=392 ok=392 enomem=0 err=0 call_us[min/avg/max]=2378/2540/14044 okgap_max_us=14054
+t=23s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=8685 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2394/2512/4789
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2380/2501/4779 okgap_max_us=4789
+t=24s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=9083 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2388/2512/4789
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2377/2501/4778 okgap_max_us=4789
+t=25s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=9481 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=383 exkBps=91 cgap_us[min/avg/max]=2391/2610/42811
+BLAST phy=2/2 att=383 ok=383 enomem=0 err=0 call_us[min/avg/max]=2378/2600/42801 okgap_max_us=42811
+t=26s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=9864 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2390/2638/54433
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2379/2627/54422 okgap_max_us=54433
+t=27s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=10243 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=355 exkBps=84 cgap_us[min/avg/max]=2391/2816/45208
+BLAST phy=2/2 att=355 ok=355 enomem=0 err=0 call_us[min/avg/max]=2378/2806/45198 okgap_max_us=45208
+t=28s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=10598 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=396 exkBps=94 cgap_us[min/avg/max]=2390/2525/6827
+BLAST phy=2/2 att=396 ok=396 enomem=0 err=0 call_us[min/avg/max]=2378/2514/6817 okgap_max_us=6827
+t=29s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=10994 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=384 exkBps=91 cgap_us[min/avg/max]=2388/2604/38015
+BLAST phy=2/2 att=384 ok=384 enomem=0 err=0 call_us[min/avg/max]=2377/2593/38005 okgap_max_us=38015
+t=30s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=11378 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=384 exkBps=91 cgap_us[min/avg/max]=2390/2604/35620
+BLAST phy=2/2 att=384 ok=384 enomem=0 err=0 call_us[min/avg/max]=2379/2593/35610 okgap_max_us=35620
+t=31s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=11762 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=367 exkBps=87 cgap_us[min/avg/max]=2388/2724/45210
+BLAST phy=2/2 att=367 ok=367 enomem=0 err=0 call_us[min/avg/max]=2377/2713/45200 okgap_max_us=45210
+t=32s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=12129 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=385 exkBps=91 cgap_us[min/avg/max]=2391/2597/38017
+BLAST phy=2/2 att=385 ok=385 enomem=0 err=0 call_us[min/avg/max]=2309/2586/38006 okgap_max_us=38017
+t=33s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=12515 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=363 exkBps=86 cgap_us[min/avg/max]=2394/2754/50001
+BLAST phy=2/2 att=363 ok=363 enomem=0 err=0 call_us[min/avg/max]=2380/2744/49990 okgap_max_us=50001
+t=34s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=12878 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=386 exkBps=91 cgap_us[min/avg/max]=2389/2590/30824
+BLAST phy=2/2 att=386 ok=386 enomem=0 err=0 call_us[min/avg/max]=2378/2579/30814 okgap_max_us=30824
+t=35s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=13264 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=390 exkBps=92 cgap_us[min/avg/max]=2394/2564/23635
+BLAST phy=2/2 att=390 ok=390 enomem=0 err=0 call_us[min/avg/max]=2380/2553/23624 okgap_max_us=23635
+t=36s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=13654 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=391 exkBps=93 cgap_us[min/avg/max]=2388/2557/26032
+BLAST phy=2/2 att=391 ok=391 enomem=0 err=0 call_us[min/avg/max]=2378/2546/26021 okgap_max_us=26032
+t=37s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=14045 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=371 exkBps=88 cgap_us[min/avg/max]=2395/2707/49998
+BLAST phy=2/2 att=371 ok=371 enomem=0 err=0 call_us[min/avg/max]=2381/2696/49995 okgap_max_us=50006
+t=38s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=14415 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=389 exkBps=92 cgap_us[min/avg/max]=2390/2559/26032
+BLAST phy=2/2 att=389 ok=389 enomem=0 err=0 call_us[min/avg/max]=2337/2548/26021 okgap_max_us=26032
+t=39s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=14805 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=319 exkBps=76 cgap_us[min/avg/max]=2393/3134/49999
+BLAST phy=2/2 att=319 ok=319 enomem=0 err=0 call_us[min/avg/max]=2381/3124/49995 okgap_max_us=50006
+t=40s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=15124 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+t=41s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=15413 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=291 exkBps=69 cgap_us[min/avg/max]=2387/3623/135618
+BLAST phy=2/2 att=291 ok=291 enomem=0 err=0 call_us[min/avg/max]=2378/3612/135608 okgap_max_us=47605
+BLASTC comp=259 exkBps=61 cgap_us[min/avg/max]=2393/3667/85620
+BLAST phy=2/2 att=259 ok=259 enomem=0 err=0 call_us[min/avg/max]=2325/3657/85609 okgap_max_us=135680
+t=42s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=15673 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=335 exkBps=79 cgap_us[min/avg/max]=2387/2971/54433
+BLAST phy=2/2 att=335 ok=335 enomem=0 err=0 call_us[min/avg/max]=2344/2961/54423 okgap_max_us=54490
+t=43s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=16009 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=302 exkBps=71 cgap_us[min/avg/max]=2391/3311/104438
+BLAST phy=2/2 att=302 ok=302 enomem=0 err=0 call_us[min/avg/max]=2378/3300/104428 okgap_max_us=104438
+t=44s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=16311 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=355 exkBps=84 cgap_us[min/avg/max]=2392/2829/35621
+BLAST phy=2/2 att=355 ok=355 enomem=0 err=0 call_us[min/avg/max]=2378/2818/35610 okgap_max_us=35621
+t=45s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=16665 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=329 exkBps=78 cgap_us[min/avg/max]=2394/3039/50000
+BLAST phy=2/2 att=329 ok=329 enomem=0 err=0 call_us[min/avg/max]=2383/3028/49931 okgap_max_us=49942
+t=46s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=16994 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=297 exkBps=70 cgap_us[min/avg/max]=2391/3352/54434
+BLAST phy=2/2 att=297 ok=297 enomem=0 err=0 call_us[min/avg/max]=2331/3341/54424 okgap_max_us=54434
+t=47s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=17292 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=354 exkBps=84 cgap_us[min/avg/max]=2390/2824/47603
+BLAST phy=2/2 att=354 ok=354 enomem=0 err=0 call_us[min/avg/max]=2379/2814/47593 okgap_max_us=47603
+t=48s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=17647 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=331 exkBps=78 cgap_us[min/avg/max]=2382/3021/50001
+BLAST phy=2/2 att=331 ok=331 enomem=0 err=0 call_us[min/avg/max]=2275/3010/49990 okgap_max_us=50001
+t=49s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=17978 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=378 exkBps=90 cgap_us[min/avg/max]=2394/2645/50000
+BLAST phy=2/2 att=378 ok=378 enomem=0 err=0 call_us[min/avg/max]=2378/2634/49990 okgap_max_us=50001
+t=50s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=18356 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=393 exkBps=93 cgap_us[min/avg/max]=2390/2544/6828
+BLAST phy=2/2 att=393 ok=393 enomem=0 err=0 call_us[min/avg/max]=2378/2533/6817 okgap_max_us=6828
+t=51s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=18749 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2394/2512/6856
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2379/2501/6845 okgap_max_us=6856
+t=52s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=19147 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=396 exkBps=94 cgap_us[min/avg/max]=2390/2525/9252
+BLAST phy=2/2 att=396 ok=396 enomem=0 err=0 call_us[min/avg/max]=2379/2514/9242 okgap_max_us=9252
+t=53s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=19543 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2393/2506/4789
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2378/2495/4778 okgap_max_us=4789
+t=54s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=19942 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=372 exkBps=88 cgap_us[min/avg/max]=2390/2688/54435
+BLAST phy=2/2 att=372 ok=372 enomem=0 err=0 call_us[min/avg/max]=2379/2677/54425 okgap_max_us=54435
+t=55s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=20314 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=382 exkBps=91 cgap_us[min/avg/max]=2392/2617/40414
+BLAST phy=2/2 att=382 ok=382 enomem=0 err=0 call_us[min/avg/max]=2378/2606/40403 okgap_max_us=40414
+t=56s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=20696 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=383 exkBps=91 cgap_us[min/avg/max]=2393/2610/40406
+BLAST phy=2/2 att=383 ok=383 enomem=0 err=0 call_us[min/avg/max]=2381/2600/40396 okgap_max_us=40406
+t=57s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=21079 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=384 exkBps=91 cgap_us[min/avg/max]=2391/2604/38015
+BLAST phy=2/2 att=384 ok=384 enomem=0 err=0 call_us[min/avg/max]=2380/2593/38004 okgap_max_us=38015
+t=58s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=21463 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=354 exkBps=84 cgap_us[min/avg/max]=2388/2824/49999
+BLAST phy=2/2 att=354 ok=354 enomem=0 err=0 call_us[min/avg/max]=2377/2813/49988 okgap_max_us=49999
+t=59s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=21817 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=359 exkBps=85 cgap_us[min/avg/max]=2392/2797/38017
+BLAST phy=2/2 att=359 ok=359 enomem=0 err=0 call_us[min/avg/max]=2378/2787/38007 okgap_max_us=38017
+t=60s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=22175 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=344 exkBps=81 cgap_us[min/avg/max]=2390/2894/40414
+BLAST phy=2/2 att=344 ok=344 enomem=0 err=0 call_us[min/avg/max]=2326/2883/40404 okgap_max_us=40415
+t=61s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=22520 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=322 exkBps=76 cgap_us[min/avg/max]=2390/3105/50002
+BLAST phy=2/2 att=322 ok=322 enomem=0 err=0 call_us[min/avg/max]=2378/3094/49991 okgap_max_us=50002
+t=62s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=22842 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=378 exkBps=90 cgap_us[min/avg/max]=2388/2645/50001
+BLAST phy=2/2 att=378 ok=378 enomem=0 err=0 call_us[min/avg/max]=2377/2634/49990 okgap_max_us=50001
+t=63s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=23220 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=381 exkBps=90 cgap_us[min/avg/max]=2390/2624/33222
+BLAST phy=2/2 att=381 ok=381 enomem=0 err=0 call_us[min/avg/max]=2379/2613/33211 okgap_max_us=33222
+t=64s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=23602 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=350 exkBps=83 cgap_us[min/avg/max]=2384/2857/50000
+BLAST phy=2/2 att=350 ok=350 enomem=0 err=0 call_us[min/avg/max]=2276/2846/49989 okgap_max_us=50000
+t=65s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=23952 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=381 exkBps=90 cgap_us[min/avg/max]=2394/2624/42811
+BLAST phy=2/2 att=381 ok=381 enomem=0 err=0 call_us[min/avg/max]=2378/2613/42801 okgap_max_us=42811
+t=66s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=24333 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=346 exkBps=82 cgap_us[min/avg/max]=2388/2890/76031
+BLAST phy=2/2 att=346 ok=346 enomem=0 err=0 call_us[min/avg/max]=2377/2879/76021 okgap_max_us=76031
+t=67s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=24679 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=377 exkBps=89 cgap_us[min/avg/max]=2393/2652/54440
+BLAST phy=2/2 att=377 ok=377 enomem=0 err=0 call_us[min/avg/max]=2380/2641/54429 okgap_max_us=54440
+t=68s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=25056 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=344 exkBps=81 cgap_us[min/avg/max]=2393/2919/42801
+BLAST phy=2/2 att=344 ok=344 enomem=0 err=0 call_us[min/avg/max]=2382/2909/42790 okgap_max_us=42801
+t=69s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=25399 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=394 exkBps=93 cgap_us[min/avg/max]=2394/2526/6856
+BLAST phy=2/2 att=394 ok=394 enomem=0 err=0 call_us[min/avg/max]=2320/2516/6846 okgap_max_us=40472
+t=70s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=25794 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2388/2638/30826
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2377/2627/30816 okgap_max_us=30827
+t=71s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=26173 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=380 exkBps=90 cgap_us[min/avg/max]=2394/2631/38017
+BLAST phy=2/2 att=380 ok=380 enomem=0 err=0 call_us[min/avg/max]=2378/2620/38006 okgap_max_us=38017
+t=72s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=26553 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2388/2506/4791
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2377/2495/4780 okgap_max_us=4791
+t=73s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=26952 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2390/2506/4790
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2378/2495/4779 okgap_max_us=4790
+t=74s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=27351 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2390/2512/4792
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2380/2501/4781 okgap_max_us=4792
+t=75s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=27749 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2392/2638/50000
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2380/2627/49990 okgap_max_us=50000
+t=76s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=28128 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2388/2512/4789
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2377/2501/4778 okgap_max_us=4789
+t=77s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=28526 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=400 exkBps=95 cgap_us[min/avg/max]=2390/2500/4440
+BLAST phy=2/2 att=400 ok=400 enomem=0 err=0 call_us[min/avg/max]=2379/2489/4429 okgap_max_us=4440
+t=78s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=28926 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2388/2638/40414
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2377/2627/40404 okgap_max_us=40415
+t=79s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=29305 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2392/2506/4787
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2381/2495/4777 okgap_max_us=4787
+t=80s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=29705 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=382 exkBps=91 cgap_us[min/avg/max]=2382/2617/40412
+BLAST phy=2/2 att=382 ok=382 enomem=0 err=0 call_us[min/avg/max]=2275/2606/40402 okgap_max_us=40412
+t=81s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=30087 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=387 exkBps=92 cgap_us[min/avg/max]=2395/2595/23633
+BLAST phy=2/2 att=387 ok=387 enomem=0 err=0 call_us[min/avg/max]=2380/2584/23622 okgap_max_us=23633
+t=82s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=30473 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=370 exkBps=88 cgap_us[min/avg/max]=2388/2690/50001
+BLAST phy=2/2 att=370 ok=370 enomem=0 err=0 call_us[min/avg/max]=2325/2679/49990 okgap_max_us=50001
+t=83s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=30844 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=352 exkBps=83 cgap_us[min/avg/max]=2394/2840/45209
+BLAST phy=2/2 att=352 ok=352 enomem=0 err=0 call_us[min/avg/max]=2378/2830/45198 okgap_max_us=45209
+t=84s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=31196 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=354 exkBps=84 cgap_us[min/avg/max]=2390/2824/50001
+BLAST phy=2/2 att=354 ok=354 enomem=0 err=0 call_us[min/avg/max]=2379/2814/49991 okgap_max_us=50001
+t=85s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=31550 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=371 exkBps=88 cgap_us[min/avg/max]=2393/2695/45208
+BLAST phy=2/2 att=371 ok=371 enomem=0 err=0 call_us[min/avg/max]=2381/2684/45198 okgap_max_us=45208
+t=86s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=31921 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2388/2638/35620
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2377/2627/35610 okgap_max_us=35620
+t=87s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=32299 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=339 exkBps=80 cgap_us[min/avg/max]=2394/2962/54434
+BLAST phy=2/2 att=339 ok=339 enomem=0 err=0 call_us[min/avg/max]=2383/2952/54424 okgap_max_us=54434
+t=88s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=32638 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=307 exkBps=73 cgap_us[min/avg/max]=2388/3257/54433
+BLAST phy=2/2 att=307 ok=307 enomem=0 err=0 call_us[min/avg/max]=2324/3246/54422 okgap_max_us=54433
+t=89s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=32945 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2392/2626/45206
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2322/2616/45196 okgap_max_us=54491
+t=90s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=33322 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=332 exkBps=79 cgap_us[min/avg/max]=2388/3012/54435
+BLAST phy=2/2 att=332 ok=332 enomem=0 err=0 call_us[min/avg/max]=2377/3001/54424 okgap_max_us=54435
+t=91s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=33657 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=339 exkBps=80 cgap_us[min/avg/max]=2392/2949/73635
+BLAST phy=2/2 att=339 ok=339 enomem=0 err=0 call_us[min/avg/max]=2378/2939/73624 okgap_max_us=73635
+t=92s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=33996 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=356 exkBps=84 cgap_us[min/avg/max]=2390/2808/50002
+BLAST phy=2/2 att=356 ok=356 enomem=0 err=0 call_us[min/avg/max]=2378/2798/49991 okgap_max_us=50002
+t=93s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=34352 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2390/2638/33223
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2379/2627/33212 okgap_max_us=33223
+t=94s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=34731 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=364 exkBps=86 cgap_us[min/avg/max]=2390/2747/42811
+BLAST phy=2/2 att=364 ok=364 enomem=0 err=0 call_us[min/avg/max]=2379/2736/42801 okgap_max_us=42811
+t=95s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=35095 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=393 exkBps=93 cgap_us[min/avg/max]=2389/2544/4789
+BLAST phy=2/2 att=393 ok=393 enomem=0 err=0 call_us[min/avg/max]=2307/2533/4779 okgap_max_us=4789
+t=96s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=35489 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=346 exkBps=82 cgap_us[min/avg/max]=2390/2890/49999
+BLAST phy=2/2 att=346 ok=346 enomem=0 err=0 call_us[min/avg/max]=2378/2879/49989 okgap_max_us=49999
+t=97s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=35835 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=338 exkBps=80 cgap_us[min/avg/max]=2394/2958/49999
+BLAST phy=2/2 att=338 ok=338 enomem=0 err=0 call_us[min/avg/max]=2378/2947/49989 okgap_max_us=49999
+t=98s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=36173 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=313 exkBps=74 cgap_us[min/avg/max]=2390/3194/45206
+BLAST phy=2/2 att=313 ok=313 enomem=0 err=0 call_us[min/avg/max]=2379/3184/45195 okgap_max_us=45206
+t=99s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=36486 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=387 exkBps=92 cgap_us[min/avg/max]=2393/2583/30826
+BLAST phy=2/2 att=387 ok=387 enomem=0 err=0 call_us[min/avg/max]=2378/2573/30815 okgap_max_us=30826
+t=100s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=36873 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=365 exkBps=86 cgap_us[min/avg/max]=2392/2739/33224
+BLAST phy=2/2 att=365 ok=365 enomem=0 err=0 call_us[min/avg/max]=2381/2728/33213 okgap_max_us=33224
+t=101s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=37238 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=348 exkBps=82 cgap_us[min/avg/max]=2394/2873/47605
+BLAST phy=2/2 att=348 ok=348 enomem=0 err=0 call_us[min/avg/max]=2381/2862/47595 okgap_max_us=47605
+t=102s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=37586 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=321 exkBps=76 cgap_us[min/avg/max]=2391/3129/50001
+BLAST phy=2/2 att=321 ok=321 enomem=0 err=0 call_us[min/avg/max]=2380/3118/49991 okgap_max_us=50001
+t=103s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=37905 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=368 exkBps=87 cgap_us[min/avg/max]=2393/2705/42810
+BLAST phy=2/2 att=368 ok=368 enomem=0 err=0 call_us[min/avg/max]=2323/2694/42806 okgap_max_us=50057
+t=104s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=38275 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=344 exkBps=81 cgap_us[min/avg/max]=2393/2906/54428
+BLAST phy=2/2 att=344 ok=344 enomem=0 err=0 call_us[min/avg/max]=2381/2896/54417 okgap_max_us=54428
+t=105s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=38619 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=378 exkBps=90 cgap_us[min/avg/max]=2392/2645/50000
+BLAST phy=2/2 att=378 ok=378 enomem=0 err=0 call_us[min/avg/max]=2378/2634/49989 okgap_max_us=50000
+t=106s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=38997 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=366 exkBps=87 cgap_us[min/avg/max]=2392/2732/54435
+BLAST phy=2/2 att=366 ok=366 enomem=0 err=0 call_us[min/avg/max]=2380/2721/54425 okgap_max_us=54435
+t=107s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=39363 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=389 exkBps=92 cgap_us[min/avg/max]=2392/2570/28431
+BLAST phy=2/2 att=389 ok=389 enomem=0 err=0 call_us[min/avg/max]=2381/2559/28420 okgap_max_us=28431
+t=108s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=39752 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=378 exkBps=90 cgap_us[min/avg/max]=2389/2645/40419
+BLAST phy=2/2 att=378 ok=378 enomem=0 err=0 call_us[min/avg/max]=2378/2634/40408 okgap_max_us=40419
+t=109s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=40130 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=385 exkBps=91 cgap_us[min/avg/max]=2390/2597/28434
+BLAST phy=2/2 att=385 ok=385 enomem=0 err=0 call_us[min/avg/max]=2378/2586/28423 okgap_max_us=28434
+t=110s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=40515 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=363 exkBps=86 cgap_us[min/avg/max]=2392/2754/54432
+BLAST phy=2/2 att=363 ok=363 enomem=0 err=0 call_us[min/avg/max]=2320/2743/54422 okgap_max_us=54433
+t=111s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=40879 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=382 exkBps=91 cgap_us[min/avg/max]=2394/2617/45209
+BLAST phy=2/2 att=382 ok=382 enomem=0 err=0 call_us[min/avg/max]=2380/2607/45198 okgap_max_us=45209
+t=112s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=41261 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2391/2506/4787
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2381/2495/4777 okgap_max_us=4787
+t=113s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=41660 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=339 exkBps=80 cgap_us[min/avg/max]=2394/2949/54433
+BLAST phy=2/2 att=339 ok=339 enomem=0 err=0 call_us[min/avg/max]=2379/2939/54423 okgap_max_us=54433
+t=114s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=41999 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=273 exkBps=65 cgap_us[min/avg/max]=2395/3679/104435
+BLAST phy=2/2 att=273 ok=273 enomem=0 err=0 call_us[min/avg/max]=2384/3668/104425 okgap_max_us=104435
+t=115s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=42271 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+t=116s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=42604 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=339 exkBps=80 cgap_us[min/avg/max]=2394/3097/100006
+BLAST phy=2/2 att=339 ok=339 enomem=0 err=0 call_us[min/avg/max]=2322/3086/99996 okgap_max_us=54491
+BLASTC comp=242 exkBps=57 cgap_us[min/avg/max]=2392/3907/59253
+BLAST phy=2/2 att=242 ok=242 enomem=0 err=0 call_us[min/avg/max]=2315/3896/59242 okgap_max_us=100072
+t=117s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=42853 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=334 exkBps=79 cgap_us[min/avg/max]=2388/2994/54433
+BLAST phy=2/2 att=334 ok=334 enomem=0 err=0 call_us[min/avg/max]=2377/2983/54422 okgap_max_us=54433
+t=118s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=43187 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=289 exkBps=68 cgap_us[min/avg/max]=2392/3460/104435
+BLAST phy=2/2 att=289 ok=289 enomem=0 err=0 call_us[min/avg/max]=2378/3449/104424 okgap_max_us=104435
+t=119s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=43470 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=285 exkBps=67 cgap_us[min/avg/max]=2394/3508/154435
+BLAST phy=2/2 att=285 ok=285 enomem=0 err=0 call_us[min/avg/max]=2378/3497/154355 okgap_max_us=154366
+t=120s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=43761 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=397 exkBps=94 cgap_us[min/avg/max]=2392/2518/4812
+BLAST phy=2/2 att=397 ok=397 enomem=0 err=0 call_us[min/avg/max]=2378/2508/4802 okgap_max_us=4812
+t=121s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=44158 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=380 exkBps=90 cgap_us[min/avg/max]=2391/2643/45207
+BLAST phy=2/2 att=380 ok=380 enomem=0 err=0 call_us[min/avg/max]=2380/2632/45189 okgap_max_us=4790
+t=122s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=44537 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=391 exkBps=93 cgap_us[min/avg/max]=2394/2546/4790
+BLAST phy=2/2 att=391 ok=391 enomem=0 err=0 call_us[min/avg/max]=2322/2535/4784 okgap_max_us=45265
+t=123s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=44929 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=387 exkBps=92 cgap_us[min/avg/max]=2388/2583/35620
+BLAST phy=2/2 att=387 ok=387 enomem=0 err=0 call_us[min/avg/max]=2377/2573/35610 okgap_max_us=35620
+t=124s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=45316 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=383 exkBps=91 cgap_us[min/avg/max]=2390/2610/21239
+BLAST phy=2/2 att=383 ok=383 enomem=0 err=0 call_us[min/avg/max]=2379/2600/21228 okgap_max_us=21239
+t=125s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=45699 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=381 exkBps=90 cgap_us[min/avg/max]=2391/2636/42809
+BLAST phy=2/2 att=381 ok=381 enomem=0 err=0 call_us[min/avg/max]=2380/2625/42791 okgap_max_us=4789
+t=126s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=46080 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=397 exkBps=94 cgap_us[min/avg/max]=2378/2507/4789
+BLAST phy=2/2 att=397 ok=397 enomem=0 err=0 call_us[min/avg/max]=2273/2496/4779 okgap_max_us=42867
+t=127s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=46478 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=321 exkBps=76 cgap_us[min/avg/max]=2388/3115/54434
+BLAST phy=2/2 att=321 ok=321 enomem=0 err=0 call_us[min/avg/max]=2377/3104/54424 okgap_max_us=54434
+t=128s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=46799 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=367 exkBps=87 cgap_us[min/avg/max]=2394/2724/38015
+BLAST phy=2/2 att=367 ok=367 enomem=0 err=0 call_us[min/avg/max]=2381/2713/38005 okgap_max_us=38015
+t=129s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=47166 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=348 exkBps=82 cgap_us[min/avg/max]=2391/2873/54432
+BLAST phy=2/2 att=348 ok=348 enomem=0 err=0 call_us[min/avg/max]=2381/2862/54422 okgap_max_us=54432
+t=130s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=47514 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=390 exkBps=92 cgap_us[min/avg/max]=2394/2564/18838
+BLAST phy=2/2 att=390 ok=390 enomem=0 err=0 call_us[min/avg/max]=2381/2553/18828 okgap_max_us=18838
+t=131s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=47904 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=394 exkBps=93 cgap_us[min/avg/max]=2391/2538/4816
+BLAST phy=2/2 att=394 ok=394 enomem=0 err=0 call_us[min/avg/max]=2381/2527/4805 okgap_max_us=4816
+t=132s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=48298 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2394/2512/4789
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2380/2501/4778 okgap_max_us=4789
+t=133s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=48696 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=393 exkBps=93 cgap_us[min/avg/max]=2388/2544/11649
+BLAST phy=2/2 att=393 ok=393 enomem=0 err=0 call_us[min/avg/max]=2377/2533/11638 okgap_max_us=11649
+t=134s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=49089 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=396 exkBps=94 cgap_us[min/avg/max]=2392/2525/14047
+BLAST phy=2/2 att=396 ok=396 enomem=0 err=0 call_us[min/avg/max]=2378/2514/14037 okgap_max_us=14047
+t=135s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=49485 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=384 exkBps=91 cgap_us[min/avg/max]=2392/2604/35620
+BLAST phy=2/2 att=384 ok=384 enomem=0 err=0 call_us[min/avg/max]=2382/2593/35610 okgap_max_us=35620
+t=136s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=49869 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=391 exkBps=93 cgap_us[min/avg/max]=2392/2557/23641
+BLAST phy=2/2 att=391 ok=391 enomem=0 err=0 call_us[min/avg/max]=2380/2546/23630 okgap_max_us=23641
+t=137s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=50260 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=349 exkBps=83 cgap_us[min/avg/max]=2391/2865/54439
+BLAST phy=2/2 att=349 ok=349 enomem=0 err=0 call_us[min/avg/max]=2380/2854/54428 okgap_max_us=54439
+t=138s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=50609 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=373 exkBps=88 cgap_us[min/avg/max]=2392/2680/40416
+BLAST phy=2/2 att=373 ok=373 enomem=0 err=0 call_us[min/avg/max]=2380/2670/40405 okgap_max_us=40416
+t=139s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=50982 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=395 exkBps=94 cgap_us[min/avg/max]=2390/2531/4816
+BLAST phy=2/2 att=395 ok=395 enomem=0 err=0 call_us[min/avg/max]=2380/2520/4805 okgap_max_us=4816
+t=140s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=51377 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2392/2506/4789
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2380/2495/4779 okgap_max_us=4789
+t=141s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=51776 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=361 exkBps=86 cgap_us[min/avg/max]=2388/2770/92809
+BLAST phy=2/2 att=361 ok=361 enomem=0 err=0 call_us[min/avg/max]=2377/2759/92799 okgap_max_us=92809
+t=142s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=52138 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=400 exkBps=95 cgap_us[min/avg/max]=2391/2499/4442
+BLAST phy=2/2 att=400 ok=400 enomem=0 err=0 call_us[min/avg/max]=2285/2489/4431 okgap_max_us=4442
+t=143s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=52538 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=377 exkBps=89 cgap_us[min/avg/max]=2388/2652/35618
+BLAST phy=2/2 att=377 ok=377 enomem=0 err=0 call_us[min/avg/max]=2377/2641/35608 okgap_max_us=35618
+t=144s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=52915 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=367 exkBps=87 cgap_us[min/avg/max]=2394/2724/33221
+BLAST phy=2/2 att=367 ok=367 enomem=0 err=0 call_us[min/avg/max]=2377/2713/33210 okgap_max_us=33221
+t=145s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=53282 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=354 exkBps=84 cgap_us[min/avg/max]=2391/2837/49999
+BLAST phy=2/2 att=354 ok=354 enomem=0 err=0 call_us[min/avg/max]=2380/2826/49981 okgap_max_us=47605
+t=146s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=53635 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=396 exkBps=94 cgap_us[min/avg/max]=2394/2514/11656
+BLAST phy=2/2 att=396 ok=396 enomem=0 err=0 call_us[min/avg/max]=2323/2503/11645 okgap_max_us=50057
+t=147s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=54032 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=382 exkBps=91 cgap_us[min/avg/max]=2391/2629/49998
+BLAST phy=2/2 att=382 ok=382 enomem=0 err=0 call_us[min/avg/max]=2380/2618/49981 okgap_max_us=4441
+t=148s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=54413 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=397 exkBps=94 cgap_us[min/avg/max]=2394/2507/6826
+BLAST phy=2/2 att=397 ok=397 enomem=0 err=0 call_us[min/avg/max]=2321/2496/6815 okgap_max_us=50057
+t=149s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=54811 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2388/2506/4787
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2378/2495/4776 okgap_max_us=4787
+t=150s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=55210 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2390/2512/4789
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2378/2501/4779 okgap_max_us=4789
+t=151s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=55607 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=351 exkBps=83 cgap_us[min/avg/max]=2388/2861/47605
+BLAST phy=2/2 att=351 ok=351 enomem=0 err=0 call_us[min/avg/max]=2377/2850/47588 okgap_max_us=45208
+t=152s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=55958 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=384 exkBps=91 cgap_us[min/avg/max]=2389/2592/35618
+BLAST phy=2/2 att=384 ok=384 enomem=0 err=0 call_us[min/avg/max]=2320/2581/35608 okgap_max_us=47663
+t=153s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=56343 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=400 exkBps=95 cgap_us[min/avg/max]=2388/2499/4438
+BLAST phy=2/2 att=400 ok=400 enomem=0 err=0 call_us[min/avg/max]=2378/2489/4427 okgap_max_us=4438
+t=154s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=56743 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=390 exkBps=92 cgap_us[min/avg/max]=2391/2564/21236
+BLAST phy=2/2 att=390 ok=390 enomem=0 err=0 call_us[min/avg/max]=2380/2553/21226 okgap_max_us=21236
+t=155s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=57133 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=385 exkBps=91 cgap_us[min/avg/max]=2388/2608/40412
+BLAST phy=2/2 att=385 ok=385 enomem=0 err=0 call_us[min/avg/max]=2378/2598/40395 okgap_max_us=4786
+t=156s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=57517 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2392/2501/4814
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2322/2490/4804 okgap_max_us=40470
+t=157s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=57916 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=393 exkBps=93 cgap_us[min/avg/max]=2390/2544/14047
+BLAST phy=2/2 att=393 ok=393 enomem=0 err=0 call_us[min/avg/max]=2380/2533/14037 okgap_max_us=14047
+t=158s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=58309 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=400 exkBps=95 cgap_us[min/avg/max]=2389/2499/4440
+BLAST phy=2/2 att=400 ok=400 enomem=0 err=0 call_us[min/avg/max]=2310/2489/4429 okgap_max_us=4440
+t=159s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=58710 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=377 exkBps=89 cgap_us[min/avg/max]=2390/2652/45207
+BLAST phy=2/2 att=377 ok=377 enomem=0 err=0 call_us[min/avg/max]=2380/2641/45196 okgap_max_us=45207
+t=160s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=59087 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=397 exkBps=94 cgap_us[min/avg/max]=2394/2518/4790
+BLAST phy=2/2 att=397 ok=397 enomem=0 err=0 call_us[min/avg/max]=2380/2508/4779 okgap_max_us=4790
+t=161s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=59484 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=378 exkBps=90 cgap_us[min/avg/max]=2389/2657/42812
+BLAST phy=2/2 att=378 ok=378 enomem=0 err=0 call_us[min/avg/max]=2380/2646/42794 okgap_max_us=18840
+t=162s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=59861 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=395 exkBps=94 cgap_us[min/avg/max]=2394/2520/14047
+BLAST phy=2/2 att=395 ok=395 enomem=0 err=0 call_us[min/avg/max]=2320/2509/14037 okgap_max_us=42870
+t=163s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=60257 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=297 exkBps=70 cgap_us[min/avg/max]=2391/3367/104433
+BLAST phy=2/2 att=297 ok=297 enomem=0 err=0 call_us[min/avg/max]=2380/3356/104422 okgap_max_us=104433
+t=164s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=60554 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=267 exkBps=63 cgap_us[min/avg/max]=2394/3745/104435
+BLAST phy=2/2 att=267 ok=267 enomem=0 err=0 call_us[min/avg/max]=2379/3734/104425 okgap_max_us=104435
+t=165s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=60821 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=241 exkBps=57 cgap_us[min/avg/max]=2391/4167/140419
+BLAST phy=2/2 att=241 ok=241 enomem=0 err=0 call_us[min/avg/max]=2375/4156/140408 okgap_max_us=104433
+t=166s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=61061 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=337 exkBps=80 cgap_us[min/avg/max]=2392/2967/54435
+BLAST phy=2/2 att=337 ok=337 enomem=0 err=0 call_us[min/avg/max]=2313/2956/54424 okgap_max_us=140484
+t=167s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=61398 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=298 exkBps=71 cgap_us[min/avg/max]=2389/3340/104435
+BLAST phy=2/2 att=298 ok=298 enomem=0 err=0 call_us[min/avg/max]=2320/3329/104424 okgap_max_us=104435
+t=168s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=61697 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=273 exkBps=65 cgap_us[min/avg/max]=2392/3663/104433
+BLAST phy=2/2 att=273 ok=273 enomem=0 err=0 call_us[min/avg/max]=2377/3652/104422 okgap_max_us=104433
+t=169s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=61970 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=316 exkBps=75 cgap_us[min/avg/max]=2390/3164/99991
+BLAST phy=2/2 att=316 ok=316 enomem=0 err=0 call_us[min/avg/max]=2379/3153/99980 okgap_max_us=99991
+t=170s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=62286 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=375 exkBps=89 cgap_us[min/avg/max]=2389/2678/33222
+BLAST phy=2/2 att=375 ok=375 enomem=0 err=0 call_us[min/avg/max]=2378/2667/33212 okgap_max_us=33222
+t=171s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=62660 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=341 exkBps=81 cgap_us[min/avg/max]=2389/2919/47606
+BLAST phy=2/2 att=341 ok=341 enomem=0 err=0 call_us[min/avg/max]=2319/2908/47595 okgap_max_us=47606
+t=172s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=63002 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=385 exkBps=91 cgap_us[min/avg/max]=2390/2597/28428
+BLAST phy=2/2 att=385 ok=385 enomem=0 err=0 call_us[min/avg/max]=2379/2586/28417 okgap_max_us=28427
+t=173s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=63387 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=389 exkBps=92 cgap_us[min/avg/max]=2392/2570/28429
+BLAST phy=2/2 att=389 ok=389 enomem=0 err=0 call_us[min/avg/max]=2378/2559/28418 okgap_max_us=28429
+t=174s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=63776 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=378 exkBps=90 cgap_us[min/avg/max]=2384/2645/54433
+BLAST phy=2/2 att=378 ok=378 enomem=0 err=0 call_us[min/avg/max]=2356/2634/54423 okgap_max_us=54433
+t=175s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=64155 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2390/2506/6857
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2379/2495/6845 okgap_max_us=6856
+t=176s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=64554 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2394/2506/4787
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2377/2495/4777 okgap_max_us=4787
+t=177s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=64953 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=391 exkBps=93 cgap_us[min/avg/max]=2388/2557/16443
+BLAST phy=2/2 att=391 ok=391 enomem=0 err=0 call_us[min/avg/max]=2377/2546/16433 okgap_max_us=16443
+t=178s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=65344 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=381 exkBps=90 cgap_us[min/avg/max]=2394/2624/47605
+BLAST phy=2/2 att=381 ok=381 enomem=0 err=0 call_us[min/avg/max]=2377/2613/47595 okgap_max_us=47606
+t=179s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=65725 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=382 exkBps=91 cgap_us[min/avg/max]=2390/2617/30827
+BLAST phy=2/2 att=382 ok=382 enomem=0 err=0 call_us[min/avg/max]=2377/2607/30816 okgap_max_us=30827
+t=180s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=66107 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=376 exkBps=89 cgap_us[min/avg/max]=2393/2659/54433
+BLAST phy=2/2 att=376 ok=376 enomem=0 err=0 call_us[min/avg/max]=2379/2648/54422 okgap_max_us=54433
+t=181s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=66483 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2390/2638/54427
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2374/2627/54416 okgap_max_us=54427
+t=182s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=66862 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=391 exkBps=93 cgap_us[min/avg/max]=2389/2557/23635
+BLAST phy=2/2 att=391 ok=391 enomem=0 err=0 call_us[min/avg/max]=2378/2546/23624 okgap_max_us=23635
+t=183s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=67253 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=375 exkBps=89 cgap_us[min/avg/max]=2393/2666/33215
+BLAST phy=2/2 att=375 ok=375 enomem=0 err=0 call_us[min/avg/max]=2377/2655/33204 okgap_max_us=33215
+t=184s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=67628 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2389/2506/4790
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2378/2495/4779 okgap_max_us=4790
+t=185s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=68027 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=394 exkBps=93 cgap_us[min/avg/max]=2388/2538/11647
+BLAST phy=2/2 att=394 ok=394 enomem=0 err=0 call_us[min/avg/max]=2377/2527/11637 okgap_max_us=11648
+t=186s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=68421 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2392/2506/4789
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2378/2495/4778 okgap_max_us=4789
+t=187s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=68820 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2390/2512/4812
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2379/2501/4802 okgap_max_us=4812
+t=188s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=69218 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=380 exkBps=90 cgap_us[min/avg/max]=2390/2631/54435
+BLAST phy=2/2 att=380 ok=380 enomem=0 err=0 call_us[min/avg/max]=2378/2620/54424 okgap_max_us=54435
+t=189s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=69598 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=360 exkBps=85 cgap_us[min/avg/max]=2390/2777/50002
+BLAST phy=2/2 att=360 ok=360 enomem=0 err=0 call_us[min/avg/max]=2378/2766/49991 okgap_max_us=50002
+t=190s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=69959 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2378/2638/54433
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2271/2627/54422 okgap_max_us=54433
+t=191s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=70338 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=375 exkBps=89 cgap_us[min/avg/max]=2392/2666/28427
+BLAST phy=2/2 att=375 ok=375 enomem=0 err=0 call_us[min/avg/max]=2377/2655/28416 okgap_max_us=28427
+t=192s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=70713 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=400 exkBps=95 cgap_us[min/avg/max]=2394/2499/4442
+BLAST phy=2/2 att=400 ok=400 enomem=0 err=0 call_us[min/avg/max]=2377/2489/4431 okgap_max_us=4442
+t=193s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=71113 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=392 exkBps=93 cgap_us[min/avg/max]=2390/2551/14051
+BLAST phy=2/2 att=392 ok=392 enomem=0 err=0 call_us[min/avg/max]=2379/2540/14040 okgap_max_us=14051
+t=194s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=71505 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2394/2506/4787
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2380/2495/4776 okgap_max_us=4787
+t=195s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=71904 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=387 exkBps=92 cgap_us[min/avg/max]=2388/2583/30826
+BLAST phy=2/2 att=387 ok=387 enomem=0 err=0 call_us[min/avg/max]=2377/2573/30816 okgap_max_us=30827
+t=196s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=72291 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=367 exkBps=87 cgap_us[min/avg/max]=2394/2724/45211
+BLAST phy=2/2 att=367 ok=367 enomem=0 err=0 call_us[min/avg/max]=2380/2713/45200 okgap_max_us=45211
+t=197s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=72658 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=358 exkBps=85 cgap_us[min/avg/max]=2391/2793/54434
+BLAST phy=2/2 att=358 ok=358 enomem=0 err=0 call_us[min/avg/max]=2380/2782/54423 okgap_max_us=54434
+t=198s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=73016 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2389/2512/4789
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2379/2501/4779 okgap_max_us=4789
+t=199s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=73414 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=380 exkBps=90 cgap_us[min/avg/max]=2388/2631/47603
+BLAST phy=2/2 att=380 ok=380 enomem=0 err=0 call_us[min/avg/max]=2378/2620/47593 okgap_max_us=47604
+t=200s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=73794 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2390/2638/49999
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2379/2627/49988 okgap_max_us=49999
+t=201s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=74173 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2392/2638/28427
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2378/2627/28417 okgap_max_us=28427
+t=202s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=74552 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2390/2512/4789
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2379/2501/4778 okgap_max_us=4789
+t=203s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=74950 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2388/2512/6857
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2378/2501/6846 okgap_max_us=6857
+t=204s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=75348 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=380 exkBps=90 cgap_us[min/avg/max]=2390/2631/47604
+BLAST phy=2/2 att=380 ok=380 enomem=0 err=0 call_us[min/avg/max]=2379/2620/47593 okgap_max_us=47604
+t=205s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=75729 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=397 exkBps=94 cgap_us[min/avg/max]=2381/2518/4814
+BLAST phy=2/2 att=397 ok=397 enomem=0 err=0 call_us[min/avg/max]=2274/2508/4804 okgap_max_us=4788
+t=206s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=76126 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=398 exkBps=94 cgap_us[min/avg/max]=2394/2512/4817
+BLAST phy=2/2 att=398 ok=398 enomem=0 err=0 call_us[min/avg/max]=2378/2501/4806 okgap_max_us=4880
+t=207s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=76524 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=380 exkBps=90 cgap_us[min/avg/max]=2390/2631/40414
+BLAST phy=2/2 att=380 ok=380 enomem=0 err=0 call_us[min/avg/max]=2376/2620/40403 okgap_max_us=40414
+t=208s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=76904 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=397 exkBps=94 cgap_us[min/avg/max]=2394/2518/6824
+BLAST phy=2/2 att=397 ok=397 enomem=0 err=0 call_us[min/avg/max]=2377/2508/6813 okgap_max_us=6824
+t=209s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=77301 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=399 exkBps=95 cgap_us[min/avg/max]=2388/2506/4787
+BLAST phy=2/2 att=399 ok=399 enomem=0 err=0 call_us[min/avg/max]=2377/2495/4777 okgap_max_us=4787
+t=210s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=77700 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=396 exkBps=94 cgap_us[min/avg/max]=2393/2525/6831
+BLAST phy=2/2 att=396 ok=396 enomem=0 err=0 call_us[min/avg/max]=2378/2514/6821 okgap_max_us=6832
+t=211s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=78096 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=394 exkBps=93 cgap_us[min/avg/max]=2391/2538/4791
+BLAST phy=2/2 att=394 ok=394 enomem=0 err=0 call_us[min/avg/max]=2376/2527/4781 okgap_max_us=4791
+t=212s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=78490 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=384 exkBps=91 cgap_us[min/avg/max]=2391/2604/33223
+BLAST phy=2/2 att=384 ok=384 enomem=0 err=0 call_us[min/avg/max]=2378/2593/33213 okgap_max_us=33223
+t=213s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=78873 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=372 exkBps=88 cgap_us[min/avg/max]=2388/2688/38018
+BLAST phy=2/2 att=372 ok=372 enomem=0 err=0 call_us[min/avg/max]=2377/2677/38007 okgap_max_us=38018
+t=214s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=79246 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=381 exkBps=90 cgap_us[min/avg/max]=2390/2624/35620
+BLAST phy=2/2 att=381 ok=381 enomem=0 err=0 call_us[min/avg/max]=2379/2613/35610 okgap_max_us=35620
+t=215s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=79627 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=395 exkBps=94 cgap_us[min/avg/max]=2390/2531/9252
+BLAST phy=2/2 att=395 ok=395 enomem=0 err=0 call_us[min/avg/max]=2378/2520/9242 okgap_max_us=9252
+t=216s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=80022 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=379 exkBps=90 cgap_us[min/avg/max]=2389/2638/42811
+BLAST phy=2/2 att=379 ok=379 enomem=0 err=0 call_us[min/avg/max]=2378/2627/42801 okgap_max_us=42811
+t=217s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=80401 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=382 exkBps=91 cgap_us[min/avg/max]=2388/2617/35624
+BLAST phy=2/2 att=382 ok=382 enomem=0 err=0 call_us[min/avg/max]=2377/2607/35613 okgap_max_us=35624
+t=218s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=80783 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=382 exkBps=91 cgap_us[min/avg/max]=2391/2617/35621
+BLAST phy=2/2 att=382 ok=382 enomem=0 err=0 call_us[min/avg/max]=2378/2606/35610 okgap_max_us=35621
+t=219s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=81165 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=385 exkBps=91 cgap_us[min/avg/max]=2391/2597/23635
+BLAST phy=2/2 att=385 ok=385 enomem=0 err=0 call_us[min/avg/max]=2378/2586/23625 okgap_max_us=23636
+t=220s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=81550 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=389 exkBps=92 cgap_us[min/avg/max]=2390/2570/21236
+BLAST phy=2/2 att=389 ok=389 enomem=0 err=0 call_us[min/avg/max]=2379/2559/21225 okgap_max_us=21236
+t=221s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=81939 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=389 exkBps=92 cgap_us[min/avg/max]=2392/2570/18836
+BLAST phy=2/2 att=389 ok=389 enomem=0 err=0 call_us[min/avg/max]=2316/2559/18826 okgap_max_us=18836
+t=222s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=82329 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=382 exkBps=91 cgap_us[min/avg/max]=2393/2617/42811
+BLAST phy=2/2 att=382 ok=382 enomem=0 err=0 call_us[min/avg/max]=2378/2606/42801 okgap_max_us=42811
+t=223s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=82711 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=381 exkBps=90 cgap_us[min/avg/max]=2391/2624/45208
+BLAST phy=2/2 att=381 ok=381 enomem=0 err=0 call_us[min/avg/max]=2381/2613/45197 okgap_max_us=45208
+t=224s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=83092 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=371 exkBps=88 cgap_us[min/avg/max]=2394/2695/35620
+BLAST phy=2/2 att=371 ok=371 enomem=0 err=0 call_us[min/avg/max]=2377/2684/35610 okgap_max_us=35620
+t=225s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=83463 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=385 exkBps=91 cgap_us[min/avg/max]=2392/2597/35620
+BLAST phy=2/2 att=385 ok=385 enomem=0 err=0 call_us[min/avg/max]=2381/2586/35609 okgap_max_us=35620
+t=226s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=83848 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=400 exkBps=95 cgap_us[min/avg/max]=2395/2499/4438
+BLAST phy=2/2 att=400 ok=400 enomem=0 err=0 call_us[min/avg/max]=2379/2489/4427 okgap_max_us=4438
+t=227s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=84248 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=390 exkBps=92 cgap_us[min/avg/max]=2388/2564/23632
+BLAST phy=2/2 att=390 ok=390 enomem=0 err=0 call_us[min/avg/max]=2378/2553/23622 okgap_max_us=23633
+t=228s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=84637 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s
+BLASTC comp=382 exkBps=91 cgap_us[min/avg/max]=2394/2617/30824
+BLAST phy=2/2 att=382 ok=382 enomem=0 err=0 call_us[min/avg/max]=2380/2607/30813 okgap_max_us=30824
+t=229s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=85020 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=0s maxout=0s

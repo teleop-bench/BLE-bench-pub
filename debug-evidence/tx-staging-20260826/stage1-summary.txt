@@ -1,0 +1,8 @@
+arm    config           interval_held  mean_pkts/ev  max  sink_KBs  windows
+s1a1   7.5ms  deep(64)  7.50ms                 4.87    5     156.7  n=3
+s1a2   15ms   deep(64)  15.00ms                9.64   10     151.7  n=3
+s1a3   25ms   deep(64)  25.00ms               16.30   17     158.3  n=3
+s1b1   15ms   shallow(8) 15.00ms                9.70   10     155.3  n=3
+
+[interpretation] flat mean_pkts/ev across 7.5/15/25ms despite 3.3x airtime => hard COUNT cap (not airtime).
+                 shallow(8) dropping below deep(64) => buffers bind only BELOW the wall (ceiling unaffected above).

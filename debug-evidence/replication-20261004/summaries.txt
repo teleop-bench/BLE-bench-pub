@@ -1,0 +1,75 @@
+placement: nRF54 boards moved further apart by the user before this session (2026-10-04 ~08:15)
+### REP START Sun Oct  4 08:18:43 CDT 2026
+1057719509
+Board version   PCA10156
+1050347760
+Board version   PCA10040
+1057794857
+Board version   PCA10156
+### R1 GATT duplex open 7.5/15/25
+== design gate
+  echo peripheral: FSU-capable, auto-update off
+  central 1057719509 /dev/cu.usbmodem0010577195093 / peripheral 1057794857 /dev/cu.usbmodem0010577948573
+=== SUMMARY (accepted reps only) ===
+  7.5 ms  off  179.6 (n=4, 174.5-182.0)  on  179.8 (n=4, 179.0-180.0)  FSU +0.1% ± 3.2% (Welch t95)  ranges overlap  rejected=0
+ 15.0 ms  off  177.5 (n=4, 176.0-179.0)  on  176.0 (n=4, 176.0-176.0)  FSU -0.8% ± 1.2% (Welch t95)  ranges overlap  rejected=0
+ 25.0 ms  off  171.5 (n=4, 166.0-177.0)  on  189.5 (n=3, 186.0-192.0)  FSU +10.5% ± 4.9% (Welch t95)  strict non-overlap  rejected=1
+### R2 GATT duplex SDC 7.5/15/25
+== design gate
+  echo peripheral: FSU-capable, auto-update off
+  central 1057719509 /dev/cu.usbmodem0010577195093 / peripheral 1057794857 /dev/cu.usbmodem0010577948573
+=== SUMMARY (accepted reps only) ===
+  7.5 ms  off  178.0 (n=4, 175.5-181.0)  on  180.3 (n=3, 178.0-182.0)  FSU +1.3% ± 2.6% (Welch t95)  ranges overlap  rejected=1
+ 15.0 ms  off  169.0 (n=4, 160.5-174.0)  on  172.0 (n=4, 168.0-174.0)  FSU +1.8% ± 5.4% (Welch t95)  ranges overlap  rejected=0
+ 25.0 ms  off  168.2 (n=4, 162.5-170.5)  on  183.8 (n=3, 180.0-186.0)  FSU +9.3% ± 4.5% (Welch t95)  strict non-overlap  rejected=1
+### R3 CoC duplex open 7.5/15/25
+== design gate
+  sink: FSU-capable, auto-update off
+  central 1057719509 /dev/cu.usbmodem0010577195093 / peripheral 1057794857 /dev/cu.usbmodem0010577948573
+=== SUMMARY (accepted reps only) ===
+  7.5 ms  off  164.6 (n=4)  on  177.1 (n=2)  FSU +7.6% ± 7.1% (Welch t95)  strict non-overlap  rejected=2 (stalls=0)
+          per direction (dl/ul): off 54.0/110.6  on 58.0/119.1
+ 15.0 ms  off  157.6 (n=4)  on  174.2 (n=4)  FSU +10.5% ± 4.6% (Welch t95)  strict non-overlap  rejected=0 (stalls=0)
+          per direction (dl/ul): off 51.8/105.9  on 57.2/116.9
+ 25.0 ms  off  155.1 (n=4)  on  173.1 (n=3)  FSU +11.6% ± 2.1% (Welch t95)  strict non-overlap  rejected=1 (stalls=0)
+          per direction (dl/ul): off 50.8/104.3  on 56.7/116.4
+### R4 CoC duplex SDC 7.5/15/25
+== design gate
+  sink: FSU-capable, auto-update off
+  central 1057719509 /dev/cu.usbmodem0010577195093 / peripheral 1057794857 /dev/cu.usbmodem0010577948573
+=== SUMMARY (accepted reps only) ===
+  7.5 ms  off  172.3 (n=4)  on  173.1 (n=4)  FSU +0.4% ± 0.8% (Welch t95)  ranges overlap  rejected=0 (stalls=0)
+          per direction (dl/ul): off 86.0/86.3  on 86.2/86.9
+ 15.0 ms  off  169.6 (n=4)  on  173.1 (n=4)  FSU +2.0% ± 0.9% (Welch t95)  strict non-overlap  rejected=0 (stalls=0)
+          per direction (dl/ul): off 84.5/85.1  on 86.2/86.8
+ 25.0 ms  off  163.8 (n=4)  on  179.6 (n=4)  FSU +9.6% ± 3.7% (Welch t95)  strict non-overlap  rejected=0 (stalls=0)
+          per direction (dl/ul): off 81.8/82.1  on 89.5/90.1
+### R5 latency FSU 7.5 naive/paced, 25 naive
+== design gate
+  central 1057719509 /dev/cu.usbmodem0010577195093 / peripheral 1057794857 /dev/cu.usbmodem0010577948573
+=== SUMMARY (accepted reps; mean over reps) ===
+--- 7.5 ms, naive (accepted on=2 off=2)
+  load   0 KB/s | off: p50  11.0  p99  19.0  p99.9  22.5  >30ms   0.0%  timeouts 0  bulk   0.0 | on: p50  11.0  p99  19.0  p99.9  19.0  >30ms   0.0%  timeouts 0  bulk   0.0
+  load  25 KB/s | off: p50  11.0  p99  38.5  p99.9  47.5  >30ms   6.9%  timeouts 0  bulk  24.0 | on: p50  11.0  p99  32.5  p99.9  39.5  >30ms   1.8%  timeouts 0  bulk  24.0
+  load  50 KB/s | off: p50  11.0  p99  41.0  p99.9  48.5  >30ms  17.2%  timeouts 0  bulk  49.0 | on: p50  11.0  p99  34.0  p99.9  40.0  >30ms   3.8%  timeouts 0  bulk  49.0
+  load  75 KB/s | off: p50  11.0  p99  42.0  p99.9  48.5  >30ms  30.2%  timeouts 0  bulk  74.0 | on: p50  11.0  p99  35.0  p99.9  42.5  >30ms   7.0%  timeouts 0  bulk  74.0
+  load 100 KB/s | off: p50  17.5  p99  44.5  p99.9  50.0  >30ms  47.3%  timeouts 0  bulk  99.0 | on: p50  11.0  p99  37.0  p99.9  44.5  >30ms   9.2%  timeouts 0  bulk  99.0
+  load 125 KB/s | off: p50  33.0  p99  45.5  p99.9  50.5  >30ms  72.7%  timeouts 0  bulk 124.0 | on: p50  25.5  p99  39.0  p99.9  43.5  >30ms  13.7%  timeouts 0  bulk 124.0
+  load 150 KB/s | off: p50  33.0  p99  46.0  p99.9  52.0  >30ms  99.9%  timeouts 0  bulk 141.4 | on: p50  26.0  p99  39.5  p99.9  45.5  >30ms  19.1%  timeouts 0  bulk 149.0
+--- 7.5 ms, polite (accepted on=2 off=2)
+  load   0 KB/s | off: p50  11.0  p99  19.0  p99.9  19.0  >30ms   0.0%  timeouts 0  bulk   0.0 | on: p50  11.0  p99  19.0  p99.9  19.0  >30ms   0.0%  timeouts 0  bulk   0.0
+  load  25 KB/s | off: p50  11.0  p99  25.5  p99.9  28.0  >30ms   0.1%  timeouts 0  bulk  24.2 | on: p50  11.0  p99  20.5  p99.9  26.0  >30ms   0.0%  timeouts 0  bulk  24.2
+  load  50 KB/s | off: p50  11.0  p99  26.0  p99.9  33.5  >30ms   0.4%  timeouts 0  bulk  49.2 | on: p50  11.0  p99  23.0  p99.9  31.5  >30ms   0.1%  timeouts 0  bulk  49.2
+  load  75 KB/s | off: p50  11.0  p99  28.0  p99.9  34.5  >30ms   0.6%  timeouts 0  bulk  74.2 | on: p50  11.0  p99  24.0  p99.9  32.0  >30ms   0.2%  timeouts 0  bulk  74.2
+  load 100 KB/s | off: p50  19.0  p99  28.0  p99.9  34.0  >30ms   0.6%  timeouts 0  bulk  99.2 | on: p50  15.0  p99  25.0  p99.9  29.5  >30ms   0.2%  timeouts 0  bulk  99.2
+  load 125 KB/s | off: p50  19.0  p99  29.0  p99.9  33.5  >30ms   0.8%  timeouts 0  bulk 124.2 | on: p50  15.0  p99  24.0  p99.9  30.0  >30ms   0.2%  timeouts 0  bulk 124.2
+  load 150 KB/s | off: p50  19.0  p99  33.5  p99.9  45.0  >30ms   2.1%  timeouts 0  bulk 136.6 | on: p50  15.0  p99  25.5  p99.9  29.5  >30ms   0.3%  timeouts 0  bulk 149.3
+--- 25.0 ms, naive (accepted on=2 off=2)
+  load   0 KB/s | off: p50  46.0  p99  71.0  p99.9  71.0  >30ms 100.0%  timeouts 0  bulk   0.0 | on: p50  46.0  p99  71.0  p99.9  71.0  >30ms 100.0%  timeouts 0  bulk   0.0
+  load  25 KB/s | off: p50  46.0  p99  71.0  p99.9  72.0  >30ms  96.8%  timeouts 0  bulk  24.0 | on: p50  46.0  p99  71.0  p99.9  72.0  >30ms  81.5%  timeouts 0  bulk  24.0
+  load  50 KB/s | off: p50  46.0  p99  71.0  p99.9  84.5  >30ms  97.3%  timeouts 0  bulk  49.0 | on: p50  46.0  p99  71.0  p99.9  72.0  >30ms  67.0%  timeouts 0  bulk  49.0
+  load  75 KB/s | off: p50  42.0  p99  72.0  p99.9  94.5  >30ms  97.5%  timeouts 0  bulk  74.1 | on: p50  39.5  p99  71.0  p99.9  71.0  >30ms  55.5%  timeouts 0  bulk  74.0
+  load 100 KB/s | off: p50  31.0  p99  71.0  p99.9  81.0  >30ms  94.8%  timeouts 0  bulk  99.2 | on: p50  26.0  p99  71.0  p99.9  81.0  >30ms  42.0%  timeouts 0  bulk  99.2
+  load 125 KB/s | off: p50  31.0  p99  73.5  p99.9  92.5  >30ms  97.5%  timeouts 0  bulk 124.3 | on: p50  26.0  p99  67.5  p99.9  78.5  >30ms  34.7%  timeouts 0  bulk 124.4
+  load 150 KB/s | off: p50  30.5  p99  69.5  p99.9  81.5  >30ms  99.9%  timeouts 0  bulk 140.6 | on: p50  25.0  p99  61.0  p99.9  81.5  >30ms  24.9%  timeouts 0  bulk 149.4
+### CHAIN6 DONE Sun Oct  4 11:23:05 CDT 2026

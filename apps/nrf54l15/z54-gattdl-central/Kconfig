@@ -1,0 +1,7 @@
+# App knobs (reproducible build recipes, not source edits)
+config APP_CONN_INT_UNITS
+	int "Pinned connection interval (1.25 ms units): 6=7.5ms 12=15ms 20=25ms"
+	default 6
+	range 6 3200
+
+source "Kconfig.zephyr"

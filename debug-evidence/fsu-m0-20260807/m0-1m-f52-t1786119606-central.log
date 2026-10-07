@@ -1,0 +1,36 @@
+*** Booting Zephyr OS build v4.4.1-4-g6a2245e1dc81 ***
+[00:00:00.002,929] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+[00:00:00.002,941] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+[00:00:00.002,952] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 1[0m
+[00:00:00.003,284] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+[00:00:00.003,330] [0m<inf> bt_hci_core: Identity: FC:BE:FF:FA:E6:8B (random)[0m
+[00:00:00.003,346] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+[00:00:00.003,361] [0m<inf> bt_hci_core: LMP:*** Booting Zephyr OS build v4.4.1-4-g6a2245e1dc81 ***
+[00:00:00.145,131] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+[00:00:00.145,144] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+[00:00:00.145,154] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 1[0m
+[00:00:00.145,486] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+[00:00:00.145,533] [0m<inf> bt_hci_core: Identity: FC:BE:FF:FA:E6:8B (random)[0m
+[00:00:00.145,548] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+[00:00:00.145,563] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+
+=== nRF54L15 RTT ping-pong CENTRAL ===
+scan rc=0
+GAP connected interval=7500
+[00:00:00.201,042] [1;33m<wrn> bt_conn: PHY 0x02 not supported[0m
+MTU err=0 mtu=247
+discovery start (post-PHY +500ms) interval=7500 phy2m=0
+SUBSCRIBED, vh=14
+[00:00:00.797,180] [1;33m<wrn> bBLAST: phy_update->2M rc=-5
+BLAST first16_call_us: 122 113 113 116 115 115 115 115 115 108 52 50 50 50 50 51
+[00:00:00.809,077] [1;31m<err> os: ***** USAGE FAULT *****[0m
+[00:00:00.809,083] [1;31m<err> os:   Attempt to execute undefined instruction[0m
+[00:00:00.809,092] [1;31m<err> os: r0/a1:  0x20001188  r1/a2:  0x20001188  r2/a3:  0x200037e8[0m
+[00:00:00.809,098] [1;31m<err> os: r3/a4:  0x00000001 r12/ip:  0x200037a0 r14/lr:  0x00014533[0m
+[00:00:00.809,102] [1;31m<err> os:  xpsr:  0x0100002e[0m
+[00:00:00.809,105] [1;31m<err> os: Faulting instruction address (r15/pc): 0x000157d4[0m
+[00:00:00.809,123] [1;31m<err> os: >>> ZEPHYR FATAL ERROR 36: Unknown error on CPU 0[0m
+[00:00:00.809,127] [1;31m<err> os: Fault during interrupt handling
+[0m
+[00:00:00.809,139] [1;31m<err> os: Current thread: 0x200008e0 (unknown)[0m
+[00:00:00.883,340] [1;31m<err> os: Halting system[0m

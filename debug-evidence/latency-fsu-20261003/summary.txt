@@ -1,0 +1,51 @@
+== standard ramp, pooled n=4 (latency/ + latency-b/)
+--- 7.5 ms, naive (accepted on=4 off=4)
+  load   0 KB/s | off: p50  11.0  p99  15.0  p99.9  20.8  >30ms   0.0%  timeouts 0  bulk   0.0 | on: p50  11.0  p99  15.0  p99.9  20.8  >30ms   0.0%  timeouts 0  bulk   0.0
+  load  25 KB/s | off: p50  11.0  p99  33.8  p99.9  38.5  >30ms   6.6%  timeouts 0  bulk  24.1 | on: p50  11.0  p99  28.0  p99.9  32.5  >30ms   0.7%  timeouts 0  bulk  24.4
+  load  50 KB/s | off: p50  11.0  p99  37.5  p99.9  46.5  >30ms  16.8%  timeouts 0  bulk  49.1 | on: p50  11.0  p99  29.8  p99.9  37.0  >30ms   1.1%  timeouts 0  bulk  49.4
+  load  75 KB/s | off: p50  11.0  p99  40.5  p99.9  48.2  >30ms  28.8%  timeouts 0  bulk  74.1 | on: p50  11.0  p99  31.2  p99.9  40.0  >30ms   1.7%  timeouts 0  bulk  74.4
+  load 100 KB/s | off: p50  11.0  p99  37.2  p99.9  44.2  >30ms  43.9%  timeouts 0  bulk  99.1 | on: p50  11.0  p99  33.0  p99.9  44.8  >30ms   2.6%  timeouts 0  bulk  99.4
+  load 125 KB/s | off: p50  31.0  p99  38.8  p99.9  46.0  >30ms  66.8%  timeouts 0  bulk 124.1 | on: p50  25.0  p99  31.2  p99.9  38.0  >30ms   2.6%  timeouts 0  bulk 124.3
+  load 150 KB/s | off: p50  32.5  p99  39.5  p99.9  46.2  >30ms  96.0%  timeouts 0  bulk 148.8 | on: p50  26.0  p99  31.5  p99.9  36.8  >30ms   2.2%  timeouts 0  bulk 149.4
+--- 7.5 ms, polite (accepted on=4 off=4)
+  load   0 KB/s | off: p50  11.0  p99  11.0  p99.9  13.0  >30ms   0.0%  timeouts 0  bulk   0.0 | on: p50  11.0  p99  11.0  p99.9  13.0  >30ms   0.0%  timeouts 0  bulk   0.0
+  load  25 KB/s | off: p50  11.0  p99  19.0  p99.9  22.8  >30ms   0.0%  timeouts 0  bulk  24.1 | on: p50  11.0  p99  15.8  p99.9  19.0  >30ms   0.0%  timeouts 0  bulk  24.1
+  load  50 KB/s | off: p50  11.0  p99  19.8  p99.9  24.5  >30ms   0.0%  timeouts 0  bulk  49.1 | on: p50  11.0  p99  16.8  p99.9  20.5  >30ms   0.0%  timeouts 0  bulk  49.1
+  load  75 KB/s | off: p50  11.0  p99  20.2  p99.9  24.8  >30ms   0.0%  timeouts 0  bulk  74.1 | on: p50  11.0  p99  17.0  p99.9  21.8  >30ms   0.0%  timeouts 0  bulk  74.1
+  load 100 KB/s | off: p50  19.0  p99  20.8  p99.9  24.5  >30ms   0.0%  timeouts 0  bulk  99.1 | on: p50  14.8  p99  18.8  p99.9  22.0  >30ms   0.0%  timeouts 0  bulk  99.1
+  load 125 KB/s | off: p50  19.0  p99  21.8  p99.9  26.0  >30ms   0.0%  timeouts 0  bulk 124.2 | on: p50  15.0  p99  18.5  p99.9  20.8  >30ms   0.0%  timeouts 0  bulk 124.2
+  load 150 KB/s | off: p50  19.0  p99  22.0  p99.9  27.5  >30ms   0.0%  timeouts 0  bulk 146.8 | on: p50  15.0  p99  19.0  p99.9  22.2  >30ms   0.0%  timeouts 0  bulk 149.1
+--- 25.0 ms, naive (accepted on=4 off=4)
+  load   0 KB/s | off: p50  46.0  p99  46.2  p99.9  64.8  >30ms 100.0%  timeouts 0  bulk   0.0 | on: p50  46.0  p99  46.0  p99.9  58.5  >30ms 100.0%  timeouts 0  bulk   0.0
+  load  25 KB/s | off: p50  46.0  p99  52.2  p99.9  61.0  >30ms  95.3%  timeouts 0  bulk  24.0 | on: p50  46.0  p99  48.0  p99.9  53.8  >30ms  81.3%  timeouts 0  bulk  24.0
+  load  50 KB/s | off: p50  46.0  p99  53.8  p99.9  67.2  >30ms  98.4%  timeouts 0  bulk  49.0 | on: p50  46.0  p99  48.0  p99.9  49.2  >30ms  62.8%  timeouts 0  bulk  49.0
+  load  75 KB/s | off: p50  32.2  p99  55.2  p99.9  73.8  >30ms  96.8%  timeouts 0  bulk  74.0 | on: p50  26.0  p99  48.0  p99.9  60.5  >30ms  47.5%  timeouts 0  bulk  74.0
+  load 100 KB/s | off: p50  30.2  p99  55.5  p99.9  68.8  >30ms  94.5%  timeouts 0  bulk  99.2 | on: p50  25.0  p99  48.5  p99.9  55.0  >30ms  33.8%  timeouts 0  bulk  99.1
+  load 125 KB/s | off: p50  30.0  p99  56.5  p99.9  65.0  >30ms  97.5%  timeouts 0  bulk 124.2 | on: p50  25.0  p99  48.0  p99.9  59.2  >30ms  24.9%  timeouts 0  bulk 124.2
+  load 150 KB/s | off: p50  30.0  p99  57.0  p99.9  67.5  >30ms  97.4%  timeouts 0  bulk 146.8 | on: p50  25.0  p99  50.2  p99.9  68.2  >30ms  14.6%  timeouts 0  bulk 149.2
+
+== high-load ramp (latency-high/)
+--- 7.5 ms, naive-high (accepted on=2 off=2)
+  load   0 KB/s | off: p50  11.0  p99  11.0  p99.9  15.0  >30ms   0.0%  timeouts 0  bulk   0.0 | on: p50  11.0  p99  11.0  p99.9  19.0  >30ms   0.0%  timeouts 0  bulk   0.0
+  load 140 KB/s | off: p50  31.0  p99  38.5  p99.9  51.5  >30ms  82.7%  timeouts 0  bulk 139.2 | on: p50  26.0  p99  32.0  p99.9  34.0  >30ms   2.0%  timeouts 0  bulk 139.2
+  load 150 KB/s | off: p50  33.0  p99  35.5  p99.9  39.5  >30ms  94.7%  timeouts 0  bulk 149.4 | on: p50  26.0  p99  31.0  p99.9  34.0  >30ms   2.6%  timeouts 0  bulk 149.2
+  load 160 KB/s | off: p50  33.0  p99  40.0  p99.9  42.5  >30ms  99.9%  timeouts 0  bulk 150.1 | on: p50  26.0  p99  30.5  p99.9  34.0  >30ms   1.7%  timeouts 0  bulk 159.2
+  load 170 KB/s | off: p50  33.0  p99  38.0  p99.9  41.0  >30ms 100.0%  timeouts 0  bulk 150.1 | on: p50  26.0  p99  34.0  p99.9  37.5  >30ms   3.8%  timeouts 0  bulk 169.3
+  load 180 KB/s | off: p50  33.0  p99  40.5  p99.9  48.5  >30ms 100.0%  timeouts 0  bulk 149.8 | on: p50  26.0  p99  32.5  p99.9  36.5  >30ms   3.7%  timeouts 0  bulk 179.4
+  load 190 KB/s | off: p50  33.0  p99  39.0  p99.9  41.0  >30ms 100.0%  timeouts 0  bulk 150.8 | on: p50  26.0  p99  33.0  p99.9  34.0  >30ms   2.5%  timeouts 0  bulk 180.4
+--- 7.5 ms, polite-high (accepted on=2 off=2)
+  load   0 KB/s | off: p50  11.0  p99  11.0  p99.9  19.0  >30ms   0.0%  timeouts 0  bulk   0.0 | on: p50  11.0  p99  11.0  p99.9  11.0  >30ms   0.0%  timeouts 0  bulk   0.0
+  load 140 KB/s | off: p50  19.0  p99  24.5  p99.9  26.0  >30ms   0.1%  timeouts 0  bulk 139.4 | on: p50  15.0  p99  19.5  p99.9  23.0  >30ms   0.0%  timeouts 0  bulk 139.2
+  load 150 KB/s | off: p50  19.0  p99  23.5  p99.9  26.0  >30ms   0.0%  timeouts 0  bulk 146.4 | on: p50  15.0  p99  20.5  p99.9  23.5  >30ms   0.0%  timeouts 0  bulk 149.2
+  load 160 KB/s | off: p50  19.0  p99  22.0  p99.9  25.5  >30ms   0.0%  timeouts 0  bulk 146.8 | on: p50  15.0  p99  20.0  p99.9  23.0  >30ms   0.0%  timeouts 0  bulk 159.2
+  load 170 KB/s | off: p50  19.0  p99  25.5  p99.9  26.0  >30ms   0.0%  timeouts 0  bulk 146.6 | on: p50  15.0  p99  19.0  p99.9  22.5  >30ms   0.0%  timeouts 0  bulk 169.4
+  load 180 KB/s | off: p50  19.0  p99  24.0  p99.9  26.0  >30ms   0.0%  timeouts 0  bulk 146.4 | on: p50  15.0  p99  21.0  p99.9  23.0  >30ms   0.0%  timeouts 0  bulk 170.2
+  load 190 KB/s | off: p50  19.0  p99  22.5  p99.9  26.0  >30ms   0.0%  timeouts 0  bulk 146.5 | on: p50  15.0  p99  21.0  p99.9  23.5  >30ms   0.0%  timeouts 0  bulk 169.8
+--- 25.0 ms, naive-high (accepted on=2 off=2)
+  load   0 KB/s | off: p50  46.0  p99  46.0  p99.9  46.5  >30ms 100.0%  timeouts 0  bulk   0.0 | on: p50  46.0  p99  46.0  p99.9  59.0  >30ms 100.0%  timeouts 0  bulk   0.0
+  load 140 KB/s | off: p50  30.0  p99  48.0  p99.9  55.5  >30ms  96.6%  timeouts 0  bulk 139.4 | on: p50  25.0  p99  48.0  p99.9  49.5  >30ms  18.1%  timeouts 0  bulk 139.4
+  load 150 KB/s | off: p50  30.0  p99  50.0  p99.9  56.0  >30ms  98.1%  timeouts 0  bulk 149.4 | on: p50  25.0  p99  48.0  p99.9  50.0  >30ms  13.4%  timeouts 0  bulk 149.5
+  load 160 KB/s | off: p50  30.0  p99  50.0  p99.9  54.0  >30ms  99.4%  timeouts 0  bulk 158.0 | on: p50  25.0  p99  48.0  p99.9  49.5  >30ms  10.8%  timeouts 0  bulk 159.4
+  load 170 KB/s | off: p50  30.0  p99  49.0  p99.9  55.5  >30ms 100.0%  timeouts 0  bulk 158.3 | on: p50  25.0  p99  48.0  p99.9  52.5  >30ms   8.6%  timeouts 0  bulk 169.4
+  load 180 KB/s | off: p50  30.0  p99  48.5  p99.9  55.0  >30ms 100.0%  timeouts 0  bulk 158.4 | on: p50  25.0  p99  48.0  p99.9  50.0  >30ms   5.9%  timeouts 0  bulk 179.4
+  load 190 KB/s | off: p50  30.0  p99  50.5  p99.9  58.5  >30ms 100.0%  timeouts 0  bulk 158.1 | on: p50  25.0  p99  44.0  p99.9  50.0  >30ms   3.9%  timeouts 0  bulk 185.4

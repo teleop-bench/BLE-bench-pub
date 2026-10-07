@@ -1,0 +1,18 @@
+QUARANTINED FULL SMOKE -- NOT an accepted cell. First end-to-end Q2 run through
+the real runner (command-gated startup + RUNTIME observer config + ARMED/GO/
+atomic-snapshot handshake). PIPELINE VALIDATED:
+- Observer flashed ONCE (generic runtime-config Q2), configured over UART to the
+  live connection's AA/CRCInit/ch10 (CONFIG-ECHO matched), 1M.
+- Observer CAPTURED the real connection: 402 records, 201 C->P pairs.
+- ALL structural + config-binding gates PASS (AA match C==P==observer, distinct
+  DEVICEIDs, snapshots bound to role/boottag/ch, 1M, map {10,11}).
+- paired retention 201/211 = 95.3% (denominator = periph resp-opportunity).
+NOT accepted because (refinements, not pipeline faults):
+1. tIFS median 3049 vs synthetic 3039 -> this IS the symmetric control
+   ESTABLISHING tifs_dev=3049 (real link, IQR=8). Analyzer fixed to establish
+   (not gate) tIFS in symmetric mode.
+2. RSSI sep 7dB > 6dB symmetric gate -> physical placement (boards not quite
+   equidistant); reposition for a true symmetric control cell.
+KEY FIX from this smoke: the central auto-upgraded to 2M (CONFIG_BT_AUTO_PHY_
+CENTRAL_2M default) so the observer (1M) saw addr_irq=0. Pinned 1M
+(CONFIG_BT_CTLR_PHY_2M=n) in both apps.

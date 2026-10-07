@@ -1,0 +1,151 @@
+From c65fd7ee93f7b3959a08b4a5e43358ac5ec8bbef Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Fri, 7 Aug 2026 00:36:44 -0500
+Subject: [PATCH 04/16] M0 FSU WORKING: transitional receive windows +
+ RSP-from-effective-state
+
+Two on-air-discovered fixes. (1) Transitional windows (the spec's model,
+absent from the reference): the responder adopts before its RSP, so the
+RSP flies at the NEW spacing while the initiator still listens with old
+timing - without bridging, both ends deadlock at different spacings and
+the link dies 0x08 within seconds (observed 5x/60s). Fix: RX-enable
+adopts the reduced spacing early (initiator at REQ enqueue, both roles at
+adoption) while tifs_hcto stays at the old/default spacing, so both
+timings are heard. Result: 0 disconnects across all subsequent runs.
+(2) The reference clears the request-scratch masks after adoption, and
+encode_fsu_rsp read those cleared fields -> RSP carried phys=0/types=0,
+the initiator matched no branch, committed nothing, reported nothing.
+Fix: mirror masks into fsu.eff unconditionally before clearing; RSP and
+ntf encode from eff; eff masks initialized.
+
+Verified on two nRF54L15-DK: FSU Complete on the host callback,
+status=0x00 spacing=52us phys=0x3 types=0x3, disc=0 - negotiated 52us on
+the fully open stack (below the SDC's 70us floor).
+---
+ subsys/bluetooth/controller/hci/hci.c         |  1 +
+ subsys/bluetooth/controller/ll_sw/ull_conn.c  | 32 +++++++++++++------
+ subsys/bluetooth/controller/ll_sw/ull_llcp.c  | 10 ++++++
+ .../bluetooth/controller/ll_sw/ull_llcp_pdu.c |  6 ++--
+ 4 files changed, 37 insertions(+), 12 deletions(-)
+
+diff --git a/subsys/bluetooth/controller/hci/hci.c b/subsys/bluetooth/controller/hci/hci.c
+index fafbd157263..b253abb7b4f 100644
+--- a/subsys/bluetooth/controller/hci/hci.c
++++ b/subsys/bluetooth/controller/hci/hci.c
+@@ -9203,6 +9203,7 @@ static void le_frame_space_update_complete_encode(struct pdu_data *pdu_data,
+ 	struct bt_hci_evt_le_frame_space_update_complete *sep;
+ 	struct ll_conn *conn;
+ 
++
+ 	if (!(event_mask & BT_EVT_MASK_LE_META_EVENT) ||
+ 	    !(le_event_mask & BT_EVT_MASK_LE_FRAME_SPACE_UPDATE_COMPLETE)) {
+ 		return;
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_conn.c b/subsys/bluetooth/controller/ll_sw/ull_conn.c
+index f8a3c6aee9f..4af28e90c6f 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_conn.c
+@@ -2863,8 +2863,14 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 
+ 	fsu_changed = ull_fsu_update_eff_from_local(conn);
+ 
+-	if (fsu_changed) {
+-		/* TODO: confirm that we do not need to do something here? */
++	/* Mirror the request's masks into the effective state BEFORE any
++	 * clearing below: the RSP and the notification encoders read from
++	 * eff (the request-scratch local.* fields are cleared once applied,
++	 * which used to zero the masks inside the RSP itself).
++	 */
++	if (conn->lll.fsu.local.phys || conn->lll.fsu.local.spacing_type) {
++		conn->lll.fsu.eff.phys = conn->lll.fsu.local.phys;
++		conn->lll.fsu.eff.spacing_type = conn->lll.fsu.local.spacing_type;
+ 	}
+ 
+ 	if ((conn->lll.fsu.local.spacing_type & T_IFS_CIS) == T_IFS_CIS) {
+@@ -2891,7 +2897,15 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 					fsu_changed = 1;
+ 				}
+ 				conn->lll.tifs_rx_us = conn->lll.fsu.eff.fsu_min;
+-				conn->lll.tifs_hcto_us = conn->lll.fsu.eff.fsu_min;
++				/* M0 transitional receive window: RX enables at
++				 * the new (reduced) spacing, but the header
++				 * timeout stays at the old/default spacing so
++				 * a peer that has not yet adopted is still
++				 * heard (the spec's transitional windows).
++				 */
++				conn->lll.tifs_hcto_us =
++					MAX(EVENT_IFS_DEFAULT_US,
++					    conn->lll.fsu.eff.fsu_min);
+ 			}
+ 		}
+ 	}
+@@ -2904,7 +2918,10 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 					fsu_changed = 1;
+ 				}
+ 				conn->lll.tifs_rx_us = conn->lll.fsu.eff.fsu_min;
+-				conn->lll.tifs_hcto_us = conn->lll.fsu.eff.fsu_min;
++				/* Transitional window: see comment above. */
++				conn->lll.tifs_hcto_us =
++					MAX(EVENT_IFS_DEFAULT_US,
++					    conn->lll.fsu.eff.fsu_min);
+ 			}
+ 		} else {
+ 			if (conn->lll.fsu.local.phys & phy_tx) {
+@@ -2917,11 +2934,6 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 		}
+ 	}
+ 	if (fsu_changed == 1) {
+-		/* Preserve what changed for the notification encoder before
+-		 * clearing the request-scratch fields.
+-		 */
+-		conn->lll.fsu.eff.phys = conn->lll.fsu.local.phys;
+-		conn->lll.fsu.eff.spacing_type = conn->lll.fsu.local.spacing_type;
+ 		conn->lll.fsu.local.phys = 0;
+ 		conn->lll.fsu.local.spacing_type = 0;
+ 	}
+@@ -2969,6 +2981,8 @@ uint8_t ull_fsu_init(struct ll_conn *conn)
+ 	conn->lll.fsu.local.fsu_max = EVENT_IFS_MAX_US;
+ 	conn->lll.fsu.eff.fsu_min = EVENT_IFS_US;
+ 	conn->lll.fsu.eff.fsu_max = EVENT_IFS_US;
++	conn->lll.fsu.eff.phys = 0x07;
++	conn->lll.fsu.eff.spacing_type = T_IFS_ACL_PC | T_IFS_ACL_CP;
+ 	for (size_t i = 0; i < 3; i++) {
+ 		conn->lll.fsu.perphy[i].fsu_min = EVENT_IFS_US;
+ 		conn->lll.fsu.perphy[i].fsu_max = EVENT_IFS_US;
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp.c b/subsys/bluetooth/controller/ll_sw/ull_llcp.c
+index 21a3f7d779f..a7ca66aa909 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp.c
+@@ -967,6 +967,16 @@ uint8_t ull_cp_fsu(struct ll_conn *conn, uint16_t fsu_min, uint16_t fsu_max,
+ 
+ 	ull_fsu_local_tx_update(conn, fsu_min, fsu_max, phys, spacing_type);
+ 
++	/* M0 transitional receive window (initiator side): the responder
++	 * adopts the selected spacing BEFORE transmitting its RSP, so the
++	 * RSP itself can arrive at any spacing down to the requested
++	 * minimum. Enable RX early now; the header timeout keeps covering
++	 * the old spacing (not shrunk here), so both timings are heard.
++	 */
++	if (fsu_min < conn->lll.tifs_rx_us) {
++		conn->lll.tifs_rx_us = fsu_min;
++	}
++
+ 	llcp_lr_enqueue(conn, ctx);
+ 
+ 	return BT_HCI_ERR_SUCCESS;
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c b/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
+index f7444d89139..37b8a08862d 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
+@@ -754,9 +754,9 @@ void llcp_pdu_encode_fsu_rsp(struct ll_conn *conn, struct pdu_data *pdu)
+ 	pdu->llctrl.opcode = PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_RSP;
+ 	p = &pdu->llctrl.fsu_rsp;
+ 
+-	p->fsu = sys_cpu_to_le16(conn->lll.fsu.local.fsu_min);
+-	p->phys = conn->lll.fsu.local.phys;
+-	p->spacing_type = sys_cpu_to_le16(conn->lll.fsu.local.spacing_type);
++	p->fsu = sys_cpu_to_le16(conn->lll.fsu.eff.fsu_min);
++	p->phys = conn->lll.fsu.eff.phys;
++	p->spacing_type = sys_cpu_to_le16(conn->lll.fsu.eff.spacing_type);
+ }
+ 
+ void llcp_ntf_encode_fsu_change(struct ll_conn *conn, struct pdu_data *pdu)

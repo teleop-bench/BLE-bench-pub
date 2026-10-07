@@ -1,0 +1,283 @@
+§6.1 physical-timing (TIMER CC0 proxy) — 2026-08-08.
+Instrument: controller shared EVENT_TIMER, radio_tmr_ready_get() (CC0)
+read at lll_conn_isr_tx start (RX-PHYEND -> TX-READY interval). Verified:
+HAL_EVENT_TIMER_READY_TASK=CAPTURE0, CC_OFFSET=0 -> ready_get reads the
+READY capture. cc0 was PHY-INDEPENDENT (120 us at phy=1 AND phy=2), which SUPPORTS
+(does NOT prove) that cc0 is the tIFS gap rather than a per-PHY ramp.
+Analyzer-free (serial), stable.
+
+BASELINE SMOKE / CALIBRATION (NOT a passed Gate 1 — the prereg needs two
+independent connections + the histogram-snapshot acceptance (rev-3
+amendment), and this had one connection, no accepted snapshot): configured tifs=150 -> cc0=120 us, ZERO spread
+over 130+ records. The ~30 us offset (120 vs 150) is the fixed
+READY-before-RF-bit radio-chain time, as predicted; delta primary,
+absolute calibration. PHY-independence (120 at phy 1 AND 2) SUPPORTS but
+does not PROVE CC0 is the intended gap.
+
+FLAGSHIP ARM (2M, 150->52): INCOMPLETE — RETRACTED as evidence. The
+COMMITTED periph log (tifs-2m52-periph.log) contains 137 tifs=150 records
+and ZERO accepted tifs=52 records; under the frozen rules the reduced arm
+is incomplete, NOT a neutral null. The earlier "n=21 tifs=52, cc0=120"
+was an UNARCHIVED screen observation (non-evidentiary), NOT committed data.
+Moreover the rev-1 instrument had a PAIRING BUG (review): CC0 is the RX->TX
+switch that just completed, while lll->tifs_tx_us read in isr_tx programs
+the NEXT switch — so a transient tifs=52,cc0=120 could be a one-transition
+metadata phase mismatch, not H1 or H2. NO interpretation stands.
+
+INSTRUMENT REV 2 (2026-08-08, fixes both): (a) pairing — latch the
+programmed tifs and attach it to the FOLLOWING CC0 (tifs_prog_prev);
+(b) BOUNDED ISR-side per-tifs histograms with EXPLICIT loss accounting
+(a global dropped counter; acceptance requires drop=0) replace the
+silently-overflowing 256-ring (rev-1 seq jumped 2->1539). (Rev 3/4 later:
+exact 1 us bins, freeze-then-snapshot, atomic clear.) Re-run required
+before any claim.
+
+STATUS: INCOMPLETE — NO FSU-application verdict. H1 (FSU-apply gap) and H2 (instrument blind) are PROSPECTIVE rerun OUTCOMES, not hypotheses supported by any current evidence. Nothing about FSU physical application is claimed. The two PROSPECTIVE
+rerun outcomes:
+  H1: FSU updates lll->tifs_tx_us but the peripheral radio does NOT
+      physically apply the reduced RX->TX turnaround (a real negative;
+      would need reconciling with the CENTRAL-side indirect evidence
+      +5.72%/cgap step, which measured the central's TX/CP direction).
+  H2: cc0 does not resolve a real tifs change (instrument blind), despite
+      being PHY-independent and stable.
+REQUIRED before any interpretation (reviewer discipline: don't explain a
+null away; validate with a POSITIVE CONTROL): force a KNOWN physical tifs
+change on the peripheral via a non-FSU path (e.g. the STOCK non-spec low-latency
+path (1 ms interval; ull_conn_update_parameters sets tifs to 52; NOT a
+"standard" path — it is Zephyr's non-spec low-latency mode; a
+PREVIOUSLY DEMONSTRATED stock scheduler reduction, strong behavioral/
+mechanistic evidence, NOT independent on-air ground truth) and confirm
+cc0 MOVES. If cc0 tracks that -> instrument VALIDATED (only). H1 is then
+NOT yet supported: it requires a SUBSEQUENT properly-paired FSU arm that
+repeats FLAT while the control moved. If cc0 stays 120 -> instrument
+blind (H2) -> retire the proxy (sniffer or defer). Positive control
+pending.
+
+
+OUTSTANDING before interpretation (review): (1) capture-DISABLED
+perturbation control — a build with BT_CTLR_TIFS_CAPTURE_BENCH=n must show
+unchanged link health AND completion-gap; (2) the rev-2 positive control
+(below) proving CC0 MOVES on a known physical tifs change; (3) histogram-snapshot
+acceptance per the rev-3 amendment (drop=0, n_valid>=5); (4) >=2
+reset-isolated connections per arm.
+
+POSITIVE CONTROL — ATTEMPTED 2026-08-08, BLOCKED (control conditions NOT met).
+Goal: a KNOWN physical tifs change via the stock non-spec low-latency path
+(2M/1 ms, configured 150 vs 52), to prove CC0 resolves it. Autonomous,
+serial-only (no analyzer/wiring). Sequence of findings:
+- Central go_fast made config-gated (CONFIG_APP_GO_FAST_1MS -> pin_interval
+  =false); first attempt: 'param update ->1ms rc=-22' (host EINVAL: sub-6
+  interval needs BT_CONN_PARAM_ANY).
+- Added BT_CONN_PARAM_ANY (+CONN_INTERVAL_LOW_LATENCY) to central: request
+  now 'param update ->1ms rc=0'. Added BT_CONN_PARAM_ANY to the periph too.
+- RESULT (arms b52, multiple runs): central requests 1 ms (rc=0) but the
+  PERIPH NEVER APPLIES IT — no 'interval now', 'GAP connected interval=7500'
+  persists, tifs stays 150 (cc0=120), and exchange is sparse (~8 valid
+  RX->TX in 40 s). Logs: pc-1ms-blocked-{central,periph}.log.
+INTERPRETATION: the 2M/1 ms low-latency operating point does NOT engage on
+this rig in this config — the DOCUMENTED §13 intermittent-1ms-establishment
+problem (never made reliable across prior sessions), an INDEPENDENT
+hardware/firmware-reliability blocker, NOT an instrument problem. Because
+the periph tifs never actually changed to 52, the CONTROL CONDITIONS WERE
+NEVER MET: the flat cc0=120 is EXPECTED and UNINFORMATIVE (it does NOT
+support H2/instrument-blind, and says nothing about FSU).
+STATUS: positive control DEFERRED (not failed-flat). The instrument is
+execution-ready; validating it requires a rig/config where the low-lat
+52 us path reliably engages (a §13 problem), or a different known-physical
+tifs reference, or the sniffer. No FSU-application claim is possible until
+the instrument is validated. Central pin_interval change is CONFIG-gated
+(default off); tree otherwise unchanged.
+
+SNIFFER PATH — ATTEMPTED 2026-08-08, not viable for the FSU on-air gate.
+Dongle (nRF52840) reset to DFU, flashed nRF Sniffer fw 4.1.1 via nrfutil
+ble-sniffer; enumerated OK (port ...31401). CORRECTION (2026-08-08, review): this first capture is INVALIDATED by a
+FOLLOW-SETUP RACE and tests NOTHING about FSU following. The nrfutil log
+shows "No device with name z54-lat found. Can't send follow request call."
+at invocation; z54-lat (addr d6:c7:60:b1:d3:0e) only APPEARED ~1 s later
+with is_followed:false. The sniffer stayed in SCANNING and never entered
+FOLLOWING. The 1317 packets are AMBIENT advertising (multiple devices),
+correctly: 803 ADV_IND + 509 ADV_NONCONN_IND + 2 SCAN_RSP + 0 CONNECT_IND
+(the earlier "509 SCAN_RSP" was wrong). Evidence: sniffer-advonly.pcap
+(INVALID for the FSU test; retained as the race artifact).
+RETRACTED (unsupported): "firmware fundamentally assumes 150 us tIFS" (the
+fw is a closed binary; no authoritative source; lack of FSU DECODING would
+not necessarily prevent RECEIVING/timestamping). "2M-follow is impossible"
+(Nordic docs: the sniffer can follow on ANY PHY, may miss connect requests
+and need retries; a following regression was fixed before the installed
+plugin 0.20.0). SEARCH WORDING: our search on 2026-08-08 found no public
+capture or published reduced-frame-spacing measurement; note commercial
+analyzers (Ellisys) DO advertise explicit FSU support + frame-space-change
+qualification tests, so "no precedent" is scoped to open/hobbyist capture.
+STATUS: nRF-sniffer suitability for FSU is UNRESOLVED (not disproven). A
+Core-6-aware commercial analyzer (Ellisys/Frontline) is the lowest-risk
+qualified route; ONE controlled nRF retry remains warranted (follow by
+exact address, confirm is_followed:true, test 1M/150 -> 2M/150 -> 2M
+FSU 150->52). Physical gate OPEN; indirect evidence (+5.72%, cgap step)
+stands with caveats. M0 may close operationally at the indirect level, but
+NOT on the basis that this capture proved the nRF path impossible.
+
+CONTROLLED SNIFFER RETRY (2026-08-08) — WORKS; on-air OBSERVATION (for review).
+Follow by EXACT address d6:c7:60:b1:d3:0e (not name); log confirms
+SCANNING->FOLLOWING and a followed CONNECTION (conn AA 0x306596fa, 7309
+packets, 28 s, NO sync loss through the whole run). This REFUTES the
+earlier retracted "sniffer can't follow" claim: the nRF sniffer DID follow
+the 2M/7.5ms connection and measured the on-air inter-frame gap with real
+sub-us jitter. Correlated central serial: FSU negotiated + HCI-confirmed
+'FSU: updated status=0x00 spacing=52 us'. Evidence: tifs-onair-2m52.pcap +
+tifs-onair-2m52-central.log.
+ON-AIR tIFS: n=3549 tIFS-scale gaps, median 151 us, mean 150.5, min 148
+max 151, stdev 0.50 (bimodal 150/151 = 1us quantization of ~150.5). ZERO
+gaps in [40,70] us out of 7309 packets. The on-air spacing stayed 150 us
+for the ENTIRE connection INCLUDING >15 s after FSU 'updated spacing=52'.
+OBSERVATION (NOT yet a verdict): the M0 controller negotiates + HCI-reports
+FSU spacing=52 but the reduced tIFS does NOT appear on air (stays 150 us).
+This INDEPENDENTLY corroborates the earlier TIMER-proxy hint (cc0 unchanged
+at 120) via a completely different, direct-RF instrument. It TENSIONS with
+the 1M indirect evidence (+5.72% throughput, -102/-103us cgap step,
+150->100) that was read as "spacing reaches the air" — reconciliation
+UNRESOLVED (PHY/spacing-dependent application at 1M/100 vs 2M/52? or the
+indirect cgap/throughput were not air-spacing after all?).
+REMAINING VALIDATION before a verdict: an on-air POSITIVE CONTROL — the
+sniffer reading a KNOWN non-150 spacing (e.g. the stock 1ms/52us low-lat
+path, if the sniffer can follow it) to prove it RESOLVES sub-150 gaps.
+The real sub-us jitter argues the instrument genuinely measures, but a
+positive control is required to exclude a sniffer-side floor. Physical
+gate: strongly suggestive on-air NEGATIVE, pending that control + the
+1M-vs-2M reconciliation.
+
+CORRECTION (2026-08-08, review) — the on-air OBSERVATION above is RETRACTED
+as a capture-incomplete artifact, NOT a physical null. Decisive pcap facts
+(verified): LL_FRAME_SPACE_REQ (ctrl 0x3b) at 11.185 s; NO LL_FRAME_SPACE_
+RSP (0x3c) anywhere in the pcap, YET the central logs FSU completion (which
+this controller emits ONLY after receiving the RSP) -> the sniffer MISSED
+at least the decisive response packet. Peripheral-direction capture
+collapsed immediately after the REQ (per review: ~3 periph packets over the
+~190 events from REQ to the update instant, vs ~480 before). Then
+LL_CONNECTION_UPDATE_IND (0x00) at 12.557 s (instant ~event 674) — and the
+project's OWN Kconfig warns a later param update SILENTLY RESTORES default
+tIFS (z54-lat-central/Kconfig APP_SDC6X_DELAY_S note; the GAP auto-update
+landed AFTER FSU because APP_SDC6X_DELAY_S=3 < the ~5 s GAP update). Normal
+peripheral capture RESUMED at the update instant at 150-151 us — i.e. AFTER
+the FSU setting was likely REVERTED, not "15 s of FSU-at-52". The 3549-gap
+"zero 52 us" population is conditioned on packets the sniffer RECEIVED;
+missing reduced-spacing responses cannot enter it, so it CANNOT distinguish
+"no 52 us transmissions" from "52 us transmissions the sniffer failed to
+capture". The 150/151 jitter proves quantized/nonconstant timestamps, NOT
+that 52 us arrivals are detectable. The TIMER result is NOT independent
+corroboration (its null was retracted for a pairing bug; corrected
+instrument has no accepted data). NET: this run CANNOT determine whether
+52 us reached the air. The +5.72% / cgap indirect result is NOT demoted by
+this capture.
+NEXT (properly ordered): (1) rerun 2M with the param update COMPLETED
+BEFORE FSU (APP_SDC6X_DELAY_S=12 or suppress BT_GAP_AUTO_UPDATE_CONN_PARAMS)
+so the FSU-active window is stable and fully captured; (2) a reproducible
+analyzer reporting packets-per-direction/event + the REQ/RSP/UPDATE/INSTANT
+chronology; HCI-completion WITHOUT a captured RSP = INCOMPLETE capture, not
+a physical null; (3) capture the actual 1M/53.75ms 150->100 mechanism
+geometry to address the headline directly (no flaky 1 ms regime).
+
+FIXED 2M RERUN (2026-08-08, tifs-onair-2m52-fixed.pcap + -fixed-central.log;
+central APP_SDC6X_DELAY_S=12, FSU after the GAP update). CLEANER: BOTH
+directions captured throughout (dirFalse=3123 / dirTrue=3294, no periph
+collapse), no revert. Central HCI confirms FSU spacing=52. On-air tIFS =
+150-151 us across the ENTIRE 25 s including the FSU-active window (>12 s),
+ZERO gaps in [40,70] us of 6416 packets. BUT STILL CANNOT DETERMINE on-air
+spacing, for two standing reasons: (a) the sniffer MISSED ALL control PDUs
+this run (no REQ/RSP/UPDATE captured), so the FSU moment cannot be pinned
+in the pcap and HCI-vs-sniffer clocks are unsynchronized; (b) reviewer
+point 5 UNADDRESSED: the captured-packet population is conditioned on what
+the (demonstrably lossy) sniffer received - in run 1 it dropped the entire
+peripheral direction during the FSU window - so "zero 52 us gaps" cannot
+distinguish NO 52-us transmissions from 52-us transmissions the sniffer
+FAILED TO CAPTURE, absent an on-air POSITIVE CONTROL proving it resolves
+sub-150 spacing. NET across both 2M runs: the nRF sniffer is too LOSSY
+(drops sparse control PDUs; intermittently drops a direction) and
+UNVALIDATED for sub-150 capture to serve as the qualified FSU on-air gate.
+This is NOT evidence that 52 us failed to reach air. Lowest-risk qualified
+route remains a Core-6-aware commercial analyzer (Ellisys/Frontline). The
++5.72%/cgap indirect result stands, undemoted.
+
+CORRECTION 2 (2026-08-08, review) — the "fixed rerun" conclusion in the
+entry above is ALSO RETRACTED. The hardened analyzer (analyze_onair.py
+rev 2) shows BOTH on-air pcaps are NON-MONOTONIC (a backward timestamp
+jump = two capture sessions concatenated into one file: a
+capture-METHODOLOGY artifact of my sniffer runner, not a property of the
+link). The rev-1 analyzer mis-selected the STALE frequent AA 0x306596fa
+(6417 pkts, no CONNECT_IND) instead of the real target 0x951a8f0f
+(CONNECT_IND to d6:c7:60:b1:d3:0e), which spanned only 1.830->7.125 s and
+ENDED (disconnect ~6.8 s) BEFORE FSU fired (~14 s) - so that pcap contains
+NO FSU procedure on the accepted connection. Also: the nominal 12 s delay
+did not apply cleanly to the eventual connection (first conn disconnected
+with delayed work pending; FSU fired ~6 s after the SECOND subscribe -
+FSU work should be cancelled on disconnect and re-scheduled per
+connection). Both pcaps QUARANTINED (REJECTED-*). 
+RETRACTED: "the nRF sniffer is too lossy / a dead end." NOT SUPPORTED -
+both runs were invalid/incomplete for METHODOLOGY reasons; they neither
+confirm nor refute reduced on-air spacing, and provide NO evidence about
+the sniffer's fitness. The nRF-sniffer route is UNRESOLVED. Analyzer rev 2
+now enforces: reject non-monotonic; select AA from the target CONNECT_IND
+(never by frequency); require the connection to span FSU_REQ; exit nonzero
+on INCOMPLETE (HCI completion w/o captured RSP); parse the update INSTANT
+(window ends at the instant event, not the update-PDU event); tIFS only
+from CRC-good, consecutive, opposite-direction, same-event pairs.
+
+M0 OPERATIONAL CLOSURE (indirect-evidence level): M0 CORE implementation
+and indirect bench evaluation are complete; the EXECUTED Phase-5 CORE
+cells (payoff A/B, duplex D-cell, 1M mechanism) + patch export are
+complete. The ORIGINAL FULL Phase 5 is NOT complete: on-air capture, the
+load-ramp arm, document propagation, and the host-shim patch split remain
+open as named follow-ups (fsu-m0-plan.md header + Phase-6 roadmap). The +5.72% throughput result and
+-102/-103 us completion-gap response remain PROVISIONAL MECHANISTIC
+evidence. Direct on-air qualification remains OPEN. Two nRF-sniffer
+attempts were invalid or incomplete; they neither confirm nor refute
+reduced on-air spacing. A Core-6-aware commercial analyzer
+(Ellisys/Frontline) is the lowest-risk qualified route. No prior public
+result was found in the 2026-08-08 search (dated-search wording; NOT a
+"novelty" claim).
+
+SDC INSTRUMENT-QUALIFICATION ATTEMPT (2026-08-08) — result: the packaged
+nRF sniffer is UNQUALIFIED for this measurement in the tested config;
+this run is INCOMPLETE for measuring post-FSU spacing (NOT a proof of a
+physical 70us inability). Setup: SDC (NCS v3.4.0, BT_LL_SOFTDEVICE=y) as a
+reference that NEGOTIATES FSU (HCI-verified; its +15% throughput is
+HCI-verified/on-air-pending, NOT independent physical proof of 70us on
+air, so the control is "does the sniffer capture a connection after an
+HCI-CONFIRMED SELECTION of 70us"). Central requested [70..150]; a SYNCHRONIZED central log
+(pc-sdc70-sync-central.log) confirms 'FSU: updated spacing=70' DURING the
+capture (its raw first line has a malformed/stale t=111s/905s prefix from
+before the run - the accepted window begins at 'GAP connected
+interval=7500'; derived run-only log: pc-sdc70-sync-central-runonly.log). A stale, NON-MONOTONIC prefix was present in the raw pcap (a few
+dozen frames at an out-of-range timestamp); ownership UNDETERMINED (sniffer
+buffering vs the earlier runner-concatenation defect); stripped via editcap
+-> pc-sdc70-sync-fresh.pcap (monotonic 0-43s). Conn AA 0x4aa12b07,
+FSU_REQ (0x3b) at event 1691.
+NUMERICAL OBSERVATION (preserved, synchronized run):
+  BEFORE FSU (event<1691): 3338 pkts, BOTH directions (True 1692 / False
+    1646); 1648 paired CRC-good opposite-dir same-event gaps, median 150us.
+  AFTER  FSU (event>1691): connection continued (3109 pkts / ~23 s) but
+    ONE reported direction only (True 3109 / False 0); ZERO paired gaps.
+  (Earlier non-synchronized run pc-sdc70-fresh.pcap showed the same
+  3023-vs-1 pattern; its central log was captured too late - HCI=False -
+  so by the analyzer's own gate that run is INCOMPLETE/REJECTED.)
+DEFENSIBLE STATEMENT (mechanism NOT isolated): after the FSU request this
+sniffer/setup CEASED PROVIDING PAIRED BIDIRECTIONAL PACKETS, so it cannot
+measure the resulting spacing. This does NOT distinguish RF receive
+turnaround vs follower scheduling vs firmware assumptions vs decoding/
+filtering vs direction bookkeeping vs another post-request state change;
+"cannot catch the 2nd packet at 70us" and "same mechanism explains every
+earlier collapse" are RETRACTED as overclaims.
+DECISION: per the reviewer stop-rule, RETIRE the packaged nRF sniffer for
+this measurement (unqualified in the tested configuration). The earlier
+open-stack 2M/52 periph-direction collapse is CONSISTENT WITH this
+qualification failure (so those runs are instrument-limited; they CANNOT be interpreted as physical
+nulls) - stated as consistency, not proof of a shared mechanism.
+INSTRUMENT REQUIREMENT (corrected): for the SPACING measurement an observer
+only needs to capture BOTH packets at 52/70us with TRUSTWORTHY HARDWARE
+TIMESTAMPS; full Bluetooth-6 decoding is needed for PROCEDURE analysis, not
+for the physical gap. Affordable candidates: Sniffle on TI CC1352/CC26x2,
+or a 3rd nRF54L15-DK as a raw single-channel RADIO/TIMER timestamp
+observer. Ellisys/Frontline remains the strongest external route.
+The +5.72% / completion-gap result is UNCHANGED provisional indirect
+evidence. Evidence: pc-sdc70-sync.pcap (raw), pc-sdc70-sync-fresh.pcap
+(stripped), pc-sdc70-sync-central.log (synchronized HCI); earlier
+pc-sdc70-0.pcap / -fresh / -central retained (HCI-unsynchronized).

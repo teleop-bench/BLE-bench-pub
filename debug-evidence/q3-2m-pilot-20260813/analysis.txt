@@ -1,0 +1,17 @@
+=== STRUCTURAL GATES ===
+  [PASS] exactly one CAPTURE-START  (1)
+  [PASS] exactly one CAPTURE-END  (1)
+  [PASS] exactly one FROZEN  (1)
+  [PASS] capture duration ~ declared cap  (30004ms vs cap=30000ms)
+  [PASS] no malformed REC  (0)
+  [PASS] FROZEN & LOSS present  ()
+  [PASS] parsed==FROZEN==LOSS records  (parsed=2048 frozen=2048 loss=2048)
+  [REJECT] ring_full_drops==0  ()
+  [REJECT] LOSS.addr_minus_end==0  (1)
+  [PASS] LOSS.end_minus_recorded==0  (0)
+  [PASS] LOSS.reversal==0  (0)
+  [PASS] LOSS.stale_addr==0  (0)
+  [PASS] oseq contiguous  ()
+=== REJECT: structural ===
+
+=== analyzer exit 3; cell verdict REJECT (obs_image_verified=True endpoint_builds_valid=True quarantine_reason=analyzer-fail) ===

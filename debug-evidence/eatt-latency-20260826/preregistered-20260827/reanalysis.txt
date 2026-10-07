@@ -1,0 +1,26 @@
+== PER-LINE preregistered gate ==
+  on1: 452 lines, per-line late_pong>tot_to=0, before-first-timeout=0 -> PASS
+  on2: 452 lines, per-line late_pong>tot_to=0, before-first-timeout=0 -> PASS
+  off1: 452 lines, per-line late_pong>tot_to=0, before-first-timeout=0 -> PASS
+  off2: 452 lines, per-line late_pong>tot_to=0, before-first-timeout=0 -> PASS
+  GATE (per-line, all arms): PASS
+
+== PER-REPLICATE at 150 KB/s (saturation) — directional stability check ==
+  on1: >30+to=86.6%  >100+to=65.9%  to=11.9%  median=141
+  on2: >30+to=85.9%  >100+to=66.7%  to=13.6%  median=152
+  off1: >30+to=80.3%  >100+to=73.0%  to=5.1%  median=193
+  off2: >30+to=90.6%  >100+to=82.0%  to=16.9%  median=193
+  -> severe tail (>100+to) ON 66/67 < OFF 73/82 : REPLICATES
+  -> >30+to and timeout: NOT directionally stable (OFF2 exceeds ON on both).
+  -> saturated median = median of run medians ON median([141,152])=146.5 vs OFF 193/193
+
+== POOLED timeout-inclusive (ON=on1+on2, OFF=off1+off2) ==
+ load | ON>30+to OFF>30+to | ON>100+to OFF>100+to | ONmed* OFFmed* | ONto% OFFto%
+    0 |     0.6%      0.6% |      0.0%       0.0% |    26      26 |  0.0%   0.0%
+   25 |     7.3%      4.8% |      1.5%       2.7% |    26      26 |  0.0%   0.0%
+   50 |    11.3%     10.2% |      6.6%       6.4% |    26      26 |  0.5%   0.4%
+   75 |    18.2%     15.7% |      9.5%       9.7% |    26      26 |  1.1%   0.4%
+  100 |    28.3%     25.4% |     17.6%      18.9% |    26      26 |  2.6%   0.7%
+  125 |    45.5%     40.2% |     32.5%      35.2% |    26      26 |  6.2%   3.6%
+  150 |    86.3%     85.1% |     66.3%      77.2% |   146     193 | 12.8%  10.6%
+*med = median of the two run medians (NOT a pooled sample median).

@@ -1,0 +1,39 @@
+=== rebuild (renamed counter + matching-seq fix) ===
+BUILT p2on-cen
+BUILT p2on-per
+BUILT p2off-cen
+BUILT p2off-per
+=== smoke: eatt>=2 ===
+-- runners.nrfutil: Board(s) with serial number(s) 1057719509 flashed successfully.
+-- runners.nrfutil: Board(s) with serial number(s) 1057794857 flashed successfully.
+captured p2_smoke
+smoke eatt=4
+=== ABBA ramps ===
+-- runners.nrfutil: Board(s) with serial number(s) 1057719509 flashed successfully.
+-- runners.nrfutil: Board(s) with serial number(s) 1057794857 flashed successfully.
+captured p2_on1
+-- runners.nrfutil: Board(s) with serial number(s) 1057719509 flashed successfully.
+-- runners.nrfutil: Board(s) with serial number(s) 1057794857 flashed successfully.
+captured p2_off1
+-- runners.nrfutil: Board(s) with serial number(s) 1057719509 flashed successfully.
+-- runners.nrfutil: Board(s) with serial number(s) 1057794857 flashed successfully.
+captured p2_off2
+-- runners.nrfutil: Board(s) with serial number(s) 1057719509 flashed successfully.
+-- runners.nrfutil: Board(s) with serial number(s) 1057794857 flashed successfully.
+captured p2_on2
+=== PREREGISTERED GATE + timeout-inclusive analysis ===
+GATE p2_on1: (a)no-late-pong-before-timeout=PASS  (b)late_pong(124)<=timeouts(159)=PASS
+GATE p2_on2: (a)no-late-pong-before-timeout=PASS  (b)late_pong(98)<=timeouts(125)=PASS
+GATE p2_off1: (a)no-late-pong-before-timeout=PASS  (b)late_pong(50)<=timeouts(71)=PASS
+GATE p2_off2: (a)no-late-pong-before-timeout=PASS  (b)late_pong(72)<=timeouts(99)=PASS
+PREREGISTERED GATE: PASS — VALID
+
+ load | ON>30+to OFF>30+to | ON>100+to OFF>100+to | ONmed OFFmed | ONto% OFFto%
+    0 |     0.6%      0.6% |      0.0%       0.0% |    26     26 |  0.0%   0.0%
+   25 |     7.3%      4.8% |      1.5%       2.7% |    26     26 |  0.0%   0.0%
+   50 |    11.3%     10.2% |      6.6%       6.4% |    26     26 |  0.5%   0.4%
+   75 |    18.2%     15.7% |      9.5%       9.7% |    26     26 |  1.1%   0.4%
+  100 |    28.3%     25.4% |     17.6%      18.9% |    26     26 |  2.6%   0.7%
+  125 |    45.5%     40.2% |     32.5%      35.2% |    26     26 |  6.2%   3.6%
+  150 |    86.3%     85.1% |     66.3%      77.2% |   146    193 | 12.8%  10.6%
+=== EATT-RERUN2 DONE ===

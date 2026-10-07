@@ -1,0 +1,66 @@
+open rule A: CoC fit 19/20 cells within 2.5% for P in [182,360] us (gaps in range possible); at P=272: GATT out-of-sample 9/10
+open rule B: CoC fit 9/20 cells within 2.5% for P in [0,268] us (gaps in range possible); at P=134: GATT out-of-sample 4/10
+sdc rule A: CoC fit 20/20 cells within 2.5% for P in [1272,1302] us (gaps in range possible); at P=1288: GATT out-of-sample 10/10
+sdc rule B: CoC fit 19/20 cells within 2.5% for P in [316,346] us (gaps in range possible); at P=332: GATT out-of-sample 9/10
+
+cell                                meas   model   err% n_model
+coc|batch|open|6|off               155.8   156.2   -0.3       5
+coc|batch|open|6|on                186.9   187.5   -0.3       6
+coc|batch|open|12|off              155.4   156.2   -0.6      10
+coc|batch|open|12|on               186.2   187.5   -0.7      12
+coc|batch|open|20|off              168.0   168.8   -0.4      18
+coc|batch|open|20|on               195.0   196.9   -1.0      21
+coc|batch|open|30|off              166.4   168.8   -1.4      27
+coc|batch|open|30|on               191.2   193.8   -1.3      31
+coc|batch|open|40|off              167.5   168.8   -0.8      36
+coc|batch|open|40|on               191.7   196.9   -2.6      42
+coc|seg|open|6|off                 155.8   156.2   -0.3       5
+coc|seg|open|6|on                  155.9   156.2   -0.2       5
+coc|seg|open|12|off                156.0   156.2   -0.2      10
+coc|seg|open|12|on                 186.6   187.5   -0.5      12
+coc|seg|open|20|off                158.2   159.4   -0.8      17
+coc|seg|open|20|on                 185.6   187.5   -1.0      20
+coc|seg|open|30|off                160.3   162.5   -1.4      26
+coc|seg|open|30|on                 185.0   187.5   -1.3      30
+coc|seg|open|40|off                161.7   164.1   -1.5      35
+coc|seg|open|40|on                 183.6   187.5   -2.1      40
+gatt|gatt|open|6|off               157.5   158.9   -0.9       5
+gatt|gatt|open|6|on                189.4   190.6   -0.7       6
+gatt|gatt|open|12|off              158.0   158.9   -0.5      10
+gatt|gatt|open|12|on               189.6   190.6   -0.5      12
+gatt|gatt|open|20|off              157.9   162.0   -2.6      17
+gatt|gatt|open|20|on               189.2   190.6   -0.7      20
+gatt|gatt|open|30|off              164.4   165.2   -0.5      26
+gatt|gatt|open|30|on               195.5   197.0   -0.8      31
+gatt|gatt|open|40|off              165.0   166.8   -1.1      35
+gatt|gatt|open|40|on               192.4   195.4   -1.5      41
+coc|batch|sdc|6|off                124.6   125.0   -0.3       4
+coc|batch|sdc|6|on                 156.2   156.2   -0.0       5
+coc|batch|sdc|12|off               155.9   156.2   -0.2      10
+coc|batch|sdc|12|on                171.5   171.9   -0.2      11
+coc|batch|sdc|20|off               158.6   159.4   -0.5      17
+coc|batch|sdc|20|on                177.3   178.1   -0.4      19
+coc|batch|sdc|30|off               161.1   162.5   -0.9      26
+coc|batch|sdc|30|on                185.9   187.5   -0.9      30
+coc|batch|sdc|40|off               162.3   164.1   -1.1      35
+coc|batch|sdc|40|on                186.0   187.5   -0.8      40
+coc|seg|sdc|6|off                  124.8   125.0   -0.2       4
+coc|seg|sdc|6|on                   125.0   125.0   +0.0       4
+coc|seg|sdc|12|off                 139.8   140.6   -0.6       9
+coc|seg|sdc|12|on                  156.3   156.2   +0.0      10
+coc|seg|sdc|20|off                 149.5   150.0   -0.3      16
+coc|seg|sdc|20|on                  177.2   178.1   -0.5      19
+coc|seg|sdc|30|off                 154.4   156.2   -1.2      25
+coc|seg|sdc|30|on                  179.9   181.2   -0.7      29
+coc|seg|sdc|40|off                 156.3   159.4   -1.9      34
+coc|seg|sdc|40|on                  180.0   182.8   -1.6      39
+gatt|gatt|sdc|6|off                127.0   127.1   -0.1       4
+gatt|gatt|sdc|6|on                 158.0   158.9   -0.5       5
+gatt|gatt|sdc|12|off               142.0   143.0   -0.7       9
+gatt|gatt|sdc|12|on                174.0   174.7   -0.4      11
+gatt|gatt|sdc|20|off               161.4   162.0   -0.4      17
+gatt|gatt|sdc|20|on                180.5   181.1   -0.3      19
+gatt|gatt|sdc|30|off               164.6   165.2   -0.4      26
+gatt|gatt|sdc|30|on                183.8   184.3   -0.3      29
+gatt|gatt|sdc|40|off               162.0   162.0   -0.0      34
+gatt|gatt|sdc|40|on                184.5   185.9   -0.7      39

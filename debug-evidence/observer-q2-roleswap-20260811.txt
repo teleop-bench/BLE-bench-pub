@@ -1,0 +1,15 @@
+# Q2 role-swap check — archived command + output
+# Run with the COMMITTED Q2 analyzer: analyze_q2.py sha256=404f3634b050... , last set in
+# commit 8336580 (Q2 rev-12) and unchanged through HEAD 4f8a7db; this is the exact hash the
+# calibration artifact's lineage.analyze_q2 requires, so validate_calib re-verifies cleanly.
+# A = config A cell 1 (central-near); B = config B cell 1 (periph-near).
+
+$ python3 q2-central/analyze_q2.py --roleswap --calib debug-evidence/gap-proxy-calibration-20260811.json \
+    debug-evidence/observer-q2-nearfarA1-20260811/{obs,central,periph}.txt central \
+    debug-evidence/observer-q2-nearfarB1-20260811/{obs,central,periph}.txt periph
+
+[calib] frozen gap_proxy_dev=3047 ticks (contract re-verified); artifact=debug-evidence/gap-proxy-calibration-20260811.json
+roleswap: config A analyze (frozen gap_proxy_dev=3047) -> ACCEPT
+roleswap: config B analyze (frozen gap_proxy_dev=3047) -> ACCEPT
+roleswap: A near-position=first ; B near-position=second
+=== ACCEPT: populations swapped ===

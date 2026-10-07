@@ -1,0 +1,63 @@
+{
+  "verdict": "REJECT",
+  "analyzer_exit": 3,
+  "cell_exit": 3,
+  "quarantine_reason": "analyzer-fail",
+  "args": {
+    "obs_port": "/dev/cu.usbmodem0010503477601",
+    "central_port": "/dev/cu.usbmodem0010577195093",
+    "periph_port": "/dev/cu.usbmodem0010577948573",
+    "obs_devid": "1050347760",
+    "central_devid": "1057719509",
+    "periph_devid": "1057794857",
+    "outdir": "$HOME/Desktop/develop/zenoh-pico-ble-test/debug-evidence/observer-q2-smoke-20260811",
+    "mode": "symmetric",
+    "near": "central",
+    "calib": "",
+    "obs_app": "$HOME/Desktop/develop/zenoh-pico-ble-test/pca10040-radio-observer",
+    "board": "nrf52dk/nrf52832",
+    "skip_obs_flash": false,
+    "obs_prebuilt_build": "/tmp/q2obs",
+    "central_build": "/tmp/q2cen",
+    "periph_build": "/tmp/q2per",
+    "smoke": true,
+    "pre_run_dirty": true,
+    "obs_hex_path": "/tmp/q2obs/zephyr/zephyr.hex"
+  },
+  "connection": {
+    "AA": "0xeb7aecea",
+    "CRCInit": "0xcc3340",
+    "map": "000c000000",
+    "ch": 10,
+    "phy": "1M"
+  },
+  "source_commit": "13ecbaf506c05b5ec7674817931cd7e5bbaa8226",
+  "tree_dirty": true,
+  "board": "nrf52dk/nrf52832",
+  "devids": {
+    "obs": "1050347760",
+    "central": "1057719509",
+    "periph": "1057794857"
+  },
+  "observer_image_verified": true,
+  "sha256": {
+    "observer.hex": "fdf1859d255df766041252bc0148476ba22795f4b75567fe5be4f124567ed408",
+    "obs.txt": "ef760bfb7bc1eb0e66bb67f3c81e3d79de71cade2540ccc984bafa9a62031fa0",
+    "central.txt": "9fe54a862e39de9262b4be597eacddca1b7726de2ddc9506ad9e70e695e91132",
+    "periph.txt": "39c525ac7b990b97e3207fb82a799524af29019b958425c4fb8a8232aa9c7bed",
+    "analysis.txt": "328b025b3077c0d4d9ff5e546f3a230d22b3556a27d7a36cd99dec7eaee4b2d2",
+    "analyze_q2.py": "89b369236f569bc4156d5b1e5436cde1e542d44b5ae2632cf3bd83dc5ab1a626",
+    "q2_run.py": "723a64d2df8f7ca966ac6ea8a336162d0687f3585ef36ca7f3bfbd3cdad301f2",
+    "combine_calib.py": "a9479e89ca9493418e91fcbc4deb656b8f9388070c2902328030e40f148271a0",
+    "Q2-ACCEPTANCE-PROTOCOL.md": "50118aaf452768e3545483db9e831212274d8e2f3eb27833ff27eab67ed20517"
+  },
+  "central_build": {
+    "zephyr.hex": "db10bd04105a0978006a841c125d123b26d6d31fe0f8a6a5613ea8a20b620ea2",
+    ".config": "54a2938ebadc8a79b71286126d0e3ab7d881b4f5864b65a5de79da00742553d2"
+  },
+  "periph_build": {
+    "zephyr.hex": "1720ce34cd854ba359e1f69f45ed0fd9acd004a3389350f3e01cba79a7691830",
+    ".config": "b6545161ac88433aff01efae7f00439455412fd7502c115e5eadddea8d194970"
+  },
+  "calibration_artifact": ""
+}

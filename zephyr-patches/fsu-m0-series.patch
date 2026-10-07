@@ -1,0 +1,1727 @@
+From 9a7d0639d4d89fd38dced61032491d9afac2e227 Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Thu, 6 Aug 2026 23:48:18 -0500
+Subject: [PATCH 1/4] bench baseline: trx-busy-cancel diagnostic
+ (zephyr-patches/trx-busy-cancel-diagnostic.patch state)
+
+---
+ .../bluetooth/controller/Kconfig.ll_sw_split  |  18 +++
+ .../controller/ll_sw/nordic/lll/lll_conn.c    | 110 ++++++++++++++++++
+ 2 files changed, 128 insertions(+)
+
+diff --git a/subsys/bluetooth/controller/Kconfig.ll_sw_split b/subsys/bluetooth/controller/Kconfig.ll_sw_split
+index 1ffd0481ae4..c13e855aa88 100644
+--- a/subsys/bluetooth/controller/Kconfig.ll_sw_split
++++ b/subsys/bluetooth/controller/Kconfig.ll_sw_split
+@@ -1139,6 +1139,24 @@ config BT_CTLR_TX_DEFER
+ 	  enqueued ACL Data packet by the upper layer can be transmitted with
+ 	  the shortest latency.
+ 
++config BT_CTLR_INEVENT_ECHO
++	bool "In-event echo reply (EXPERIMENTAL, non-spec, single-connection probe only)"
++	depends on BT_PERIPHERAL
++	help
++	  When the peripheral receives a marked "ping" ACL PDU (an ATT Write Command
++	  on the ATT fixed channel), the controller stages a precomputed "pong" reply
++	  (the same PDU with the ATT opcode rewritten to Handle Value Notification) as
++	  the answering PDU in the SAME connection event's RX->TX turnaround, bypassing
++	  the host. This removes one connection-interval of round-trip latency (the host
++	  would otherwise reply on the next interval).
++
++	  LIMITATIONS (this is a research probe, not a general feature):
++	    - Echo state is file-global -> supports ONE connection only.
++	    - Matches ANY ATT Write Command on the ATT channel, not a specific
++	      attribute handle.
++	    - Non-spec; closed-link only (BOTH ends must run this controller).
++	  Do not enable outside a dedicated two-device experiment. Experimental.
++
+ config BT_CTLR_THROUGHPUT
+ 	bool "Measure incoming Tx throughput"
+ 	default y if BT_HCI_RAW
+diff --git a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+index 76663641f80..adbeadb2dcb 100644
+--- a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+@@ -55,6 +55,37 @@ static void isr_tx_deferred_set(void *param);
+ 
+ static void empty_tx_init(void);
+ 
++#if defined(CONFIG_BT_CTLR_INEVENT_ECHO)
++/* In-event echo: a "pong" reply staged in the RX ISR and transmitted in the SAME
++ * connection event's RX->TX turnaround, riding the empty-PDU accounting so it needs no
++ * memq_tx node, no memq_link, and never enters the ULL/host tx-completion path (which for
++ * a data PDU would signal the host a completion for a packet it never sent). Single static
++ * slot => probe supports ONE connection; per-connection state is a TODO for upstream. */
++#define ECHO_ATT_CID_LO    0x04U  /* L2CAP CID 0x0004 = ATT, little-endian */
++#define ECHO_ATT_CID_HI    0x00U
++#define ECHO_ATT_WRITE_CMD 0x52U  /* ping: ATT Write Command */
++#define ECHO_ATT_NOTIFY    0x1BU  /* pong: ATT Handle Value Notification */
++#define ECHO_LLDATA_MAX    40U    /* upper bound on echoed payload (buffer-overflow guard) */
++static union {
++	struct pdu_data pdu;
++	uint8_t _pad[sizeof(struct pdu_data) + ECHO_LLDATA_MAX];
++} echo_store;
++#define echo_pdu (echo_store.pdu)
++static bool echo_staged;
++/* Ownership instrumentation (read via debugger / lll_conn_echo_stats). */
++static uint32_t echo_rx_cnt;   /* pings matched + staged */
++static uint32_t echo_tx_cnt;   /* pongs injected into the turnaround */
++static uint32_t echo_inject_with_pending; /* echo rode empty while a REAL memq_tx PDU was queued */
++static uint32_t echo_stale_cleared;       /* staged echo dropped at event/connection reset (never sent) */
++void lll_conn_echo_stats(uint32_t *rx, uint32_t *tx, uint32_t *pending, uint32_t *stale)
++{
++	if (pending) { *pending = echo_inject_with_pending; }
++	if (stale) { *stale = echo_stale_cleared; }
++	if (rx) { *rx = echo_rx_cnt; }
++	if (tx) { *tx = echo_tx_cnt; }
++}
++#endif /* CONFIG_BT_CTLR_INEVENT_ECHO */
++
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_RX)
+ static inline bool create_iq_report(struct lll_conn *lll, uint8_t rssi_ready,
+ 				    uint8_t packet_status);
+@@ -156,11 +187,33 @@ void lll_conn_prepare_reset(void)
+ 	is_aborted = 0U;
+ 	trx_busy_iteration = 0U;
+ 
++#if defined(CONFIG_BT_CTLR_INEVENT_ECHO)
++	/* Point 7: drop any echo staged in a prior event but never transmitted (e.g. the event was
++	 * aborted, or the connection dropped) so a STALE pong can't cross into the next event/connection
++	 * and corrupt startup accounting. The current event stages its echo AFTER this reset (in the RX
++	 * ISR), so legitimate same-event echoes are unaffected. NOTE: file-global single-slot echo state
++	 * still supports only ONE connection (per-connection state remains a TODO). */
++	if (echo_staged) {
++		echo_staged = false;
++		echo_stale_cleared++;
++	}
++#endif /* CONFIG_BT_CTLR_INEVENT_ECHO */
++
+ #if defined(CONFIG_BT_CTLR_LE_ENC)
+ 	mic_state = LLL_CONN_MIC_NONE;
+ #endif /* CONFIG_BT_CTLR_LE_ENC */
+ }
+ 
++/* DIAGNOSTIC (assert-disabled fault-injection, 2026-08-01): counts how often the
++ * trx_busy_iteration cap is hit — i.e. the path that used to LL_ASSERT_DBG and halt.
++ * With CONFIG_BT_CTLR_ASSERT_DEBUG=n that assert is a no-op and the code falls through
++ * to `return -ECANCELED` (cancels this one overrunning event instead of halting). NOTE: this
++ * return path alone is not shown to *preserve* the connection — measurements (§13.15) show the
++ * link can still fail/supervision-timeout; it only avoids the fatal assert. Non-static so the app
++ * can read it. Increment condition == the pre-patch assert-fail condition exactly:
++ * !(trx_busy_iteration < *_TRX_BUSY_ITERATION_MAX). */
++uint32_t volatile lll_conn_trx_busy_cancels;
++
+ #if defined(CONFIG_BT_CENTRAL)
+ /* Number of times central event being aborted by same event instance be skipped */
+ /* NOTE: Coded PHY S8 coding of 251 byte PDU at 7.5 ms connection interval need up to 4 events
+@@ -189,6 +242,9 @@ int lll_conn_central_is_abort_cb(void *next, void *curr,
+ 		return -EBUSY;
+ 	}
+ 
++	if (trx_busy_iteration >= CENTRAL_TRX_BUSY_ITERATION_MAX) {
++		lll_conn_trx_busy_cancels++;   /* diagnostic: cancel path taken (was: assert+halt) */
++	}
+ 	LL_ASSERT_DBG(trx_busy_iteration < CENTRAL_TRX_BUSY_ITERATION_MAX);
+ 
+ 	return -ECANCELED;
+@@ -223,6 +279,9 @@ int lll_conn_peripheral_is_abort_cb(void *next, void *curr,
+ 		return -EBUSY;
+ 	}
+ 
++	if (trx_busy_iteration >= PERIPHERAL_TRX_BUSY_ITERATION_MAX) {
++		lll_conn_trx_busy_cancels++;   /* diagnostic: cancel path taken (was: assert+halt) */
++	}
+ 	LL_ASSERT_DBG(trx_busy_iteration < PERIPHERAL_TRX_BUSY_ITERATION_MAX);
+ 
+ 	return -ECANCELED;
+@@ -396,6 +455,34 @@ void lll_conn_isr_rx(void *param)
+ 
+ 		/* CRC valid flag used to detect supervision timeout */
+ 		crc_valid = 1U;
++
++#if defined(CONFIG_BT_CTLR_INEVENT_ECHO)
++		/* In-event echo: if this RX is a "ping" (a complete, non-fragmented ATT
++		 * Write Command on the ATT fixed channel), stage a "pong" (same PDU, opcode
++		 * -> Handle Value Notification) to transmit in THIS event's turnaround.
++		 * Near-zero work: a bounded, validated memcpy. Safe-matcher requirements:
++		 * LLID=START (not a continuation fragment), 7 <= len <= ECHO_LLDATA_MAX
++		 * (opcode+handle present, no overflow), and the L2CAP length field matches
++		 * the PDU (a whole SDU, not a fragment). Handle is preserved from the ping.
++		 * TODO(upstream): restrict to a single configured attribute handle. */
++		if ((pdu_data_rx->ll_id == PDU_DATA_LLID_DATA_START) &&
++		    (pdu_data_rx->len >= 7U) &&
++		    (pdu_data_rx->len <= ECHO_LLDATA_MAX) &&
++		    (((uint16_t)pdu_data_rx->lldata[0] |
++		      ((uint16_t)pdu_data_rx->lldata[1] << 8)) ==
++		     (uint16_t)(pdu_data_rx->len - 4U)) &&
++		    (pdu_data_rx->lldata[2] == ECHO_ATT_CID_LO) &&
++		    (pdu_data_rx->lldata[3] == ECHO_ATT_CID_HI) &&
++		    (pdu_data_rx->lldata[4] == ECHO_ATT_WRITE_CMD)) {
++			echo_pdu.ll_id = PDU_DATA_LLID_DATA_START;
++			echo_pdu.md = 0U;
++			echo_pdu.len = pdu_data_rx->len;
++			memcpy(echo_pdu.lldata, pdu_data_rx->lldata, pdu_data_rx->len);
++			echo_pdu.lldata[4] = ECHO_ATT_NOTIFY;
++			echo_staged = true;
++			echo_rx_cnt++;
++		}
++#endif /* CONFIG_BT_CTLR_INEVENT_ECHO */
+ 	} else {
+ 		/* Start CRC error countdown, if not already started */
+ 		if (crc_expire == 0U) {
+@@ -953,6 +1040,29 @@ void lll_conn_pdu_tx_prep(struct lll_conn *lll, struct pdu_data **pdu_data_tx)
+ 	struct pdu_data *p;
+ 	memq_link_t *link;
+ 
++#if defined(CONFIG_BT_CTLR_INEVENT_ECHO)
++	/* In-event echo: a ping was just received this event -> answer with the staged pong
++	 * now, in the same turnaround. Ride the EMPTY-PDU accounting: set lll->empty so the
++	 * peer's ACK next event takes the empty branch (no memq_tx dequeue/free, no ULL/host
++	 * tx-completion) while the radio still transmits our data-bearing echo_pdu. sn/nesn are
++	 * filled by the caller; sn advances on ACK exactly as for an empty PDU. */
++	if (echo_staged) {
++		struct node_tx *pend_tx;
++
++		echo_staged = false;
++		lll->empty = 1U;
++		echo_tx_cnt++;
++		/* DIAGNOSTIC (point 8): was a REAL tx PDU already queued when the echo rode empty?
++		 * If so, that PDU (possibly an LL control PDU, e.g. the conn-param-update) is deferred
++		 * this event -> a candidate cause of the startup wedge. */
++		if (memq_peek(lll->memq_tx.head, lll->memq_tx.tail, (void **)&pend_tx)) {
++			echo_inject_with_pending++;
++		}
++		*pdu_data_tx = &echo_pdu;
++		return;
++	}
++#endif /* CONFIG_BT_CTLR_INEVENT_ECHO */
++
+ 	link = memq_peek(lll->memq_tx.head, lll->memq_tx.tail, (void **)&tx);
+ 	if (lll->empty || !link) {
+ 		lll->empty = 1U;
+-- 
+2.50.1 (Apple Git-155)
+
+
+From b5bd2a1b52eb5c0cfaea918fdedc46aeb852f7eb Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Thu, 6 Aug 2026 23:48:19 -0500
+Subject: [PATCH 2/4] FSU reference import: PR #99473 as-is (cvinayak rebase of
+ kruithofa #82324, closed stale; opcodes 0x3B/0x3C, llcp common-procedure
+ integration; known defects listed in zephyr-patches/fsu-m0-cheatsheet.md)
+
+Imported from upstream Zephyr PR #99473 (a rebase of closed PR #82324);
+credit for this code belongs to the original authors.
+
+Link: https://github.com/zephyrproject-rtos/zephyr/pull/99473
+Link: https://github.com/zephyrproject-rtos/zephyr/pull/82324
+Co-developed-by: Andries Kruithof <andries.kruithof@nordicsemi.no>
+Signed-off-by: Andries Kruithof <andries.kruithof@nordicsemi.no>
+Co-developed-by: Vinayak Kariappa Chettimada <vich@nordicsemi.no>
+Signed-off-by: Vinayak Kariappa Chettimada <vich@nordicsemi.no>
+---
+ subsys/bluetooth/controller/include/ll_feat.h |   7 +-
+ subsys/bluetooth/controller/ll_sw/lll_conn.h  |  13 ++
+ subsys/bluetooth/controller/ll_sw/pdu.h       |  24 +++
+ .../bluetooth/controller/ll_sw/ull_central.c  |   2 +-
+ subsys/bluetooth/controller/ll_sw/ull_conn.c  | 141 ++++++++++++++++++
+ .../controller/ll_sw/ull_conn_internal.h      |   7 +
+ subsys/bluetooth/controller/ll_sw/ull_llcp.c  |  59 ++++++++
+ subsys/bluetooth/controller/ll_sw/ull_llcp.h  |  11 ++
+ .../controller/ll_sw/ull_llcp_common.c        | 100 ++++++++++++-
+ .../controller/ll_sw/ull_llcp_features.h      |   5 +
+ .../controller/ll_sw/ull_llcp_internal.h      |  13 ++
+ .../controller/ll_sw/ull_llcp_local.c         |   9 ++
+ .../bluetooth/controller/ll_sw/ull_llcp_pdu.c |  93 ++++++++++++
+ .../bluetooth/controller/ll_sw/ull_llcp_phy.c |  51 +++++++
+ .../controller/ll_sw/ull_llcp_remote.c        |  12 ++
+ .../controller/ll_sw/ull_peripheral.c         |   2 +-
+ 16 files changed, 543 insertions(+), 6 deletions(-)
+
+diff --git a/subsys/bluetooth/controller/include/ll_feat.h b/subsys/bluetooth/controller/include/ll_feat.h
+index 9e5cd3144b7..2a05d94ac69 100644
+--- a/subsys/bluetooth/controller/include/ll_feat.h
++++ b/subsys/bluetooth/controller/include/ll_feat.h
+@@ -253,6 +253,9 @@
+ 	* !CONFIG_BT_CTLR_SYNC_PERIODIC_ADI_SUPPORT
+ 	*/
+ 
++/* FIXME: Conditional Compilation for FSU feature, and handle feature bits > 64 bits */
++#define LL_FEAT_BIT_FRAME_SPACE 0U
++
+ /* All defined feature bits */
+ #define LL_FEAT_BIT_MASK         0xFFFFFFFFFFULL
+ 
+@@ -296,7 +299,9 @@
+ 				  LL_FEAT_BIT_SYNC_RECEIVER | \
+ 				  LL_FEAT_BIT_PERIODIC_ADI_SUPPORT | \
+ 				  LL_FEAT_BIT_SYNC_TRANSFER_RECEIVER | \
+-				  LL_FEAT_BIT_SYNC_TRANSFER_SENDER)
++				  LL_FEAT_BIT_SYNC_TRANSFER_SENDER | \
++				  LL_FEAT_BIT_FRAME_SPACE | \
++				  0U)
+ 
+ /* Connected Isochronous Stream (Host Support) bit is controlled by host */
+ #if defined(CONFIG_BT_CTLR_CONN_ISO)
+diff --git a/subsys/bluetooth/controller/ll_sw/lll_conn.h b/subsys/bluetooth/controller/ll_sw/lll_conn.h
+index 98177652ba0..1260ad556b0 100644
+--- a/subsys/bluetooth/controller/ll_sw/lll_conn.h
++++ b/subsys/bluetooth/controller/ll_sw/lll_conn.h
+@@ -53,6 +53,13 @@ struct data_pdu_length {
+ };
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
++struct data_pdu_fsu {
++	uint16_t fsu_min;
++	uint16_t fsu_max;
++	uint8_t phys;
++	uint16_t spacing_type;
++};
++
+ struct lll_conn {
+ 	struct lll_hdr hdr;
+ 
+@@ -133,6 +140,12 @@ struct lll_conn {
+ 		uint8_t update;
+ 	} dle;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	struct {
++		struct data_pdu_fsu local;
++		struct data_pdu_fsu perphy[4]; /* store frame-space for each PHY */
++		struct data_pdu_fsu eff;
++		uint8_t update;
++	} fsu;
+ 
+ #if defined(CONFIG_BT_CTLR_PHY)
+ 	uint8_t phy_tx:3;
+diff --git a/subsys/bluetooth/controller/ll_sw/pdu.h b/subsys/bluetooth/controller/ll_sw/pdu.h
+index 430704c8451..c012a186460 100644
+--- a/subsys/bluetooth/controller/ll_sw/pdu.h
++++ b/subsys/bluetooth/controller/ll_sw/pdu.h
+@@ -286,6 +286,12 @@
+ #define PHY_FLAGS_S2 0
+ #define PHY_FLAGS_S8 BIT(0)
+ 
++#define T_IFS_ACL_CP BIT(0)
++#define T_IFS_ACL_PC BIT(1)
++#define T_MCES       BIT(2)
++#define T_IFS_CIS    BIT(3)
++#define T_MSS_CIS    BIT(4)
++
+ /* Macros for getting/setting did/sid from pdu_adv_adi */
+ #define PDU_ADV_ADI_DID_GET(adi) ((adi)->did_sid_packed[0] | \
+ 					     (((adi)->did_sid_packed[1] & 0x0F) << 8))
+@@ -624,6 +630,9 @@ enum pdu_data_llctrl_type {
+ 	PDU_DATA_LLCTRL_TYPE_CIS_RSP = 0x20,
+ 	PDU_DATA_LLCTRL_TYPE_CIS_IND = 0x21,
+ 	PDU_DATA_LLCTRL_TYPE_CIS_TERMINATE_IND = 0x22,
++	PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_REQ = 0x3B,
++	PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_RSP = 0x3C,
++
+ 	PDU_DATA_LLCTRL_TYPE_UNUSED = 0xFF
+ };
+ 
+@@ -788,6 +797,19 @@ struct pdu_data_llctrl_length_req_rsp_common {
+ 	uint16_t max_tx_time;
+ } __packed;
+ 
++struct pdu_data_llctrl_fsu_req {
++	uint16_t fsu_min;
++	uint16_t fsu_max;
++	uint8_t phys;
++	uint16_t spacing_type;
++} __packed;
++
++struct pdu_data_llctrl_fsu_rsp {
++	uint16_t fsu;
++	uint8_t phys;
++	uint16_t spacing_type;
++} __packed;
++
+ struct pdu_data_llctrl_phy_req {
+ 	uint8_t tx_phys;
+ 	uint8_t rx_phys;
+@@ -936,6 +958,8 @@ struct pdu_data_llctrl {
+ 		struct pdu_data_llctrl_ping_rsp ping_rsp;
+ 		struct pdu_data_llctrl_length_req length_req;
+ 		struct pdu_data_llctrl_length_rsp length_rsp;
++		struct pdu_data_llctrl_fsu_req fsu_req;
++		struct pdu_data_llctrl_fsu_rsp fsu_rsp;
+ 		struct pdu_data_llctrl_phy_req phy_req;
+ 		struct pdu_data_llctrl_phy_rsp phy_rsp;
+ 		struct pdu_data_llctrl_phy_upd_ind phy_upd_ind;
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_central.c b/subsys/bluetooth/controller/ll_sw/ull_central.c
+index 58c201b636c..28fe773a82d 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_central.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_central.c
+@@ -227,7 +227,7 @@ uint8_t ll_create_connection(uint16_t scan_interval, uint16_t scan_window,
+ #if defined(CONFIG_BT_CTLR_DATA_LENGTH)
+ 	ull_dle_init(conn, PHY_1M);
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+-
++	ull_fsu_init(conn);
+ #if defined(CONFIG_BT_CTLR_CONN_RSSI)
+ 	conn_lll->rssi_latest = BT_HCI_LE_RSSI_NOT_AVAILABLE;
+ #if defined(CONFIG_BT_CTLR_CONN_RSSI_EVENT)
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_conn.c b/subsys/bluetooth/controller/ll_sw/ull_conn.c
+index 1c1f7d598ab..f464eca245d 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_conn.c
+@@ -2380,6 +2380,13 @@ void ull_conn_update_parameters(struct ll_conn *conn, uint8_t is_cu_proc, uint8_
+ 		lll->tifs_tx_us = EVENT_IFS_DEFAULT_US;
+ 		lll->tifs_rx_us = EVENT_IFS_DEFAULT_US;
+ 		lll->tifs_hcto_us = EVENT_IFS_DEFAULT_US;
++		for (size_t i = 0; i < 3; i++) {
++			conn->lll.fsu.perphy[i].fsu_min = EVENT_IFS_DEFAULT_US;
++			conn->lll.fsu.perphy[i].fsu_max = EVENT_IFS_DEFAULT_US;
++			conn->lll.fsu.perphy[i].phys = PHY_1M | PHY_2M | PHY_CODED;
++			conn->lll.fsu.perphy[i].spacing_type =
++				T_IFS_ACL_PC | T_IFS_ACL_CP | T_IFS_CIS;
++		}
+ 
+ #if defined(CONFIG_BT_CTLR_DATA_LENGTH) && \
+ 	defined(CONFIG_BT_CTLR_SLOT_RESERVATION_UPDATE)
+@@ -2417,6 +2424,14 @@ void ull_conn_update_parameters(struct ll_conn *conn, uint8_t is_cu_proc, uint8_
+ 		lll->tifs_tx_us = CONFIG_BT_CTLR_EVENT_IFS_LOW_LAT_US;
+ 		lll->tifs_rx_us = CONFIG_BT_CTLR_EVENT_IFS_LOW_LAT_US;
+ 		lll->tifs_hcto_us = CONFIG_BT_CTLR_EVENT_IFS_LOW_LAT_US;
++		for (size_t i = 0; i < 3; i++) {
++			conn->lll.fsu.perphy[i].fsu_min =
++				CONFIG_BT_CTLR_EVENT_IFS_LOW_LAT_US;
++			conn->lll.fsu.perphy[i].fsu_max = EVENT_IFS_US;
++			conn->lll.fsu.perphy[i].phys = PHY_1M | PHY_2M | PHY_CODED;
++			conn->lll.fsu.perphy[i].spacing_type =
++				T_IFS_ACL_PC | T_IFS_ACL_CP | T_IFS_CIS;
++		}
+ 		/* Reserve only the processing overhead, on overlap the
+ 		 * is_abort_cb mechanism will ensure to continue the event so
+ 		 * as to not loose anchor point sync.
+@@ -2832,6 +2847,132 @@ void ull_conn_default_tx_time_set(uint16_t tx_time)
+ }
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
++uint8_t ull_fsu_update_eff(struct ll_conn *conn)
++{
++	uint8_t fsu_changed = 0U;
++	uint8_t phy_tx;
++	uint8_t phy_rx;
++
++#if defined(CONFIG_BT_PHY_UPDATE)
++	phy_tx = conn->lll.phy_tx;
++	phy_rx = conn->lll.phy_rx;
++#else
++	phy_tx = PHY_1M;
++	phy_rx = PHY_1M;
++#endif /* CONFIG_BT_PHY_UPDATE */
++
++	fsu_changed = ull_fsu_update_eff_from_local(conn);
++
++	if (fsu_changed) {
++		/* TODO: confirm that we do not need to do something here? */
++	}
++
++	if ((conn->lll.fsu.local.spacing_type & T_IFS_CIS) == T_IFS_CIS) {
++
++		if (conn->lll.tifs_cis_us == conn->lll.fsu.eff.fsu_min) {
++			fsu_changed = 1;
++		}
++		conn->lll.tifs_cis_us = conn->lll.fsu.eff.fsu_min;
++	}
++
++	if ((conn->lll.fsu.local.spacing_type & T_IFS_ACL_CP) == T_IFS_ACL_CP) {
++		if (conn->lll.role == BT_HCI_ROLE_PERIPHERAL) {
++			if (conn->lll.fsu.local.phys & phy_tx) {
++				if (conn->lll.tifs_tx_us ==
++				    conn->lll.fsu.eff.fsu_min) {
++					fsu_changed = 1;
++				}
++				conn->lll.tifs_tx_us = conn->lll.fsu.eff.fsu_min;
++			}
++		} else {
++			if (conn->lll.fsu.local.phys & phy_rx) {
++				if (conn->lll.tifs_rx_us ==
++				    conn->lll.fsu.eff.fsu_min) {
++					fsu_changed = 1;
++				}
++				conn->lll.tifs_rx_us = conn->lll.fsu.eff.fsu_min;
++			}
++		}
++	}
++
++	if ((conn->lll.fsu.local.spacing_type & T_IFS_ACL_PC) == T_IFS_ACL_PC) {
++		if (conn->lll.role == BT_HCI_ROLE_PERIPHERAL) {
++			if (conn->lll.fsu.local.phys & phy_rx) {
++				if (conn->lll.tifs_rx_us ==
++				    conn->lll.fsu.eff.fsu_min) {
++					fsu_changed = 1;
++				}
++				conn->lll.tifs_rx_us = conn->lll.fsu.eff.fsu_min;
++			}
++		} else {
++			if (conn->lll.fsu.local.phys & phy_tx) {
++				if (conn->lll.tifs_tx_us ==
++				    conn->lll.fsu.eff.fsu_min) {
++					fsu_changed = 1;
++				}
++				conn->lll.tifs_tx_us = conn->lll.fsu.eff.fsu_min;
++			}
++		}
++	}
++	if (fsu_changed == 1) {
++		conn->lll.fsu.local.phys = 0;
++		conn->lll.fsu.local.spacing_type = 0;
++	}
++
++	return fsu_changed;
++}
++
++uint8_t ull_fsu_update_eff_from_local(struct ll_conn *conn)
++{
++	uint8_t fsu_changed = 0U;
++	uint16_t fsu_min, fsu_max;
++
++	fsu_min = MAX(conn->lll.fsu.local.fsu_min, CONFIG_BT_CTLR_EVENT_IFS_LOW_LAT_US);
++	fsu_max = MAX(conn->lll.fsu.local.fsu_max, CONFIG_BT_CTLR_EVENT_IFS_LOW_LAT_US);
++
++	conn->lll.fsu.eff.fsu_min = fsu_min;
++	conn->lll.fsu.eff.fsu_max = fsu_max;
++	conn->lll.fsu.local.fsu_min = fsu_min;
++	conn->lll.fsu.local.fsu_max = fsu_max;
++
++	return fsu_changed;
++}
++
++void ull_fsu_local_tx_update(struct ll_conn *conn, uint16_t fsu_min,
++				     uint16_t fsu_max, uint8_t phys, uint16_t spacing_type)
++{
++	conn->lll.fsu.local.fsu_min = fsu_min;
++	if (conn->lll.tifs_rx_us > fsu_max) {
++		fsu_max = conn->lll.tifs_rx_us;
++	}
++	if (conn->lll.tifs_tx_us > fsu_max) {
++		fsu_max = conn->lll.tifs_tx_us;
++	}
++	conn->lll.fsu.local.fsu_max = fsu_max;
++	conn->lll.fsu.local.phys = phys;
++	conn->lll.fsu.local.spacing_type = spacing_type;
++}
++
++uint8_t ull_fsu_init(struct ll_conn *conn)
++{
++	conn->lll.tifs_rx_us = EVENT_IFS_US;
++	conn->lll.tifs_tx_us = EVENT_IFS_US;
++	conn->lll.tifs_cis_us = EVENT_IFS_US;
++	conn->lll.fsu.local.fsu_min = CONFIG_BT_CTLR_EVENT_IFS_LOW_LAT_US;
++	conn->lll.fsu.local.fsu_max = EVENT_IFS_MAX_US;
++	conn->lll.fsu.eff.fsu_min = EVENT_IFS_US;
++	conn->lll.fsu.eff.fsu_max = EVENT_IFS_US;
++	for (size_t i = 0; i < 3; i++) {
++		conn->lll.fsu.perphy[i].fsu_min = EVENT_IFS_US;
++		conn->lll.fsu.perphy[i].fsu_max = EVENT_IFS_US;
++		conn->lll.fsu.perphy[i].phys = PHY_1M | PHY_2M | PHY_CODED;
++		conn->lll.fsu.perphy[i].spacing_type =
++			T_IFS_ACL_PC | T_IFS_ACL_CP | T_IFS_CIS;
++	}
++
++	return 0;
++}
++
+ #if defined(CONFIG_BT_CTLR_SYNC_TRANSFER_SENDER)
+ static bool ticker_op_id_match_func(uint8_t ticker_id, uint32_t ticks_slot,
+ 				    uint32_t ticks_to_expire, void *op_context)
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_conn_internal.h b/subsys/bluetooth/controller/ll_sw/ull_conn_internal.h
+index 59b45579f0b..1cd28b39dce 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_conn_internal.h
++++ b/subsys/bluetooth/controller/ll_sw/ull_conn_internal.h
+@@ -109,8 +109,15 @@ uint8_t ull_dle_update_eff(struct ll_conn *conn);
+ uint8_t ull_dle_update_eff_tx(struct ll_conn *conn);
+ uint8_t ull_dle_update_eff_rx(struct ll_conn *conn);
+ 
++uint8_t ull_fsu_update_eff(struct ll_conn *conn);
++uint8_t ull_fsu_update_eff_from_local(struct ll_conn *conn);
++uint8_t ull_fsu_init(struct ll_conn *conn);
++
+ void ull_dle_local_tx_update(struct ll_conn *conn, uint16_t tx_octets, uint16_t tx_time);
+ 
++void ull_fsu_local_tx_update(struct ll_conn *conn, uint16_t fsu_min,
++				     uint16_t fsu_max, uint8_t phys, uint16_t spacing_type);
++
+ void ull_conn_default_phy_tx_set(uint8_t tx);
+ 
+ void ull_conn_default_phy_rx_set(uint8_t rx);
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp.c b/subsys/bluetooth/controller/ll_sw/ull_llcp.c
+index 2c0e852bafc..5b5150aeb07 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp.c
+@@ -89,6 +89,9 @@ static uint8_t MALIGN(4) buffer_mem_remote_ctx[PROC_CTX_BUF_SIZE *
+ 				     CONFIG_BT_CTLR_LLCP_REMOTE_PROC_CTX_BUF_NUM];
+ static struct llcp_mem_pool mem_remote_ctx = { .pool = buffer_mem_remote_ctx };
+ 
++uint8_t ull_cp_fsu(struct ll_conn *conn, uint16_t fsu_min, uint16_t fsu_max,
++			   uint8_t phys, uint16_t spacing_type);
++
+ /*
+  * LLCP Resource Management
+  */
+@@ -856,6 +859,20 @@ uint8_t ull_cp_cis_create(struct ll_conn *conn, struct ll_conn_iso_stream *cis)
+ }
+ #endif /* defined(CONFIG_BT_CTLR_CENTRAL_ISO) */
+ 
++uint8_t bt_ull_cp_fsu(uint16_t handle, uint16_t fsu_min, uint16_t fsu_max,
++			      uint8_t phys, uint16_t spacing_type)
++{
++	struct ll_conn *conn;
++	uint8_t err;
++
++	conn = ll_connected_get(handle);
++	if (!conn) {
++		return BT_HCI_ERR_UNKNOWN_CONN_ID;
++	}
++	err = ull_cp_fsu(conn, fsu_min, fsu_max, phys, spacing_type);
++	return err;
++}
++
+ #if defined(CONFIG_BT_CENTRAL)
+ uint8_t ull_cp_chan_map_update(struct ll_conn *conn, const uint8_t chm[5])
+ {
+@@ -926,6 +943,27 @@ uint8_t ull_cp_data_length_update(struct ll_conn *conn, uint16_t max_tx_octets,
+ }
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
++uint8_t ull_cp_fsu(struct ll_conn *conn, uint16_t fsu_min, uint16_t fsu_max,
++			   uint8_t phys, uint16_t spacing_type)
++{
++	struct proc_ctx *ctx;
++
++	if (!feature_fsu(conn)) {
++		return BT_HCI_ERR_SUCCESS;
++	}
++
++	ctx = llcp_create_local_procedure(PROC_FRAME_SPACE);
++	if (!ctx) {
++		return BT_HCI_ERR_CMD_DISALLOWED;
++	}
++
++	ull_fsu_local_tx_update(conn, fsu_min, fsu_max, phys, spacing_type);
++
++	llcp_lr_enqueue(conn, ctx);
++
++	return BT_HCI_ERR_SUCCESS;
++}
++
+ #if defined(CONFIG_BT_CTLR_SCA_UPDATE)
+ uint8_t ull_cp_req_peer_sca(struct ll_conn *conn)
+ {
+@@ -1153,6 +1191,15 @@ uint8_t ull_cp_remote_dle_pending(struct ll_conn *conn)
+ }
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
++uint8_t ull_cp_remote_fsu_pending(struct ll_conn *conn)
++{
++	struct proc_ctx *ctx;
++
++	ctx = llcp_rr_peek(conn);
++
++	return (ctx && ctx->proc == PROC_FRAME_SPACE);
++}
++
+ #if defined(CONFIG_BT_CTLR_CONN_PARAM_REQ)
+ void ull_cp_conn_param_req_reply(struct ll_conn *conn)
+ {
+@@ -1769,6 +1816,16 @@ static bool pdu_validate_length_rsp(struct pdu_data *pdu)
+ 	return VALIDATE_PDU_LEN(pdu, length_rsp);
+ }
+ 
++static bool pdu_validate_fsu_req(struct pdu_data *pdu)
++{
++	return VALIDATE_PDU_LEN(pdu, fsu_req);
++}
++
++static bool pdu_validate_fsu_rsp(struct pdu_data *pdu)
++{
++	return VALIDATE_PDU_LEN(pdu, fsu_rsp);
++}
++
+ #if defined(CONFIG_BT_CTLR_PHY)
+ static bool pdu_validate_phy_req(struct pdu_data *pdu)
+ {
+@@ -1880,6 +1937,8 @@ static const struct pdu_validate pdu_validate[] = {
+ 	[PDU_DATA_LLCTRL_TYPE_LENGTH_REQ] = { pdu_validate_length_req },
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 	[PDU_DATA_LLCTRL_TYPE_LENGTH_RSP] = { pdu_validate_length_rsp },
++	[PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_REQ] = { pdu_validate_fsu_req },
++	[PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_RSP] = { pdu_validate_fsu_rsp },
+ #if defined(CONFIG_BT_CTLR_PHY)
+ 	[PDU_DATA_LLCTRL_TYPE_PHY_REQ] = { pdu_validate_phy_req },
+ #endif /* CONFIG_BT_CTLR_PHY */
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp.h b/subsys/bluetooth/controller/ll_sw/ull_llcp.h
+index 3b5a6c2131c..13b25f987bd 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp.h
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp.h
+@@ -143,6 +143,11 @@ void ull_cp_conn_param_req_neg_reply(struct ll_conn *conn, uint8_t error_code);
+  */
+ uint8_t ull_cp_remote_dle_pending(struct ll_conn *conn);
+ 
++/**
++ * @brief Check if a remote frame space update is pending
++ */
++uint8_t ull_cp_remote_fsu_pending(struct ll_conn *conn);
++
+ /**
+  * @brief Check if a remote connection param reg is in the
+  *        works.
+@@ -251,6 +256,12 @@ bool ull_lp_cc_is_enqueued(struct ll_conn *conn, const struct ll_conn_iso_stream
+  */
+ uint8_t ull_cp_chan_map_update(struct ll_conn *conn, const uint8_t chm[5]);
+ 
++/**
++ * @brief Initiate frame space update procedure
++ */
++uint8_t ull_cp_fsu(struct ll_conn *conn, uint16_t fsu_min, uint16_t fsu_max,
++			   uint8_t phys, uint16_t spacing_type);
++
+ /**
+  * @brief Check if Channel Map Update Procedure is pending
+  */
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_common.c b/subsys/bluetooth/controller/ll_sw/ull_llcp_common.c
+index 84098f1b149..fe1f03db0aa 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_common.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_common.c
+@@ -204,6 +204,10 @@ static void lp_comm_tx(struct ll_conn *conn, struct proc_ctx *ctx)
+ 		ctx->rx_opcode = PDU_DATA_LLCTRL_TYPE_LENGTH_RSP;
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		llcp_pdu_encode_fsu_req(conn, pdu);
++		ctx->rx_opcode = PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_RSP;
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_REQ)
+ 	case PROC_CTE_REQ:
+ 		llcp_pdu_encode_cte_req(ctx, pdu);
+@@ -280,6 +284,12 @@ static void lp_comm_ntf_length_change(struct ll_conn *conn, struct proc_ctx *ctx
+ }
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
++static void lp_comm_ntf_fsu_change(struct ll_conn *conn, struct proc_ctx *ctx,
++					   struct pdu_data *pdu)
++{
++	llcp_ntf_encode_fsu_change(conn, pdu);
++}
++
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_REQ)
+ 
+ static void lp_comm_complete_cte_req_finalize(struct ll_conn *conn)
+@@ -413,6 +423,9 @@ static void lp_comm_ntf(struct ll_conn *conn, struct proc_ctx *ctx)
+ 		lp_comm_ntf_length_change(conn, ctx, pdu);
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		lp_comm_ntf_fsu_change(conn, ctx, pdu);
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_REQ)
+ 	case PROC_CTE_REQ:
+ 		lp_comm_ntf_cte_req(conn, ctx, pdu);
+@@ -548,6 +561,27 @@ static void lp_comm_complete(struct ll_conn *conn, struct proc_ctx *ctx, uint8_t
+ 		}
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		if (ctx->response_opcode == PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_RSP) {
++			uint8_t fsu_changed = ull_fsu_update_eff(conn);
++
++			if (fsu_changed) {
++				lp_comm_ntf(conn, ctx);
++			}
++			llcp_lr_complete(conn);
++			ctx->state = LP_COMMON_STATE_IDLE;
++
++		} else if (ctx->response_opcode == PDU_DATA_LLCTRL_TYPE_UNKNOWN_RSP) {
++			/* unmask support for Frame Spacing */
++			llcp_lr_complete(conn);
++			ctx->state = LP_COMMON_STATE_IDLE;
++		} else {
++			/* Illegal response opcode */
++			lp_comm_terminate_invalid_pdu(conn, ctx);
++			break;
++		}
++
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_REQ)
+ 	case PROC_CTE_REQ:
+ 		lp_comm_complete_cte_req(conn, ctx);
+@@ -684,6 +718,24 @@ static void lp_comm_send_req(struct ll_conn *conn, struct proc_ctx *ctx, uint8_t
+ 		}
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		if (feature_fsu(conn) && !ull_cp_remote_fsu_pending(conn)) {
++			if (llcp_lr_ispaused(conn) || !llcp_tx_alloc_peek(conn, ctx)) {
++				ctx->state = LP_COMMON_STATE_WAIT_TX;
++			} else {
++				/* llcp_tx_pause_data(conn, LLCP_TX_QUEUE_PAUSE_DATA_FRAME_SPACE);
++				 */
++				lp_comm_tx(conn, ctx);
++				ctx->state = LP_COMMON_STATE_WAIT_RX;
++			}
++		} else {
++			/* REQ was received from peer and RSP not yet sent, lets piggy-back on RSP
++			 * instead of sending REQ
++			 */
++			llcp_lr_complete(conn);
++			ctx->state = LP_COMMON_STATE_IDLE;
++		}
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_REQ)
+ 	case PROC_CTE_REQ:
+ 		if (conn->llcp.cte_req.is_enabled &&
+@@ -826,6 +878,9 @@ static void lp_comm_rx_decode(struct ll_conn *conn, struct proc_ctx *ctx, struct
+ 		llcp_pdu_decode_length_rsp(conn, pdu);
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_RSP:
++		llcp_pdu_decode_fsu_rsp(conn, pdu);
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_REQ)
+ 	case PDU_DATA_LLCTRL_TYPE_CTE_RSP:
+ 		llcp_pdu_decode_cte_rsp(ctx, pdu);
+@@ -1022,6 +1077,13 @@ static void rp_comm_rx_decode(struct ll_conn *conn, struct proc_ctx *ctx, struct
+ 		llcp_rx_node_retain(ctx);
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_REQ:
++		/* receive req from remote */
++		llcp_pdu_decode_fsu_req(conn, pdu);
++		ull_fsu_update_eff(conn);
++
++		llcp_rx_node_retain(ctx);
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_RSP)
+ 	case PDU_DATA_LLCTRL_TYPE_CTE_REQ:
+ 		llcp_pdu_decode_cte_req(ctx, pdu);
+@@ -1072,6 +1134,21 @@ static void rp_comm_tx(struct ll_conn *conn, struct proc_ctx *ctx)
+ 		ctx->rx_opcode = PDU_DATA_LLCTRL_TYPE_UNUSED;
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		if ((conn->lll.fsu.local.phys & 0x04)) {
++			llcp_pdu_encode_reject_ext_ind(pdu, PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_REQ,
++						       BT_HCI_ERR_UNSUPP_FEATURE_PARAM_VAL);
++		} else if (!IS_ENABLED(CONFIG_BT_ISO) &&
++			   ((conn->lll.fsu.local.spacing_type & (T_IFS_CIS | T_MSS_CIS)))) {
++			llcp_pdu_encode_reject_ext_ind(pdu, PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_REQ,
++						       BT_HCI_ERR_UNSUPP_FEATURE_PARAM_VAL);
++		} else {
++			llcp_pdu_encode_fsu_rsp(conn, pdu);
++		}
++		ctx->node_ref.tx_ack = tx;
++		ctx->rx_opcode = PDU_DATA_LLCTRL_TYPE_UNUSED;
++
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_RSP)
+ 	case PROC_CTE_REQ: {
+ 		uint8_t err_code = 0;
+@@ -1138,11 +1215,10 @@ static void rp_comm_st_idle(struct ll_conn *conn, struct proc_ctx *ctx, uint8_t
+ 		break;
+ 	}
+ }
+-#if defined(CONFIG_BT_CTLR_DATA_LENGTH)
++
+ static void rp_comm_ntf(struct ll_conn *conn, struct proc_ctx *ctx, uint8_t generate_ntf)
+ {
+ 	struct node_rx_pdu *ntf;
+-	struct pdu_data *pdu;
+ 
+ 	/* Allocate ntf node */
+ 	ntf = ctx->node_ref.rx;
+@@ -1155,18 +1231,22 @@ static void rp_comm_ntf(struct ll_conn *conn, struct proc_ctx *ctx, uint8_t gene
+ 	/* And release memory if no NTF to be generated */
+ 	ntf->hdr.type = NODE_RX_TYPE_RELEASE;
+ 
++#if defined(CONFIG_BT_CTLR_DATA_LENGTH)
++
+ 	if (generate_ntf) {
++		struct pdu_data *pdu;
++
+ 		ntf->hdr.type = NODE_RX_TYPE_DC_PDU;
+ 		ntf->hdr.handle = conn->lll.handle;
+ 		pdu = (struct pdu_data *)ntf->pdu;
+ 		LL_ASSERT_DBG(ctx->proc == PROC_DATA_LENGTH_UPDATE);
+ 		llcp_ntf_encode_length_change(conn, pdu);
+ 	}
++#endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
+ 	/* Enqueue notification towards LL - releases mem if no ntf */
+ 	ll_rx_put_sched(ntf->hdr.link, ntf);
+ }
+-#endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
+ static bool rp_comm_tx_proxy(struct ll_conn *conn, struct proc_ctx *ctx, const bool complete)
+ {
+@@ -1270,6 +1350,9 @@ static void rp_comm_send_rsp(struct ll_conn *conn, struct proc_ctx *ctx, uint8_t
+ 		rp_comm_tx_proxy(conn, ctx, false);
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		rp_comm_tx_proxy(conn, ctx, false);
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_RSP)
+ 	case PROC_CTE_REQ:
+ 		if (llcp_rr_ispaused(conn) ||
+@@ -1360,6 +1443,17 @@ static void rp_comm_st_wait_tx_ack(struct ll_conn *conn, struct proc_ctx *ctx, u
+ 			break;
+ 		}
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++		case PROC_FRAME_SPACE: {
++			uint8_t fsu_changed = ull_fsu_update_eff(conn);
++
++			fsu_changed |= ctx->data.fsu.ntf_fsu;
++
++			rp_comm_ntf(conn, ctx, fsu_changed);
++
++			llcp_rr_complete(conn);
++			ctx->state = RP_COMMON_STATE_IDLE;
++			break;
++		}
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_RSP)
+ 		case PROC_CTE_REQ: {
+ 			/* add PHY update pause = false here */
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_features.h b/subsys/bluetooth/controller/ll_sw/ull_llcp_features.h
+index c06d4978f2c..d3dd6a0c835 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_features.h
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_features.h
+@@ -68,6 +68,11 @@ static inline bool feature_dle(struct ll_conn *conn)
+ #endif
+ }
+ 
++static inline bool feature_fsu(struct ll_conn *conn)
++{
++	return (conn->llcp.fex.features_used & LL_FEAT_BIT_FRAME_SPACE) != 0;
++}
++
+ static inline bool feature_privacy(struct ll_conn *conn)
+ {
+ #if defined(CONFIG_BT_CTLR_PRIVACY)
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_internal.h b/subsys/bluetooth/controller/ll_sw/ull_llcp_internal.h
+index 9719ea8fc72..176c03e5835 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_internal.h
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_internal.h
+@@ -30,6 +30,7 @@ enum llcp_proc {
+ 	PROC_CIS_TERMINATE,
+ 	PROC_SCA_UPDATE,
+ 	PROC_PERIODIC_SYNC,
++	PROC_FRAME_SPACE,
+ 	/* A helper enum entry, to use in pause procedure context */
+ 	PROC_NONE = 0x0,
+ };
+@@ -225,6 +226,9 @@ struct proc_ctx {
+ 			uint8_t ntf_dle;
+ 		} dle;
+ #endif
++		struct {
++			uint8_t ntf_fsu;
++		} fsu;
+ 
+ 		/* Connection Update & Connection Parameter Request */
+ 		struct {
+@@ -740,6 +744,15 @@ void llcp_ntf_encode_length_change(struct ll_conn *conn,
+ 
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
++/*
++ * Frame Space  Procedure Helper
++ */
++void llcp_pdu_encode_fsu_req(struct ll_conn *conn, struct pdu_data *pdu);
++void llcp_pdu_encode_fsu_rsp(struct ll_conn *conn, struct pdu_data *pdu);
++void llcp_pdu_decode_fsu_req(struct ll_conn *conn, struct pdu_data *pdu);
++void llcp_pdu_decode_fsu_rsp(struct ll_conn *conn, struct pdu_data *pdu);
++void llcp_ntf_encode_fsu_change(struct ll_conn *conn, struct pdu_data *pdu);
++
+ #if defined(CONFIG_BT_CTLR_SCA_UPDATE)
+ /*
+  * Sleep Clock Accuracy Update Procedure Helper
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_local.c b/subsys/bluetooth/controller/ll_sw/ull_llcp_local.c
+index ecce8fd9013..c1a01aeae67 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_local.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_local.c
+@@ -332,6 +332,9 @@ void llcp_lr_rx(struct ll_conn *conn, struct proc_ctx *ctx, memq_link_t *link,
+ 		llcp_lp_comm_rx(conn, ctx, rx);
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		llcp_lp_comm_rx(conn, ctx, rx);
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_REQ)
+ 	case PROC_CTE_REQ:
+ 		llcp_lp_comm_rx(conn, ctx, rx);
+@@ -382,6 +385,9 @@ void llcp_lr_tx_ack(struct ll_conn *conn, struct proc_ctx *ctx, struct node_tx *
+ 		llcp_lp_comm_tx_ack(conn, ctx, tx);
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		llcp_lp_comm_tx_ack(conn, ctx, tx);
++		break;
+ #ifdef CONFIG_BT_CTLR_PHY
+ 	case PROC_PHY_UPDATE:
+ 		llcp_lp_pu_tx_ack(conn, ctx, tx);
+@@ -475,6 +481,9 @@ static void lr_act_run(struct ll_conn *conn)
+ 		llcp_lp_comm_run(conn, ctx, NULL);
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		llcp_lp_comm_run(conn, ctx, NULL);
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_REQ)
+ 	case PROC_CTE_REQ:
+ 		/* 3rd partam null? */
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c b/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
+index 409200f4116..31793e1adc1 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
+@@ -730,6 +730,99 @@ void llcp_pdu_decode_length_rsp(struct ll_conn *conn, struct pdu_data *pdu)
+ }
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
++void llcp_pdu_encode_fsu_req(struct ll_conn *conn, struct pdu_data *pdu)
++{
++	struct pdu_data_llctrl_fsu_req *p;
++
++	pdu->ll_id = PDU_DATA_LLID_CTRL;
++	pdu->len = sizeof(struct pdu_data_llctrl_fsu_req) + 1U;
++	pdu->llctrl.opcode = PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_REQ;
++	p = &pdu->llctrl.fsu_req;
++
++	p->fsu_min = sys_cpu_to_le16(conn->lll.fsu.local.fsu_min);
++	p->fsu_max = sys_cpu_to_le16(conn->lll.fsu.local.fsu_max);
++	p->phys = conn->lll.fsu.local.phys;
++	p->spacing_type = sys_cpu_to_le16(conn->lll.fsu.local.spacing_type);
++}
++
++void llcp_pdu_encode_fsu_rsp(struct ll_conn *conn, struct pdu_data *pdu)
++{
++	struct pdu_data_llctrl_fsu_rsp *p;
++
++	pdu->ll_id = PDU_DATA_LLID_CTRL;
++	pdu->len = sizeof(struct pdu_data_llctrl_fsu_rsp) + 1U;
++	pdu->llctrl.opcode = PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_RSP;
++	p = &pdu->llctrl.fsu_rsp;
++
++	p->fsu = sys_cpu_to_le16(conn->lll.fsu.local.fsu_min);
++	p->phys = conn->lll.fsu.local.phys;
++	p->spacing_type = sys_cpu_to_le16(conn->lll.fsu.local.spacing_type);
++	printk("%s: fsu %u\n", __func__, p->fsu);
++}
++
++void llcp_ntf_encode_fsu_change(struct ll_conn *conn, struct pdu_data *pdu)
++{
++	struct pdu_data_llctrl_fsu_rsp *p;
++
++	pdu->ll_id = PDU_DATA_LLID_CTRL;
++	pdu->len = sizeof(struct pdu_data_llctrl_fsu_rsp) + 1U;
++	pdu->llctrl.opcode = PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_RSP;
++	p = &pdu->llctrl.fsu_rsp;
++
++	p->fsu = sys_cpu_to_le16(conn->lll.fsu.eff.fsu_min);
++	p->phys = conn->lll.fsu.local.phys;
++	p->spacing_type = sys_cpu_to_le16(conn->lll.fsu.eff.spacing_type);
++}
++
++void llcp_pdu_decode_fsu_req(struct ll_conn *conn, struct pdu_data *pdu)
++{
++	struct pdu_data_llctrl_fsu_req *p;
++
++	p = &pdu->llctrl.fsu_req;
++	conn->lll.fsu.local.fsu_min = sys_le16_to_cpu(p->fsu_min);
++	conn->lll.fsu.local.fsu_max = sys_le16_to_cpu(p->fsu_max);
++	conn->lll.fsu.local.phys = p->phys & 0x07; /* mask out RFU bits */
++	conn->lll.fsu.local.spacing_type =
++		sys_le16_to_cpu(p->spacing_type & 0x1F); /* mask out RFU bits */
++	/* nitpic, perphy is confusing, call it phy*/
++	for (size_t i = 0; i < 3; i++) {
++		if (p->phys & BIT(i)) {
++			conn->lll.fsu.perphy[i].fsu_min =
++				sys_le16_to_cpu(p->fsu_min);
++			conn->lll.fsu.perphy[i].fsu_max =
++				sys_le16_to_cpu(p->fsu_max);
++			conn->lll.fsu.perphy[i].phys = p->phys & 0x07;
++			conn->lll.fsu.perphy[i].spacing_type =
++				sys_le16_to_cpu(p->spacing_type & 0x1F);
++		}
++	}
++}
++
++void llcp_pdu_decode_fsu_rsp(struct ll_conn *conn, struct pdu_data *pdu)
++{
++	struct pdu_data_llctrl_fsu_rsp *p;
++
++	p = &pdu->llctrl.fsu_rsp;
++
++	conn->lll.fsu.local.fsu_min = sys_le16_to_cpu(p->fsu);
++	conn->lll.fsu.local.fsu_max = sys_le16_to_cpu(p->fsu);
++	conn->lll.fsu.local.phys = p->phys & 0x07; /* mask out RFU bits */
++	conn->lll.fsu.local.spacing_type =
++		sys_le16_to_cpu(p->spacing_type & 0x1F); /* mask out RFU bits */
++
++	for (size_t i = 0; i < 3; i++) {
++		if (p->phys & BIT(i)) {
++			conn->lll.fsu.perphy[i].fsu_min =
++				sys_le16_to_cpu(p->fsu);
++			conn->lll.fsu.perphy[i].fsu_max =
++				sys_le16_to_cpu(p->fsu);
++			conn->lll.fsu.perphy[i].phys = p->phys & 0x07;
++			conn->lll.fsu.perphy[i].spacing_type =
++				sys_le16_to_cpu(p->spacing_type & 0x1F);
++		}
++	}
++}
++
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_REQ)
+ /*
+  * Constant Tone Request Procedure Helper
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_phy.c b/subsys/bluetooth/controller/ll_sw/ull_llcp_phy.c
+index 9e8ebaf7a40..51f67cfec24 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_phy.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_phy.c
+@@ -318,6 +318,49 @@ static uint8_t pu_update_eff_times(struct ll_conn *conn, struct proc_ctx *ctx)
+ }
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
++static uint8_t pu_update_eff_tifs(struct ll_conn *conn, struct proc_ctx *ctx)
++{
++	uint8_t phy_index_tx, phy_index_rx;
++
++	phy_index_tx =
++		conn->lll.phy_tx == 4 ? 2 : conn->lll.phy_tx - 1; /* a bit tricky but should work */
++	phy_index_rx =
++		conn->lll.phy_rx == 4 ? 2 : conn->lll.phy_rx - 1; /* a bit tricky but should work */
++
++	if (((conn->lll.fsu.perphy[phy_index_tx].spacing_type & T_IFS_ACL_CP) ==
++	     T_IFS_ACL_CP) &&
++	    (conn->lll.role == BT_HCI_ROLE_PERIPHERAL)) {
++		conn->lll.fsu.eff.fsu_min =
++			conn->lll.fsu.perphy[phy_index_tx].fsu_min;
++		conn->lll.tifs_tx_us = conn->lll.fsu.eff.fsu_min;
++	}
++	if (((conn->lll.fsu.perphy[phy_index_tx].spacing_type & T_IFS_ACL_PC) ==
++	     T_IFS_ACL_PC) &&
++	    (conn->lll.role == BT_HCI_ROLE_CENTRAL)) {
++		conn->lll.fsu.eff.fsu_min =
++			conn->lll.fsu.perphy[phy_index_tx].fsu_min;
++		conn->lll.tifs_tx_us = conn->lll.fsu.eff.fsu_min;
++	}
++
++	if (((conn->lll.fsu.perphy[phy_index_rx].spacing_type & T_IFS_ACL_CP) ==
++	     T_IFS_ACL_CP) &&
++	    (conn->lll.role == BT_HCI_ROLE_CENTRAL)) {
++		conn->lll.fsu.eff.fsu_min =
++			conn->lll.fsu.perphy[phy_index_rx].fsu_min;
++		conn->lll.tifs_rx_us = conn->lll.fsu.eff.fsu_min;
++	}
++
++	if (((conn->lll.fsu.perphy[phy_index_rx].spacing_type & T_IFS_ACL_PC) ==
++	     T_IFS_ACL_PC) &&
++	    (conn->lll.role == BT_HCI_ROLE_PERIPHERAL)) {
++		conn->lll.fsu.eff.fsu_min =
++			conn->lll.fsu.perphy[phy_index_rx].fsu_min;
++		conn->lll.tifs_rx_us = conn->lll.fsu.eff.fsu_min;
++	}
++
++	return 0;
++}
++
+ static inline void pu_set_preferred_phys(struct ll_conn *conn, struct proc_ctx *ctx)
+ {
+ 	conn->phy_pref_rx = ctx->data.pu.rx;
+@@ -778,6 +821,10 @@ static void lp_pu_check_instant(struct ll_conn *conn, struct proc_ctx *ctx, uint
+ 			ctx->data.pu.ntf_dle = pu_update_eff_times(conn, ctx);
+ 		}
+ #endif
++		if (phy_changed) {
++			pu_update_eff_tifs(conn, ctx);
++		}
++
+ 		llcp_rr_set_incompat(conn, INCOMPAT_NO_COLLISION);
+ 		ctx->data.pu.error = BT_HCI_ERR_SUCCESS;
+ 		ctx->data.pu.ntf_pu = (phy_changed || ctx->data.pu.host_initiated);
+@@ -1201,6 +1248,10 @@ static void rp_pu_check_instant(struct ll_conn *conn, struct proc_ctx *ctx, uint
+ 			ctx->data.pu.ntf_dle = pu_update_eff_times(conn, ctx);
+ 		}
+ #endif
++		if (phy_changed) {
++			pu_update_eff_tifs(conn, ctx);
++		}
++
+ 		/* if PHY settings changed we should generate NTF */
+ 		ctx->data.pu.ntf_pu = phy_changed;
+ 		rp_pu_complete(conn, ctx, evt, param);
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_remote.c b/subsys/bluetooth/controller/ll_sw/ull_llcp_remote.c
+index 3a90a9d950b..c219ac2e8d5 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_remote.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_remote.c
+@@ -91,6 +91,7 @@ static bool proc_with_instant(struct proc_ctx *ctx)
+ 	case PROC_ENCRYPTION_PAUSE:
+ 	case PROC_TERMINATE:
+ 	case PROC_DATA_LENGTH_UPDATE:
++	case PROC_FRAME_SPACE:
+ 	case PROC_CTE_REQ:
+ 	case PROC_CIS_TERMINATE:
+ 	case PROC_CIS_CREATE:
+@@ -292,6 +293,9 @@ void llcp_rr_rx(struct ll_conn *conn, struct proc_ctx *ctx, memq_link_t *link,
+ 		llcp_rp_comm_rx(conn, ctx, rx);
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		llcp_rp_comm_rx(conn, ctx, rx);
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_RSP)
+ 	case PROC_CTE_REQ:
+ 		llcp_rp_comm_rx(conn, ctx, rx);
+@@ -339,6 +343,9 @@ void llcp_rr_tx_ack(struct ll_conn *conn, struct proc_ctx *ctx, struct node_tx *
+ 		llcp_rp_comm_tx_ack(conn, ctx, tx);
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		llcp_rp_comm_tx_ack(conn, ctx, tx);
++		break;
+ #ifdef CONFIG_BT_CTLR_PHY
+ 	case PROC_PHY_UPDATE:
+ 		llcp_rp_pu_tx_ack(conn, ctx, tx);
+@@ -432,6 +439,9 @@ static void rr_act_run(struct ll_conn *conn)
+ 		llcp_rp_comm_run(conn, ctx, NULL);
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++	case PROC_FRAME_SPACE:
++		llcp_rp_comm_run(conn, ctx, NULL);
++		break;
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_RSP)
+ 	case PROC_CTE_REQ:
+ 		llcp_rp_comm_run(conn, ctx, NULL);
+@@ -878,6 +888,8 @@ static const struct proc_role new_proc_lut[] = {
+ 	[PDU_DATA_LLCTRL_TYPE_LENGTH_REQ] = { PROC_DATA_LENGTH_UPDATE, ACCEPT_ROLE_BOTH },
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 	[PDU_DATA_LLCTRL_TYPE_LENGTH_RSP] = { PROC_UNKNOWN, ACCEPT_ROLE_NONE },
++	[PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_REQ] = { PROC_FRAME_SPACE, ACCEPT_ROLE_BOTH },
++	[PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_RSP] = { PROC_FRAME_SPACE, ACCEPT_ROLE_BOTH },
+ #if defined(CONFIG_BT_CTLR_PHY)
+ 	[PDU_DATA_LLCTRL_TYPE_PHY_REQ] = { PROC_PHY_UPDATE, ACCEPT_ROLE_BOTH },
+ #endif /* CONFIG_BT_CTLR_PHY */
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_peripheral.c b/subsys/bluetooth/controller/ll_sw/ull_peripheral.c
+index aa6db211ed1..e3944fb0452 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_peripheral.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_peripheral.c
+@@ -379,7 +379,7 @@ void ull_periph_setup(struct node_rx_pdu *rx, struct node_rx_ftr *ftr,
+ 	max_rx_time = PDU_MAX_US(0U, 0U, PHY_1M);
+ #endif /* !CONFIG_BT_CTLR_PHY */
+ #endif /* !CONFIG_BT_CTLR_PERIPHERAL_RESERVE_MAX */
+-
++	ull_fsu_init(conn);
+ #if defined(CONFIG_BT_CTLR_PHY)
+ 	ready_delay_us = lll_radio_rx_ready_delay_get(lll->phy_rx, PHY_FLAGS_S8);
+ #else /* CONFIG_BT_CTLR_PHY */
+-- 
+2.50.1 (Apple Git-155)
+
+
+From 9d57ad059d60b4a7baa3afba3d3c2d3502d6f36a Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Fri, 7 Aug 2026 00:14:43 -0500
+Subject: [PATCH 3/4] M0 FSU: defect fixes + HCI bridge on top of PR#99473
+ reference
+
+Fixes per zephyr-patches/fsu-m0-cheatsheet.md defect list: inverted
+change-detection comparisons; tifs_hcto_us follows tifs_rx_us; wrong
+CONFIG_BT_PHY_UPDATE guard -> CONFIG_BT_CTLR_PHY; debug printk removed;
+range validation (min<=max, <=10ms) in ull_cp_fsu; eff.phys/spacing_type
+preserved for the ntf encoder before request-scratch clearing.
+
+New: Kconfig.ll_sw_split selects FRAME_SPACE_UPDATE_SUPPORT +
+EXTENDED_FEAT_SET_SUPPORT; BT_CTLR_FSU_BENCH_FORCE_FEAT bench shim
+(documented non-conformant: forces feature_fsu known-supported; bit 65
+exceeds the 64-bit LLCP mask; UNKNOWN_RSP path handles non-support).
+HCI bridge: LE Frame Space Update cmd 0x209D -> bt_ull_cp_fsu (cmd
+status); LE Read All Local Supported Features 0x2087 (max_page=1, bit 65
+= byte8 bit1) + supported-commands octet 47 bit 2 so the host's
+extended-feature read path lights up; FSU Complete meta event 0x35 from
+the FSU_RSP ntf (initiator by role per M0 single-initiator convention).
+
+NOT upstreamable as-is (bench shim; no real feature-page exchange - M1).
+---
+ .../bluetooth/controller/Kconfig.ll_sw_split  |  13 +++
+ subsys/bluetooth/controller/hci/hci.c         | 101 ++++++++++++++++++
+ subsys/bluetooth/controller/ll_sw/ull_conn.c  |  21 ++--
+ subsys/bluetooth/controller/ll_sw/ull_llcp.c  |  10 +-
+ .../controller/ll_sw/ull_llcp_features.h      |   9 ++
+ .../bluetooth/controller/ll_sw/ull_llcp_pdu.c |   3 +-
+ 6 files changed, 147 insertions(+), 10 deletions(-)
+
+diff --git a/subsys/bluetooth/controller/Kconfig.ll_sw_split b/subsys/bluetooth/controller/Kconfig.ll_sw_split
+index c13e855aa88..add2980032d 100644
+--- a/subsys/bluetooth/controller/Kconfig.ll_sw_split
++++ b/subsys/bluetooth/controller/Kconfig.ll_sw_split
+@@ -37,6 +37,8 @@ config BT_LLL_VENDOR_NORDIC
+ 	select BT_CTLR_PHY_CODED_SUPPORT if HAS_HW_NRF_RADIO_BLE_CODED
+ 	select BT_CTLR_PHY_UPDATE_SUPPORT if BT_CTLR_PHY_2M_SUPPORT || \
+ 					     BT_CTLR_PHY_CODED_SUPPORT
++	select BT_CTLR_FRAME_SPACE_UPDATE_SUPPORT
++	select BT_CTLR_EXTENDED_FEAT_SET_SUPPORT
+ 	select BT_CTLR_ADV_EXT_SUPPORT
+ 	select BT_CTLR_ADV_PERIODIC_SUPPORT
+ 	select BT_CTLR_SYNC_PERIODIC_SUPPORT
+@@ -1504,3 +1506,14 @@ config BT_CTLR_DEBUG_PINS
+ 	  the code.
+ 
+ endif # BT_LL_SW_SPLIT
++
++config BT_CTLR_FSU_BENCH_FORCE_FEAT
++	bool "BENCH-ONLY: force Frame Space Update feature known-supported"
++	depends on BT_CTLR_FRAME_SPACE_UPDATE
++	help
++	  NON-CONFORMANT bench shim (M0): treats the peer as FSU-capable
++	  without a real Extended Feature Set page exchange (feature bit 65
++	  exceeds the classic 64-bit LLCP feature mask). A non-supporting
++	  peer answers LL_FRAME_SPACE_REQ with LL_UNKNOWN_RSP, which this
++	  implementation handles as clean procedure termination. Never
++	  enable outside the open<->open bench rig.
+diff --git a/subsys/bluetooth/controller/hci/hci.c b/subsys/bluetooth/controller/hci/hci.c
+index f7f1ad1bdb6..fafbd157263 100644
+--- a/subsys/bluetooth/controller/hci/hci.c
++++ b/subsys/bluetooth/controller/hci/hci.c
+@@ -857,6 +857,11 @@ static void read_supported_commands(struct net_buf *buf, struct net_buf **evt)
+ 
+ 	/* Read Local Version Info, Read Local Supported Features. */
+ 	rp->commands[14] |= BIT(3) | BIT(5);
++
++#if defined(CONFIG_BT_CTLR_FRAME_SPACE_UPDATE)
++	/* LE Read All Local Supported Features. */
++	rp->commands[47] |= BIT(2);
++#endif /* CONFIG_BT_CTLR_FRAME_SPACE_UPDATE */
+ 	/* Read BD ADDR. */
+ 	rp->commands[15] |= BIT(1);
+ 
+@@ -1465,6 +1470,48 @@ static void le_read_local_features(struct net_buf *buf, struct net_buf **evt)
+ 	sys_put_le64(ll_feat_get(), rp->features);
+ }
+ 
++#if defined(CONFIG_BT_CTLR_FRAME_SPACE_UPDATE)
++/* M0 bench FSU: llcp entry (ull_llcp.c) */
++uint8_t bt_ull_cp_fsu(uint16_t handle, uint16_t fsu_min, uint16_t fsu_max,
++		      uint8_t phys, uint16_t spacing_type);
++struct ll_conn *ll_connected_get(uint16_t handle);
++
++static void le_read_all_local_supported_features(struct net_buf *buf,
++						 struct net_buf **evt)
++{
++	struct bt_hci_rp_le_read_all_local_supported_features *rp;
++
++	rp = hci_cmd_complete(evt, sizeof(*rp));
++
++	rp->status = 0x00;
++	rp->max_page = 1U;
++	(void)memset(&rp->features[0], 0x00, sizeof(rp->features));
++	sys_put_le64(ll_feat_get(), rp->features);
++	/* Frame Space Update: feature bit 65 = byte 8 bit 1 */
++	rp->features[8] |= BIT(1);
++}
++
++static void le_frame_space_update(struct net_buf *buf, struct net_buf **evt)
++{
++	struct bt_hci_cp_le_frame_space_update *cmd = (void *)buf->data;
++	uint16_t frame_space_min;
++	uint16_t frame_space_max;
++	uint16_t spacing_types;
++	uint16_t handle;
++	uint8_t status;
++
++	handle = sys_le16_to_cpu(cmd->handle);
++	frame_space_min = sys_le16_to_cpu(cmd->frame_space_min);
++	frame_space_max = sys_le16_to_cpu(cmd->frame_space_max);
++	spacing_types = sys_le16_to_cpu(cmd->spacing_types);
++
++	status = bt_ull_cp_fsu(handle, frame_space_min, frame_space_max,
++			       cmd->phys, spacing_types);
++
++	*evt = cmd_status(status);
++}
++#endif /* CONFIG_BT_CTLR_FRAME_SPACE_UPDATE */
++
+ static void le_set_random_address(struct net_buf *buf, struct net_buf **evt)
+ {
+ 	struct bt_hci_cp_le_set_random_address *cmd = (void *)buf->data;
+@@ -4790,6 +4837,19 @@ static int controller_cmd_handle(uint16_t  ocf, struct net_buf *cmd,
+ 	case BT_OCF(BT_HCI_OP_LE_SET_DATA_LEN):
+ 		le_set_data_len(cmd, evt);
+ 		break;
++#endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++
++#if defined(CONFIG_BT_CTLR_FRAME_SPACE_UPDATE)
++	case BT_OCF(BT_HCI_OP_LE_READ_ALL_LOCAL_SUPPORTED_FEATURES):
++		le_read_all_local_supported_features(cmd, evt);
++		break;
++
++	case BT_OCF(BT_HCI_OP_LE_FRAME_SPACE_UPDATE):
++		le_frame_space_update(cmd, evt);
++		break;
++#endif /* CONFIG_BT_CTLR_FRAME_SPACE_UPDATE */
++
++#if defined(CONFIG_BT_CTLR_DATA_LENGTH)
+ 
+ 	case BT_OCF(BT_HCI_OP_LE_READ_DEFAULT_DATA_LEN):
+ 		le_read_default_data_len(cmd, evt);
+@@ -9135,6 +9195,41 @@ static void le_data_len_change(struct pdu_data *pdu_data, uint16_t handle,
+ }
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
++#if defined(CONFIG_BT_CTLR_FRAME_SPACE_UPDATE)
++static void le_frame_space_update_complete_encode(struct pdu_data *pdu_data,
++						  uint16_t handle,
++						  struct net_buf *buf)
++{
++	struct bt_hci_evt_le_frame_space_update_complete *sep;
++	struct ll_conn *conn;
++
++	if (!(event_mask & BT_EVT_MASK_LE_META_EVENT) ||
++	    !(le_event_mask & BT_EVT_MASK_LE_FRAME_SPACE_UPDATE_COMPLETE)) {
++		return;
++	}
++
++	sep = meta_evt(buf, BT_HCI_EVT_LE_FRAME_SPACE_UPDATE_COMPLETE,
++		       sizeof(*sep));
++
++	sep->status = 0x00;
++	sep->handle = sys_cpu_to_le16(handle);
++	/* M0 single-initiator convention: the central is the only
++	 * initiator, so a completion on the central is host-initiated and
++	 * one on the peripheral is peer-initiated.
++	 */
++	conn = ll_connected_get(handle);
++	if (conn && conn->lll.role == BT_HCI_ROLE_CENTRAL) {
++		sep->initiator = BT_HCI_LE_FRAME_SPACE_UPDATE_INITIATOR_LOCAL_HOST;
++	} else {
++		sep->initiator = BT_HCI_LE_FRAME_SPACE_UPDATE_INITIATOR_PEER;
++	}
++	/* pdu fields are already little-endian */
++	sep->frame_space = pdu_data->llctrl.fsu_rsp.fsu;
++	sep->phys = pdu_data->llctrl.fsu_rsp.phys;
++	sep->spacing_types = pdu_data->llctrl.fsu_rsp.spacing_type;
++}
++#endif /* CONFIG_BT_CTLR_FRAME_SPACE_UPDATE */
++
+ #if defined(CONFIG_BT_REMOTE_VERSION)
+ static void remote_version_info_encode(struct pdu_data *pdu_data,
+ 				       uint16_t handle, struct net_buf *buf)
+@@ -9205,6 +9300,12 @@ static void encode_data_ctrl(struct node_rx_pdu *node_rx,
+ 		break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
+ 
++#if defined(CONFIG_BT_CTLR_FRAME_SPACE_UPDATE)
++	case PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_RSP:
++		le_frame_space_update_complete_encode(pdu_data, handle, buf);
++		break;
++#endif /* CONFIG_BT_CTLR_FRAME_SPACE_UPDATE */
++
+ #if defined(CONFIG_BT_CTLR_DF_CONN_CTE_REQ)
+ 	case PDU_DATA_LLCTRL_TYPE_CTE_RSP:
+ 		le_df_cte_req_failed(BT_HCI_CTE_REQ_STATUS_RSP_WITHOUT_CTE, handle, buf);
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_conn.c b/subsys/bluetooth/controller/ll_sw/ull_conn.c
+index f464eca245d..f8a3c6aee9f 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_conn.c
+@@ -2853,13 +2853,13 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 	uint8_t phy_tx;
+ 	uint8_t phy_rx;
+ 
+-#if defined(CONFIG_BT_PHY_UPDATE)
++#if defined(CONFIG_BT_CTLR_PHY)
+ 	phy_tx = conn->lll.phy_tx;
+ 	phy_rx = conn->lll.phy_rx;
+ #else
+ 	phy_tx = PHY_1M;
+ 	phy_rx = PHY_1M;
+-#endif /* CONFIG_BT_PHY_UPDATE */
++#endif /* CONFIG_BT_CTLR_PHY */
+ 
+ 	fsu_changed = ull_fsu_update_eff_from_local(conn);
+ 
+@@ -2869,7 +2869,7 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 
+ 	if ((conn->lll.fsu.local.spacing_type & T_IFS_CIS) == T_IFS_CIS) {
+ 
+-		if (conn->lll.tifs_cis_us == conn->lll.fsu.eff.fsu_min) {
++		if (conn->lll.tifs_cis_us != conn->lll.fsu.eff.fsu_min) {
+ 			fsu_changed = 1;
+ 		}
+ 		conn->lll.tifs_cis_us = conn->lll.fsu.eff.fsu_min;
+@@ -2878,7 +2878,7 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 	if ((conn->lll.fsu.local.spacing_type & T_IFS_ACL_CP) == T_IFS_ACL_CP) {
+ 		if (conn->lll.role == BT_HCI_ROLE_PERIPHERAL) {
+ 			if (conn->lll.fsu.local.phys & phy_tx) {
+-				if (conn->lll.tifs_tx_us ==
++				if (conn->lll.tifs_tx_us !=
+ 				    conn->lll.fsu.eff.fsu_min) {
+ 					fsu_changed = 1;
+ 				}
+@@ -2886,11 +2886,12 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 			}
+ 		} else {
+ 			if (conn->lll.fsu.local.phys & phy_rx) {
+-				if (conn->lll.tifs_rx_us ==
++				if (conn->lll.tifs_rx_us !=
+ 				    conn->lll.fsu.eff.fsu_min) {
+ 					fsu_changed = 1;
+ 				}
+ 				conn->lll.tifs_rx_us = conn->lll.fsu.eff.fsu_min;
++				conn->lll.tifs_hcto_us = conn->lll.fsu.eff.fsu_min;
+ 			}
+ 		}
+ 	}
+@@ -2898,15 +2899,16 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 	if ((conn->lll.fsu.local.spacing_type & T_IFS_ACL_PC) == T_IFS_ACL_PC) {
+ 		if (conn->lll.role == BT_HCI_ROLE_PERIPHERAL) {
+ 			if (conn->lll.fsu.local.phys & phy_rx) {
+-				if (conn->lll.tifs_rx_us ==
++				if (conn->lll.tifs_rx_us !=
+ 				    conn->lll.fsu.eff.fsu_min) {
+ 					fsu_changed = 1;
+ 				}
+ 				conn->lll.tifs_rx_us = conn->lll.fsu.eff.fsu_min;
++				conn->lll.tifs_hcto_us = conn->lll.fsu.eff.fsu_min;
+ 			}
+ 		} else {
+ 			if (conn->lll.fsu.local.phys & phy_tx) {
+-				if (conn->lll.tifs_tx_us ==
++				if (conn->lll.tifs_tx_us !=
+ 				    conn->lll.fsu.eff.fsu_min) {
+ 					fsu_changed = 1;
+ 				}
+@@ -2915,6 +2917,11 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 		}
+ 	}
+ 	if (fsu_changed == 1) {
++		/* Preserve what changed for the notification encoder before
++		 * clearing the request-scratch fields.
++		 */
++		conn->lll.fsu.eff.phys = conn->lll.fsu.local.phys;
++		conn->lll.fsu.eff.spacing_type = conn->lll.fsu.local.spacing_type;
+ 		conn->lll.fsu.local.phys = 0;
+ 		conn->lll.fsu.local.spacing_type = 0;
+ 	}
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp.c b/subsys/bluetooth/controller/ll_sw/ull_llcp.c
+index 5b5150aeb07..21a3f7d779f 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp.c
+@@ -948,8 +948,16 @@ uint8_t ull_cp_fsu(struct ll_conn *conn, uint16_t fsu_min, uint16_t fsu_max,
+ {
+ 	struct proc_ctx *ctx;
+ 
++	/* Range validation: min<=max, and an upper bound of 10 ms per the
++	 * public feature descriptions (exact spec bound to be re-verified
++	 * when the spec text is directly quotable - cheat-sheet item).
++	 */
++	if ((fsu_min > fsu_max) || (fsu_max > 10000U)) {
++		return BT_HCI_ERR_INVALID_PARAM;
++	}
++
+ 	if (!feature_fsu(conn)) {
+-		return BT_HCI_ERR_SUCCESS;
++		return BT_HCI_ERR_UNSUPP_REMOTE_FEATURE;
+ 	}
+ 
+ 	ctx = llcp_create_local_procedure(PROC_FRAME_SPACE);
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_features.h b/subsys/bluetooth/controller/ll_sw/ull_llcp_features.h
+index d3dd6a0c835..62ffdf5fc83 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_features.h
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_features.h
+@@ -70,6 +70,15 @@ static inline bool feature_dle(struct ll_conn *conn)
+ 
+ static inline bool feature_fsu(struct ll_conn *conn)
+ {
++	/* Feature bit 65 exceeds the 64-bit LLCP feature mask; the real
++	 * Extended Feature Set exchange is M1 work. Under the documented
++	 * M0 bench shim the feature is forced known-supported (peer
++	 * without support answers UNKNOWN_RSP -> clean termination).
++	 */
++	if (IS_ENABLED(CONFIG_BT_CTLR_FSU_BENCH_FORCE_FEAT)) {
++		return true;
++	}
++
+ 	return (conn->llcp.fex.features_used & LL_FEAT_BIT_FRAME_SPACE) != 0;
+ }
+ 
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c b/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
+index 31793e1adc1..f7444d89139 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
+@@ -757,7 +757,6 @@ void llcp_pdu_encode_fsu_rsp(struct ll_conn *conn, struct pdu_data *pdu)
+ 	p->fsu = sys_cpu_to_le16(conn->lll.fsu.local.fsu_min);
+ 	p->phys = conn->lll.fsu.local.phys;
+ 	p->spacing_type = sys_cpu_to_le16(conn->lll.fsu.local.spacing_type);
+-	printk("%s: fsu %u\n", __func__, p->fsu);
+ }
+ 
+ void llcp_ntf_encode_fsu_change(struct ll_conn *conn, struct pdu_data *pdu)
+@@ -770,7 +769,7 @@ void llcp_ntf_encode_fsu_change(struct ll_conn *conn, struct pdu_data *pdu)
+ 	p = &pdu->llctrl.fsu_rsp;
+ 
+ 	p->fsu = sys_cpu_to_le16(conn->lll.fsu.eff.fsu_min);
+-	p->phys = conn->lll.fsu.local.phys;
++	p->phys = conn->lll.fsu.eff.phys;
+ 	p->spacing_type = sys_cpu_to_le16(conn->lll.fsu.eff.spacing_type);
+ }
+ 
+-- 
+2.50.1 (Apple Git-155)
+
+
+From 6a2245e1dc81d3cfd5b21d1443dda1656e1e7371 Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Fri, 7 Aug 2026 00:36:44 -0500
+Subject: [PATCH 4/4] M0 FSU WORKING: transitional receive windows +
+ RSP-from-effective-state
+
+Two on-air-discovered fixes. (1) Transitional windows (the spec's model,
+absent from the reference): the responder adopts before its RSP, so the
+RSP flies at the NEW spacing while the initiator still listens with old
+timing - without bridging, both ends deadlock at different spacings and
+the link dies 0x08 within seconds (observed 5x/60s). Fix: RX-enable
+adopts the reduced spacing early (initiator at REQ enqueue, both roles at
+adoption) while tifs_hcto stays at the old/default spacing, so both
+timings are heard. Result: 0 disconnects across all subsequent runs.
+(2) The reference clears the request-scratch masks after adoption, and
+encode_fsu_rsp read those cleared fields -> RSP carried phys=0/types=0,
+the initiator matched no branch, committed nothing, reported nothing.
+Fix: mirror masks into fsu.eff unconditionally before clearing; RSP and
+ntf encode from eff; eff masks initialized.
+
+Verified on two nRF54L15-DK: FSU Complete on the host callback,
+status=0x00 spacing=52us phys=0x3 types=0x3, disc=0 - negotiated 52us on
+the fully open stack (below the SDC's 70us floor).
+---
+ subsys/bluetooth/controller/hci/hci.c         |  1 +
+ subsys/bluetooth/controller/ll_sw/ull_conn.c  | 32 +++++++++++++------
+ subsys/bluetooth/controller/ll_sw/ull_llcp.c  | 10 ++++++
+ .../bluetooth/controller/ll_sw/ull_llcp_pdu.c |  6 ++--
+ 4 files changed, 37 insertions(+), 12 deletions(-)
+
+diff --git a/subsys/bluetooth/controller/hci/hci.c b/subsys/bluetooth/controller/hci/hci.c
+index fafbd157263..b253abb7b4f 100644
+--- a/subsys/bluetooth/controller/hci/hci.c
++++ b/subsys/bluetooth/controller/hci/hci.c
+@@ -9203,6 +9203,7 @@ static void le_frame_space_update_complete_encode(struct pdu_data *pdu_data,
+ 	struct bt_hci_evt_le_frame_space_update_complete *sep;
+ 	struct ll_conn *conn;
+ 
++
+ 	if (!(event_mask & BT_EVT_MASK_LE_META_EVENT) ||
+ 	    !(le_event_mask & BT_EVT_MASK_LE_FRAME_SPACE_UPDATE_COMPLETE)) {
+ 		return;
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_conn.c b/subsys/bluetooth/controller/ll_sw/ull_conn.c
+index f8a3c6aee9f..4af28e90c6f 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_conn.c
+@@ -2863,8 +2863,14 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 
+ 	fsu_changed = ull_fsu_update_eff_from_local(conn);
+ 
+-	if (fsu_changed) {
+-		/* TODO: confirm that we do not need to do something here? */
++	/* Mirror the request's masks into the effective state BEFORE any
++	 * clearing below: the RSP and the notification encoders read from
++	 * eff (the request-scratch local.* fields are cleared once applied,
++	 * which used to zero the masks inside the RSP itself).
++	 */
++	if (conn->lll.fsu.local.phys || conn->lll.fsu.local.spacing_type) {
++		conn->lll.fsu.eff.phys = conn->lll.fsu.local.phys;
++		conn->lll.fsu.eff.spacing_type = conn->lll.fsu.local.spacing_type;
+ 	}
+ 
+ 	if ((conn->lll.fsu.local.spacing_type & T_IFS_CIS) == T_IFS_CIS) {
+@@ -2891,7 +2897,15 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 					fsu_changed = 1;
+ 				}
+ 				conn->lll.tifs_rx_us = conn->lll.fsu.eff.fsu_min;
+-				conn->lll.tifs_hcto_us = conn->lll.fsu.eff.fsu_min;
++				/* M0 transitional receive window: RX enables at
++				 * the new (reduced) spacing, but the header
++				 * timeout stays at the old/default spacing so
++				 * a peer that has not yet adopted is still
++				 * heard (the spec's transitional windows).
++				 */
++				conn->lll.tifs_hcto_us =
++					MAX(EVENT_IFS_DEFAULT_US,
++					    conn->lll.fsu.eff.fsu_min);
+ 			}
+ 		}
+ 	}
+@@ -2904,7 +2918,10 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 					fsu_changed = 1;
+ 				}
+ 				conn->lll.tifs_rx_us = conn->lll.fsu.eff.fsu_min;
+-				conn->lll.tifs_hcto_us = conn->lll.fsu.eff.fsu_min;
++				/* Transitional window: see comment above. */
++				conn->lll.tifs_hcto_us =
++					MAX(EVENT_IFS_DEFAULT_US,
++					    conn->lll.fsu.eff.fsu_min);
+ 			}
+ 		} else {
+ 			if (conn->lll.fsu.local.phys & phy_tx) {
+@@ -2917,11 +2934,6 @@ uint8_t ull_fsu_update_eff(struct ll_conn *conn)
+ 		}
+ 	}
+ 	if (fsu_changed == 1) {
+-		/* Preserve what changed for the notification encoder before
+-		 * clearing the request-scratch fields.
+-		 */
+-		conn->lll.fsu.eff.phys = conn->lll.fsu.local.phys;
+-		conn->lll.fsu.eff.spacing_type = conn->lll.fsu.local.spacing_type;
+ 		conn->lll.fsu.local.phys = 0;
+ 		conn->lll.fsu.local.spacing_type = 0;
+ 	}
+@@ -2969,6 +2981,8 @@ uint8_t ull_fsu_init(struct ll_conn *conn)
+ 	conn->lll.fsu.local.fsu_max = EVENT_IFS_MAX_US;
+ 	conn->lll.fsu.eff.fsu_min = EVENT_IFS_US;
+ 	conn->lll.fsu.eff.fsu_max = EVENT_IFS_US;
++	conn->lll.fsu.eff.phys = 0x07;
++	conn->lll.fsu.eff.spacing_type = T_IFS_ACL_PC | T_IFS_ACL_CP;
+ 	for (size_t i = 0; i < 3; i++) {
+ 		conn->lll.fsu.perphy[i].fsu_min = EVENT_IFS_US;
+ 		conn->lll.fsu.perphy[i].fsu_max = EVENT_IFS_US;
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp.c b/subsys/bluetooth/controller/ll_sw/ull_llcp.c
+index 21a3f7d779f..a7ca66aa909 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp.c
+@@ -967,6 +967,16 @@ uint8_t ull_cp_fsu(struct ll_conn *conn, uint16_t fsu_min, uint16_t fsu_max,
+ 
+ 	ull_fsu_local_tx_update(conn, fsu_min, fsu_max, phys, spacing_type);
+ 
++	/* M0 transitional receive window (initiator side): the responder
++	 * adopts the selected spacing BEFORE transmitting its RSP, so the
++	 * RSP itself can arrive at any spacing down to the requested
++	 * minimum. Enable RX early now; the header timeout keeps covering
++	 * the old spacing (not shrunk here), so both timings are heard.
++	 */
++	if (fsu_min < conn->lll.tifs_rx_us) {
++		conn->lll.tifs_rx_us = fsu_min;
++	}
++
+ 	llcp_lr_enqueue(conn, ctx);
+ 
+ 	return BT_HCI_ERR_SUCCESS;
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c b/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
+index f7444d89139..37b8a08862d 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_pdu.c
+@@ -754,9 +754,9 @@ void llcp_pdu_encode_fsu_rsp(struct ll_conn *conn, struct pdu_data *pdu)
+ 	pdu->llctrl.opcode = PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_RSP;
+ 	p = &pdu->llctrl.fsu_rsp;
+ 
+-	p->fsu = sys_cpu_to_le16(conn->lll.fsu.local.fsu_min);
+-	p->phys = conn->lll.fsu.local.phys;
+-	p->spacing_type = sys_cpu_to_le16(conn->lll.fsu.local.spacing_type);
++	p->fsu = sys_cpu_to_le16(conn->lll.fsu.eff.fsu_min);
++	p->phys = conn->lll.fsu.eff.phys;
++	p->spacing_type = sys_cpu_to_le16(conn->lll.fsu.eff.spacing_type);
+ }
+ 
+ void llcp_ntf_encode_fsu_change(struct ll_conn *conn, struct pdu_data *pdu)
+-- 
+2.50.1 (Apple Git-155)
+

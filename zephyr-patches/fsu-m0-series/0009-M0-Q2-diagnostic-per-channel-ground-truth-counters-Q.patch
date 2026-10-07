@@ -1,0 +1,154 @@
+From 5f994cbd6edb6def821138a3bfe1694b913fabca Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Tue, 11 Aug 2026 16:36:59 -0500
+Subject: [PATCH 09/16] M0 Q2 diagnostic: per-channel ground-truth counters +
+ Q2CONN params print
+
+Bench/diagnostic ONLY (not FSU, not the on-chip tIFS instrument). Exposes the
+controller-owned, race-free denominators + connection identity the passive raw-radio
+observer + analyzer consume as NON-circular retention denominators:
+- lll_conn_q2_evt[40] (scheduled/chan), lll_conn_q2_tx[40] (central=actual TX in
+  isr_tx; peripheral=CRC-good response-opportunity in isr_rx), lll_conn_q2_curchan
+  (actual remapped channel), lll_conn_q2_session/aa (set at connection setup).
+- ll_create_connection prints Q2CONN AA/CRCInit/hop/chan_count/map so the observer
+  can be tuned to the live connection; ull_periph_setup latches the peripheral-side
+  AA/session.
+
+Overlaps the historical zephyr-patches/q2-print-conn-params.patch (same intent).
+All-volatile globals + one printk; no data-path logic change.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../controller/ll_sw/nordic/lll/lll_central.c |  4 ++++
+ .../controller/ll_sw/nordic/lll/lll_conn.c    | 24 +++++++++++++++++++
+ .../ll_sw/nordic/lll/lll_peripheral.c         |  4 ++++
+ .../bluetooth/controller/ll_sw/ull_central.c  | 19 +++++++++++++++
+ .../controller/ll_sw/ull_peripheral.c         |  6 +++++
+ 5 files changed, 57 insertions(+)
+
+diff --git a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_central.c b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_central.c
+index fb170046a96..ed955b95dde 100644
+--- a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_central.c
++++ b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_central.c
+@@ -180,6 +180,10 @@ static int prepare_cb(struct lll_prepare_param *p)
+ 	radio_aa_set(lll->access_addr);
+ 	radio_crc_configure(PDU_CRC_POLYNOMIAL,
+ 					sys_get_le24(lll->crc_init));
++	{ extern volatile uint32_t lll_conn_q2_evt[40];
++	  extern volatile uint8_t lll_conn_q2_curchan;
++	  lll_conn_q2_curchan = data_chan_use;
++	  if (data_chan_use < 40U) lll_conn_q2_evt[data_chan_use]++; }
+ 	lll_chan_set(data_chan_use);
+ 
+ 	lll_conn_tx_pkt_set(lll, pdu_data_tx);
+diff --git a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+index 9742df25a3e..15cee4799b4 100644
+--- a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+@@ -34,6 +34,17 @@
+ #include "lll_df.h"
+ #include "lll_conn.h"
+ 
++/* Q2 diagnostic (zephyr-patches/q2-print-conn-params.patch): per-data-channel
++ * per-channel DENOMINATOR counter, ROLE-DEPENDENT meaning: central = actual TX
++ * completion (isr_tx); peripheral = CRC-good response-opportunity (isr_rx). Per
++ * channel. The app prints it so the observer has a NON-circular retention
++ * denominator (events the observer never saw still count here). */
++volatile uint32_t lll_conn_q2_evt[40];   /* SCHEDULED opportunities/chan */
++volatile uint32_t lll_conn_q2_tx[40];    /* ACTUAL TX-completed pkts/chan */
++volatile uint32_t lll_conn_q2_session;   /* controller-owned, ++ per connect setup */
++volatile uint32_t lll_conn_q2_aa;        /* connection AA = shared id (both roles) */
++volatile uint8_t  lll_conn_q2_curchan = 255; /* ACTUAL remapped chan this event */
++
+ #include "lll_internal.h"
+ #include "lll_df_internal.h"
+ #include "lll_tim_internal.h"
+@@ -597,6 +608,16 @@ void lll_conn_isr_rx(void *param)
+ 
+ 	trx_cnt++;
+ 
++	/* Q2: PERIPHERAL response-opportunity counter (a CONSERVATIVE periph-TX
++	 * denominator, per review). Counted only on a CRC-GOOD reception -- the
++	 * peripheral then transmits its response, so this is >= its actual TX
++	 * (a rare post-CRC abort would not transmit). CENTRAL actual TX is counted
++	 * in lll_conn_isr_tx. crc_ok is already computed above. */
++	{ extern volatile uint32_t lll_conn_q2_tx[40];
++	  extern volatile uint8_t lll_conn_q2_curchan;
++	  struct lll_conn *ql = param;   /* 'lll' is not yet assigned here */
++	  if (ql->role && crc_ok && (lll_conn_q2_curchan < 40U)) lll_conn_q2_tx[lll_conn_q2_curchan]++; }
++
+ 	is_done = 0U;
+ 	tx_release = NULL;
+ 	is_rx_enqueue = 0U;
+@@ -937,6 +958,9 @@ void lll_conn_isr_tx(void *param)
+ 	tx_cnt++;
+ 
+ 	lll = param;
++	{ extern volatile uint32_t lll_conn_q2_tx[40];
++	  extern volatile uint8_t lll_conn_q2_curchan;
++	  if (lll_conn_q2_curchan < 40U) lll_conn_q2_tx[lll_conn_q2_curchan]++; }
+ 
+ #if defined(CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH)
+ 	/* CC0 here = the preceding RX-PHYEND -> TX-READY interval (single-timer
+diff --git a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_peripheral.c b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_peripheral.c
+index 6222d523c29..80ab8d91f5c 100644
+--- a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_peripheral.c
++++ b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_peripheral.c
+@@ -208,6 +208,10 @@ static int prepare_cb(struct lll_prepare_param *p)
+ 	radio_crc_configure(PDU_CRC_POLYNOMIAL,
+ 				sys_get_le24(lll->crc_init));
+ 
++	{ extern volatile uint32_t lll_conn_q2_evt[40];
++	  extern volatile uint8_t lll_conn_q2_curchan;
++	  lll_conn_q2_curchan = data_chan_use;
++	  if (data_chan_use < 40U) lll_conn_q2_evt[data_chan_use]++; }
+ 	lll_chan_set(data_chan_use);
+ 
+ 	radio_isr_set(lll_conn_isr_rx, lll);
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_central.c b/subsys/bluetooth/controller/ll_sw/ull_central.c
+index 28fe773a82d..e2e79c01c19 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_central.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_central.c
+@@ -250,6 +250,25 @@ uint8_t ll_create_connection(uint16_t scan_interval, uint16_t scan_window,
+ 	conn_lll->data_chan_hop = 5 + (hop % 12);
+ 	conn_lll->data_chan_sel = 0;
+ 	conn_lll->data_chan_use = 0;
++	/* Q2 DIAGNOSTIC (zephyr-patches/q2-print-conn-params.patch): expose the
++	 * central-minted connection AA + CRCInit so a passive raw-radio observer
++	 * can be tuned to them. AA=LE32(access_addr), CRCINIT=LE24(crc_init) --
++	 * exactly what the observer's RADIO BASE0/PREFIX0 and CRCINIT expect. */
++	{ extern volatile uint32_t lll_conn_q2_aa, lll_conn_q2_session;
++	  lll_conn_q2_aa = (uint32_t)conn_lll->access_addr[0] |
++	    ((uint32_t)conn_lll->access_addr[1] << 8) |
++	    ((uint32_t)conn_lll->access_addr[2] << 16) |
++	    ((uint32_t)conn_lll->access_addr[3] << 24);
++	  lll_conn_q2_session++; }
++	printk("Q2CONN AA=%02x%02x%02x%02x CRCINIT=%02x%02x%02x hop=%u chan_count=%u "
++	       "map=%02x%02x%02x%02x%02x\n",
++	       conn_lll->access_addr[3], conn_lll->access_addr[2],
++	       conn_lll->access_addr[1], conn_lll->access_addr[0],
++	       conn_lll->crc_init[2], conn_lll->crc_init[1], conn_lll->crc_init[0],
++	       conn_lll->data_chan_hop, conn_lll->data_chan_count,
++	       conn_lll->data_chan_map[0], conn_lll->data_chan_map[1],
++	       conn_lll->data_chan_map[2], conn_lll->data_chan_map[3],
++	       conn_lll->data_chan_map[4]);
+ 	conn_lll->role = 0;
+ 	conn_lll->central.initiated = 0;
+ 	conn_lll->central.cancelled = 0;
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_peripheral.c b/subsys/bluetooth/controller/ll_sw/ull_peripheral.c
+index e3944fb0452..b5de3e3cd3e 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_peripheral.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_peripheral.c
+@@ -151,6 +151,12 @@ void ull_periph_setup(struct node_rx_pdu *rx, struct node_rx_ftr *ftr,
+ 
+ 	memcpy(&lll->crc_init[0], &pdu_adv->connect_ind.crc_init[0], 3);
+ 	memcpy(&lll->access_addr[0], &pdu_adv->connect_ind.access_addr[0], 4);
++	{ extern volatile uint32_t lll_conn_q2_aa, lll_conn_q2_session;
++	  lll_conn_q2_aa = (uint32_t)lll->access_addr[0] |
++	    ((uint32_t)lll->access_addr[1] << 8) |
++	    ((uint32_t)lll->access_addr[2] << 16) |
++	    ((uint32_t)lll->access_addr[3] << 24);
++	  lll_conn_q2_session++; }
+ 	memcpy(&lll->data_chan_map[0], &pdu_adv->connect_ind.chan_map[0],
+ 	       sizeof(lll->data_chan_map));
+ 	lll->data_chan_count = util_ones_count_get(&lll->data_chan_map[0],

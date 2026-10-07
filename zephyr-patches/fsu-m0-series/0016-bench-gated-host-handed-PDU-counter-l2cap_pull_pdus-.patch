@@ -1,0 +1,46 @@
+From 8f44a3d7a3f41ef8218b8f74f88527fe1f33d4be Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Wed, 26 Aug 2026 09:35:38 -0500
+Subject: [PATCH 16/16] bench: gated host-handed PDU counter l2cap_pull_pdus
+ (CONFIG_BT_TESTING)
+
+TX-staging investigation instrumentation: one bump per non-NULL l2cap_data_pull
+return = host->controller ACL fragments actually handed down. Compared to the
+controller-aired trx_cnt it distinguishes an airtime-full event (host-handed ==
+aired, measured 1:1) from a downstream cap (host-handed >> aired). Gated on
+CONFIG_BT_TESTING, no-op otherwise. Result: downlink ceiling is tIFS airtime,
+not host staging.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ subsys/bluetooth/host/l2cap.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/subsys/bluetooth/host/l2cap.c b/subsys/bluetooth/host/l2cap.c
+index 148a1b9a9b9..554c228ff7c 100644
+--- a/subsys/bluetooth/host/l2cap.c
++++ b/subsys/bluetooth/host/l2cap.c
+@@ -931,6 +931,13 @@ static bool chan_has_credits(struct bt_l2cap_le_chan *lechan)
+ #endif
+ }
+ 
++#if defined(CONFIG_BT_TESTING)
++/* TX-staging diagnostic: host->controller ACL fragments actually handed down (one bump per
++ * non-NULL l2cap_data_pull return). Compare to controller aired trx_cnt to tell an airtime-full
++ * event (host-handed == aired) from a downstream cap (host-handed >> aired). BENCH-ONLY. */
++volatile uint32_t l2cap_pull_pdus;
++#endif
++
+ __weak void bt_test_l2cap_data_pull_spy(struct bt_conn *conn,
+ 					struct bt_l2cap_le_chan *lechan,
+ 					size_t amount,
+@@ -1068,6 +1075,9 @@ struct net_buf *l2cap_data_pull(struct bt_conn *conn,
+ 		lechan->_pdu_remaining = 0;
+ 	}
+ 
++#if defined(CONFIG_BT_TESTING)
++	l2cap_pull_pdus++;
++#endif
+ 	return pdu;
+ }
+ 

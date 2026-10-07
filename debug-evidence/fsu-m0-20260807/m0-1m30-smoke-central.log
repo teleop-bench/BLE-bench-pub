@@ -1,0 +1,41 @@
+*** Booting Zephyr OS build v4.4.1-4-g6a2245e1dc81 ***
+[00:00:00.002,928] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+[00:00:00.002,940] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+[00:00:00.002,951] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 1[0m
+[00:00:00.003,283] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+[00:00:00.003,329] [0m<inf> bt_hci_core: Identity: FC:BE:FF:FA:E6:8B (random)[0m
+[00:00:00.0*** Booting Zephyr OS build v4.4.1-4-g6a2245e1dc81 ***
+[00:00:00.133,657] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+[00:00:00.133,669] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+[00:00:00.133,680] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 1[0m
+[00:00:00.134,012] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+[00:00:00.134,058] [0m<inf> bt_hci_core: Identity: FC:BE:FF:FA:E6:8B (random)[0m
+[00:00:00.134,074] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+[00:00:00.134,089] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+
+=== nRF54L15 RTT ping-pong CENTRAL ===
+scan rc=0
+t=1s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=1s maxout=1s
+t=2s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=2s maxout=2s
+t=3s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=3s maxout=3s
+GAP connected interval=7500
+[00:00:04.085,313] [1;33m<wrn> bt_conn: PHY 0x02 not supported[0m
+MTU err=0 mtu=247
+t=4s RTT mean=0 min=0 max=0 n=0 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=0 tot_to=0 maxever=0 >2ms=0 >5ms=0 >15ms=0 >20ms=0 >30ms=0 | probes=0 wrfail=0 down=4s maxout=4s
+BLASTC comp=1 exkBps=0 cgap_us[min/avg/max]=4294967295/0/0
+[1;31m--- 4 messages dropped ---
+[0mBLAST phy=1/1 att=1 ok=BLAST phy=1/1 att=1 ok=1 enomem=0 err=0 call_us[min/avg/max]=121/121/121 okgap_max_us=192
+[1;31m--- 5 messages dropped ---
+[0mBLAST first16_call_us: 122 118 117 121 119 115 115 115 115 108 52 51 51 50 50 50
+[00:00:04.655,843] [1;31m<err> os: ***** USAGE FAULT *****[0m
+[00:00:04.655,849] [1;31m<err> os:   Attempt to execute undefined instruction[0m
+BLAST phy=1/1 att=1 ok=1 enomem=0 err=0 call_us[min/avg/max]=122/122/122 okgap_max_us=0
+[00:00:04.655,867] [1;31m<err> os: r0/a1:  0x20001188  r1/a2:  0x20001188  r2/a3:  0x200037e8[0m
+[00:00:04.655,877] [1;31m<err> os: r3/a4:  0x00000001 r12/ip:  0x200019a8 r14/lr:  0x00014533[0m
+[00:00:04.655,880] [1;31m<err> os:  xpsr:  0x0100002e[0m
+[00:00:04.655,887] [1;31m<err> os: Faulting instruction address (r15/pc): 0x000157d4[0m
+[00:00:04.655,909] [1;31m<err> os: >>> ZEPHYR FATAL ERROR 36: Unknown error on CPU 0[0m
+[00:00:04.655,913] [1;31m<err> os: Fault during interrupt handling
+[0m
+[00:00:04.655,928] [1;31m<err> os: Current thread: 0x200008e0 (unknown)[0m
+[00:00:04.746,639] [1;31m<err> os: Halting system[0m

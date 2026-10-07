@@ -1,0 +1,35 @@
+observer records=1600  generator pairs commanded=800
+
+--- rung G=150us (commanded 200 pairs) ---
+  retention: 200/200 = 100.0% (gate >= 95%)  PASS
+  fidelity vs COMMANDED: median span=3039.0 vs G*16+640=3040 -> |d|=1.0 ticks (gate <= 2, allows the observer -1 tick Q0 calib)  PASS
+  jitter: IQR=0 ticks over n=200 PASS (deterministic)
+  [info] span-gap_gen inter-instrument offset = 49.0 ticks (should be a CONSTANT across rungs; TX-PHYEND/RX-END + cross-chip)
+
+--- rung G=100us (commanded 200 pairs) ---
+  retention: 200/200 = 100.0% (gate >= 95%)  PASS
+  fidelity vs COMMANDED: median span=2239.0 vs G*16+640=2240 -> |d|=1.0 ticks (gate <= 2, allows the observer -1 tick Q0 calib)  PASS
+  jitter: IQR=0 ticks over n=200 PASS (deterministic)
+  [info] span-gap_gen inter-instrument offset = 49.0 ticks (should be a CONSTANT across rungs; TX-PHYEND/RX-END + cross-chip)
+
+--- rung G=70us (commanded 200 pairs) ---
+  retention: 200/200 = 100.0% (gate >= 95%)  PASS
+  fidelity vs COMMANDED: median span=1759.0 vs G*16+640=1760 -> |d|=1.0 ticks (gate <= 2, allows the observer -1 tick Q0 calib)  PASS
+  jitter: IQR=0 ticks over n=200 PASS (deterministic)
+  [info] span-gap_gen inter-instrument offset = 49.0 ticks (should be a CONSTANT across rungs; TX-PHYEND/RX-END + cross-chip)
+
+--- rung G=52us (commanded 200 pairs) ---
+  retention: 200/200 = 100.0% (gate >= 95%)  PASS
+  fidelity vs COMMANDED: median span=1471.0 vs G*16+640=1472 -> |d|=1.0 ticks (gate <= 2, allows the observer -1 tick Q0 calib)  PASS
+  jitter: IQR=0 ticks over n=200 PASS (deterministic)
+  [info] span-gap_gen inter-instrument offset = 49.0 ticks (should be a CONSTANT across rungs; TX-PHYEND/RX-END + cross-chip)
+
+--- separation (adjacent rungs distinguishable) ---
+  G=150 (3039.0) vs G=100 (2239.0): delta=800.0 ticks PASS
+  G=100 (2239.0) vs G=70 (1759.0): delta=480.0 ticks PASS
+  G=70 (1759.0) vs G=52 (1471.0): delta=288.0 ticks PASS
+
+--- loss accounting (observer) ---
+  {'addr_irq': 1600, 'end_irq': 1600, 'records': 1600, 'ring_full_drops': 0, 'addr_minus_end': 0, 'end_minus_recorded': 0, 'reversal': 0, 'stale_addr': 0}  -> PASS
+
+=== ACCEPT: all Q1 gates pass ===

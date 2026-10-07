@@ -1,0 +1,11 @@
+REJECTED 2026-08-07: all four ramp cells (m0-ramp5-f{150,52}-t*). The
+CENTRAL serial capture went silent at ~t=40 s while the board kept
+running (peripheral bulk still flowing at t~120 s, disc=0), so only the
+target=0 stage was logged; the remaining six stages have no central
+coverage. Observed behavior is CONSISTENT WITH CDC/logging backpressure
+on the central VCOM under the combined per-second RTT + loadramp +
+FSU print load — but the precise mechanism (USB endpoint blockage vs
+firmware logging deadlock vs host-port issue vs another central-side
+instrumentation failure) is NOT established. Quarantined; the ramp arm is
+PAUSED pending a capture-path amendment (RAM-aggregated per-stage summary
+logging) + a full-ramp smoke, per review.

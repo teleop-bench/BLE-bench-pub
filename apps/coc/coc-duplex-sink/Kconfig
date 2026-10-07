@@ -1,0 +1,27 @@
+config APP_TX_POOL_COUNT
+	int "Uplink SDU pool depth"
+	default 64
+	range 1 128
+	help
+	  SDU buffers the sink's uplink sender may have in flight. The comment above the
+	  pool describes a 16-deep "duplex fix" (so this node's credit PDUs don't queue
+	  behind a deep uplink backlog), but the code has always used 64; this option
+	  exists to test that.
+
+config APP_CREDIT_TRACE
+	bool "Print a 1 s CTRACE line of TX credit/queue state (diagnostic)"
+	help
+	  Samples the CoC channel's TX credits, its L2CAP queue and the controller's
+	  free ACL buffers every APP_CREDIT_TRACE_US and prints their distribution.
+	  Off by default (images unchanged).
+
+config APP_CREDIT_TRACE_US
+	int "CTRACE sample period (us)"
+	default 500
+	depends on APP_CREDIT_TRACE
+
+config APP_UPLINK
+	bool "Send the uplink blast (off = one-way downlink control)"
+	default y
+
+source "Kconfig.zephyr"

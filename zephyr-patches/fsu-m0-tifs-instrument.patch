@@ -1,0 +1,670 @@
+From 0dc7f1d18b4d4438da7b337615bb30d5268b2ede Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Sat, 8 Aug 2026 00:22:42 -0500
+Subject: [PATCH 1/4] M0 6.1 instrument: EVENT_TIMER RX-PHYEND->TX-READY
+ capture (works, analyzer-free) - baseline gate PASSES
+
+Reads radio_tmr_ready_get() (CC0) at lll_conn_isr_tx start = the
+RX-PHYEND->TX-READY interval (single-timer clears the base at PHYEND;
+never CC0-CC2). Fresh+valid-RX gated (flag set on CRC-valid RX in isr_rx,
+consumed in isr_tx). No ISR printing: fixed-size records to a static
+ring, drained/formatted from thread ctx via bt_ctlr_tifs_drain_fmt().
+Per-record metadata: cc0, configured tifs, phy, validity, seq. Bench
+Kconfig BT_CTLR_TIFS_CAPTURE_BENCH. Baseline smoke (150us configured):
+cc0=120us stable, zero spread over 131 valid records (~30us fixed
+radio-chain offset before the RF bit, as predicted). Controller
+hardware-event timing PROXY, not on-air.
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+---
+ .../bluetooth/controller/Kconfig.ll_sw_split  | 10 +++
+ .../controller/ll_sw/nordic/lll/lll_conn.c    | 79 +++++++++++++++++++
+ 2 files changed, 89 insertions(+)
+
+diff --git a/subsys/bluetooth/controller/Kconfig.ll_sw_split b/subsys/bluetooth/controller/Kconfig.ll_sw_split
+index add2980032d..32deee263db 100644
+--- a/subsys/bluetooth/controller/Kconfig.ll_sw_split
++++ b/subsys/bluetooth/controller/Kconfig.ll_sw_split
+@@ -1517,3 +1517,13 @@ config BT_CTLR_FSU_BENCH_FORCE_FEAT
+ 	  peer answers LL_FRAME_SPACE_REQ with LL_UNKNOWN_RSP, which this
+ 	  implementation handles as clean procedure termination. Never
+ 	  enable outside the open<->open bench rig.
++
++config BT_CTLR_TIFS_CAPTURE_BENCH
++	bool "BENCH-ONLY: capture RX-PHYEND->TX-READY interval via EVENT_TIMER CC0"
++	help
++	  M0 §6.1 physical-timing PROXY. Reads the controller's shared
++	  EVENT_TIMER CC0 (radio_tmr_ready_get) at the start of
++	  lll_conn_isr_tx = the RX-PHYEND->TX-READY turnaround interval
++	  (single-timer mode). Records to a static ring, drained/printed from
++	  thread context via bt_ctlr_tifs_drain_fmt(). NOT on-air; not for
++	  production.
+diff --git a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+index adbeadb2dcb..5ddb114ea64 100644
+--- a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+@@ -100,6 +100,75 @@ static uint8_t crc_valid;
+ static uint8_t is_aborted;
+ static uint16_t tx_cnt;
+ static uint16_t trx_cnt;
++
++#if defined(CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH)
++#include <stdio.h>
++/* §6.1 BENCH-ONLY (M0): read the controller's SHARED EVENT_TIMER CC0 at the
++ * start of lll_conn_isr_tx. With SW_SWITCH_SINGLE_TIMER the RX PHYEND clears
++ * the timebase, so CC0 (radio_tmr_ready_get()) IS the RX-PHYEND->TX-READY
++ * interval (a hardware-event timing PROXY, stops before the on-air TX bit;
++ * NOT on-air). No printing in the ISR: fixed-size records to a static ring,
++ * drained from thread context. Freshness-gated on a CRC-valid RX. */
++struct tifs_rec {
++	uint16_t cc0_us;      /* RX-PHYEND -> TX-READY interval */
++	uint16_t tifs_tx_us;  /* configured spacing this event */
++	uint8_t  phy;         /* lll->phy_tx */
++	uint8_t  valid;       /* fresh CRC-valid RX preceded */
++	uint32_t seq;         /* event sequence for pairing audit */
++};
++#define TIFS_RING_N 256U
++static struct tifs_rec tifs_ring[TIFS_RING_N];
++static volatile uint32_t tifs_head;   /* ISR writes */
++static uint32_t tifs_tail;            /* thread drains */
++static uint8_t tifs_fresh;            /* set in isr_rx on CRC-valid RX */
++static uint32_t tifs_seq;
++
++static inline void tifs_on_rx_crc_ok(void)
++{
++	tifs_fresh = 1U;
++}
++
++static inline void tifs_on_tx(struct lll_conn *lll)
++{
++	uint32_t cc0 = radio_tmr_ready_get();
++	struct tifs_rec *r = &tifs_ring[tifs_head & (TIFS_RING_N - 1U)];
++
++	r->cc0_us = (cc0 > 60000U) ? 0xFFFFU : (uint16_t)cc0;
++	r->tifs_tx_us = lll->tifs_tx_us;
++#if defined(CONFIG_BT_CTLR_PHY)
++	r->phy = lll->phy_tx;
++#else
++	r->phy = 1U;
++#endif
++	r->valid = tifs_fresh;   /* only fresh CRC-valid RX -> TX turnarounds count */
++	r->seq = tifs_seq++;
++	tifs_head++;
++	tifs_fresh = 0U;
++}
++
++/* Drained + formatted from thread/ULL context (app calls this and printk's
++ * the buffer). Keeps the record struct private to the controller. Emits one
++ * compact line per record; returns bytes written. */
++uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen);
++uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen)
++{
++	uint32_t used = 0U;
++
++	while (tifs_tail != tifs_head && (buflen - used) > 64U) {
++		struct tifs_rec *r = &tifs_ring[tifs_tail & (TIFS_RING_N - 1U)];
++		int w = snprintf(&buf[used], buflen - used,
++				 "TIFS cc0=%u tifs=%u phy=%u v=%u seq=%u\n",
++				 r->cc0_us, r->tifs_tx_us, r->phy, r->valid,
++				 r->seq);
++		if (w <= 0) {
++			break;
++		}
++		used += (uint32_t)w;
++		tifs_tail++;
++	}
++	return used;
++}
++#endif /* CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH */
+ static uint8_t trx_busy_iteration;
+ 
+ #if defined(CONFIG_BT_CTLR_LE_ENC)
+@@ -430,6 +499,9 @@ void lll_conn_isr_rx(void *param)
+ 	if (crc_ok) {
+ 		uint32_t err;
+ 
++#if defined(CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH)
++		tifs_on_rx_crc_ok();
++#endif
+ 		err = isr_rx_pdu(lll, pdu_data_rx, &is_rx_enqueue, &tx_release,
+ 				 &is_done);
+ 		if (err) {
+@@ -754,6 +826,13 @@ void lll_conn_isr_tx(void *param)
+ 
+ 	lll = param;
+ 
++#if defined(CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH)
++	/* CC0 here = the preceding RX-PHYEND -> TX-READY interval (single-timer
++	 * base was cleared at RX PHYEND). Read BEFORE anything reprograms the
++	 * timer for the next tIFS. */
++	tifs_on_tx(lll);
++#endif
++
+ 	/* setup tIFS switching */
+ 	radio_tmr_tifs_set(lll->tifs_tx_us);
+ 
+
+base-commit: 6a2245e1dc81d3cfd5b21d1443dda1656e1e7371
+-- 
+2.50.1 (Apple Git-155)
+
+
+From 664cec30faf9f1db2486530e30891841029ff0cf Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Sat, 8 Aug 2026 00:43:50 -0500
+Subject: [PATCH 2/4] M0 6.1 instrument rev 2: fix pairing (latch programmed
+ tifs -> attach to following CC0) + lossless ISR histograms w/ dropped counter
+ (rev-1 256-ring overflowed, seq 2->1539). Flagship arm RETRACTED as
+ incomplete (committed log has 0 accepted tifs=52 records; the 21-obs was
+ unarchived non-evidentiary; rev-1 pairing bug could make it a 1-transition
+ labeling artifact).
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+---
+ .../controller/ll_sw/nordic/lll/lll_conn.c    | 130 +++++++++++++-----
+ 1 file changed, 93 insertions(+), 37 deletions(-)
+
+diff --git a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+index 5ddb114ea64..decfefada33 100644
+--- a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+@@ -106,22 +106,33 @@ static uint16_t trx_cnt;
+ /* §6.1 BENCH-ONLY (M0): read the controller's SHARED EVENT_TIMER CC0 at the
+  * start of lll_conn_isr_tx. With SW_SWITCH_SINGLE_TIMER the RX PHYEND clears
+  * the timebase, so CC0 (radio_tmr_ready_get()) IS the RX-PHYEND->TX-READY
+- * interval (a hardware-event timing PROXY, stops before the on-air TX bit;
+- * NOT on-air). No printing in the ISR: fixed-size records to a static ring,
+- * drained from thread context. Freshness-gated on a CRC-valid RX. */
+-struct tifs_rec {
+-	uint16_t cc0_us;      /* RX-PHYEND -> TX-READY interval */
+-	uint16_t tifs_tx_us;  /* configured spacing this event */
+-	uint8_t  phy;         /* lll->phy_tx */
+-	uint8_t  valid;       /* fresh CRC-valid RX preceded */
+-	uint32_t seq;         /* event sequence for pairing audit */
++ * interval of the switch that JUST completed (a hardware-event timing PROXY,
++ * stops before the on-air TX bit; NOT on-air).
++ *
++ * PAIRING (rev 2): CC0 describes the RX->TX switch that just completed;
++ * lll->tifs_tx_us read in isr_tx programs the NEXT switch. So the tifs that
++ * PRODUCED this CC0 is the one latched at the PREVIOUS isr_tx -> keep
++ * `tifs_prog_prev`. Record (CC0, tifs_prog_prev), then latch the current
++ * value for the next event.
++ *
++ * OUTPUT (rev 2): no ring/print in the ISR (overflowed silently, ~130/s vs
++ * a ~13/s drain). Instead ISR-side LOSSLESS per-tifs-value bins with a
++ * coarse CC0 histogram; drained/formatted from thread context. */
++#define TIFS_NBINS   4U
++#define TIFS_NHIST   9U          /* buckets of 20 us: [0,20)...[160,inf) */
++struct tifs_bin {
++	uint16_t tifs;               /* programmed spacing that produced CC0 */
++	uint8_t  phy;
++	uint8_t  used;
++	uint32_t n_total;
++	uint32_t n_valid;            /* fresh CRC-valid RX preceded */
++	uint16_t cc0_min, cc0_max;   /* over valid records */
++	uint32_t hist[TIFS_NHIST];   /* CC0 histogram over valid records */
+ };
+-#define TIFS_RING_N 256U
+-static struct tifs_rec tifs_ring[TIFS_RING_N];
+-static volatile uint32_t tifs_head;   /* ISR writes */
+-static uint32_t tifs_tail;            /* thread drains */
+-static uint8_t tifs_fresh;            /* set in isr_rx on CRC-valid RX */
+-static uint32_t tifs_seq;
++static struct tifs_bin tifs_bins[TIFS_NBINS];
++static uint8_t  tifs_fresh;      /* set in isr_rx on CRC-valid RX */
++static uint16_t tifs_prog_prev = EVENT_IFS_DEFAULT_US;  /* 150 at start */
++static uint32_t tifs_dropped;    /* records that found no free bin */
+ 
+ static inline void tifs_on_rx_crc_ok(void)
+ {
+@@ -131,40 +142,85 @@ static inline void tifs_on_rx_crc_ok(void)
+ static inline void tifs_on_tx(struct lll_conn *lll)
+ {
+ 	uint32_t cc0 = radio_tmr_ready_get();
+-	struct tifs_rec *r = &tifs_ring[tifs_head & (TIFS_RING_N - 1U)];
+-
+-	r->cc0_us = (cc0 > 60000U) ? 0xFFFFU : (uint16_t)cc0;
+-	r->tifs_tx_us = lll->tifs_tx_us;
++	uint16_t cc = (cc0 > 60000U) ? 0xFFFFU : (uint16_t)cc0;
++	uint16_t tifs = tifs_prog_prev;   /* the value that PRODUCED this CC0 */
+ #if defined(CONFIG_BT_CTLR_PHY)
+-	r->phy = lll->phy_tx;
++	uint8_t phy = lll->phy_tx;
+ #else
+-	r->phy = 1U;
++	uint8_t phy = 1U;
+ #endif
+-	r->valid = tifs_fresh;   /* only fresh CRC-valid RX -> TX turnarounds count */
+-	r->seq = tifs_seq++;
+-	tifs_head++;
++	struct tifs_bin *b = NULL;
++
++	for (uint8_t i = 0U; i < TIFS_NBINS; i++) {
++		if (tifs_bins[i].used && tifs_bins[i].tifs == tifs &&
++		    tifs_bins[i].phy == phy) {
++			b = &tifs_bins[i];
++			break;
++		}
++		if (!tifs_bins[i].used && b == NULL) {
++			b = &tifs_bins[i];
++		}
++	}
++	if (b == NULL) {
++		tifs_dropped++;
++	} else {
++		if (!b->used) {
++			b->used = 1U;
++			b->tifs = tifs;
++			b->phy = phy;
++			b->cc0_min = 0xFFFFU;
++		}
++		b->n_total++;
++		if (tifs_fresh) {
++			uint32_t h = cc / 20U;
++
++			if (h >= TIFS_NHIST) {
++				h = TIFS_NHIST - 1U;
++			}
++			b->hist[h]++;
++			b->n_valid++;
++			if (cc < b->cc0_min) {
++				b->cc0_min = cc;
++			}
++			if (cc > b->cc0_max) {
++				b->cc0_max = cc;
++			}
++		}
++	}
++
++	/* latch the value isr_tx is about to program (line below) for the
++	 * NEXT event's CC0. */
++	tifs_prog_prev = lll->tifs_tx_us;
+ 	tifs_fresh = 0U;
+ }
+ 
+-/* Drained + formatted from thread/ULL context (app calls this and printk's
+- * the buffer). Keeps the record struct private to the controller. Emits one
+- * compact line per record; returns bytes written. */
++/* Drained + formatted from thread ctx (app printk's the buffer). Emits one
++ * line per active bin: programmed tifs, phy, totals, valid CC0 min/max, and
++ * the histogram (median derivable); plus a global dropped counter. Bins are
++ * left in place (cumulative) so a late-connecting reader still sees them. */
+ uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen);
+ uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen)
+ {
+ 	uint32_t used = 0U;
+ 
+-	while (tifs_tail != tifs_head && (buflen - used) > 64U) {
+-		struct tifs_rec *r = &tifs_ring[tifs_tail & (TIFS_RING_N - 1U)];
+-		int w = snprintf(&buf[used], buflen - used,
+-				 "TIFS cc0=%u tifs=%u phy=%u v=%u seq=%u\n",
+-				 r->cc0_us, r->tifs_tx_us, r->phy, r->valid,
+-				 r->seq);
+-		if (w <= 0) {
+-			break;
++	for (uint8_t i = 0U; i < TIFS_NBINS; i++) {
++		struct tifs_bin *b = &tifs_bins[i];
++		int w;
++
++		if (!b->used || (buflen - used) < 140U) {
++			continue;
++		}
++		w = snprintf(&buf[used], buflen - used,
++			     "TIFSBIN tifs=%u phy=%u n=%u nv=%u min=%u max=%u "
++			     "hist=%u,%u,%u,%u,%u,%u,%u,%u,%u drop=%u\n",
++			     b->tifs, b->phy, b->n_total, b->n_valid,
++			     b->cc0_min, b->cc0_max,
++			     b->hist[0], b->hist[1], b->hist[2], b->hist[3],
++			     b->hist[4], b->hist[5], b->hist[6], b->hist[7],
++			     b->hist[8], tifs_dropped);
++		if (w > 0) {
++			used += (uint32_t)w;
+ 		}
+-		used += (uint32_t)w;
+-		tifs_tail++;
+ 	}
+ 	return used;
+ }
+-- 
+2.50.1 (Apple Git-155)
+
+
+From 5874f51b5a27d6927f626ddc885b18918edb3b1e Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Sat, 8 Aug 2026 00:55:29 -0500
+Subject: [PATCH 3/4] M0 6.1 instrument rev 3: exact 1us CC0 histogram (real
+ median), irq_lock snapshot in drain, atomic clear for post-settle isolation,
+ skip-first-after-connect, bounded aggregation w/ explicit drop accounting
+ (require drop=0). Per review: 20us bins can't give the preregistered median;
+ cumulative histogram can't enforce the 2s exclusion; concurrent thread/ISR
+ access needs locking.
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+---
+ .../controller/ll_sw/nordic/lll/lll_conn.c    | 127 +++++++++++-------
+ 1 file changed, 78 insertions(+), 49 deletions(-)
+
+diff --git a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+index decfefada33..798f6dd4a59 100644
+--- a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+@@ -103,36 +103,40 @@ static uint16_t trx_cnt;
+ 
+ #if defined(CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH)
+ #include <stdio.h>
+-/* §6.1 BENCH-ONLY (M0): read the controller's SHARED EVENT_TIMER CC0 at the
+- * start of lll_conn_isr_tx. With SW_SWITCH_SINGLE_TIMER the RX PHYEND clears
+- * the timebase, so CC0 (radio_tmr_ready_get()) IS the RX-PHYEND->TX-READY
+- * interval of the switch that JUST completed (a hardware-event timing PROXY,
+- * stops before the on-air TX bit; NOT on-air).
++#include <zephyr/irq.h>
++/* §6.1 BENCH-ONLY (M0), rev 3. Read the controller's SHARED EVENT_TIMER CC0
++ * at the start of lll_conn_isr_tx. With SW_SWITCH_SINGLE_TIMER the RX PHYEND
++ * clears the timebase, so CC0 (radio_tmr_ready_get()) IS the RX-PHYEND->
++ * TX-READY interval of the switch that JUST completed (a hardware-event
++ * timing PROXY, stops before the on-air TX bit; NOT on-air).
+  *
+- * PAIRING (rev 2): CC0 describes the RX->TX switch that just completed;
+- * lll->tifs_tx_us read in isr_tx programs the NEXT switch. So the tifs that
+- * PRODUCED this CC0 is the one latched at the PREVIOUS isr_tx -> keep
+- * `tifs_prog_prev`. Record (CC0, tifs_prog_prev), then latch the current
+- * value for the next event.
++ * PAIRING: CC0 is the switch that just completed; lll->tifs_tx_us read in
++ * isr_tx programs the NEXT switch. The tifs that PRODUCED this CC0 is the
++ * one latched at the PREVIOUS isr_tx -> `tifs_prog_prev`.
+  *
+- * OUTPUT (rev 2): no ring/print in the ISR (overflowed silently, ~130/s vs
+- * a ~13/s drain). Instead ISR-side LOSSLESS per-tifs-value bins with a
+- * coarse CC0 histogram; drained/formatted from thread context. */
++ * AGGREGATION (rev 3): EXACT 1 us bins (CC0 0..255) so the preregistered
++ * MEDIAN is exact at ~1 us resolution. Per (tifs, phy) bin. BOUNDED with
++ * EXPLICIT LOSS ACCOUNTING (not "lossless"): a record with no free bin (all
++ * TIFS_NBINS occupied) or CC0>255 increments a drop counter; acceptance
++ * REQUIRES drop=0. bt_ctlr_tifs_clear() atomically resets after the 2 s
++ * post-FSU settle so only post-settle transitions aggregate. The drain
++ * snapshots under irq_lock() then formats after unlock. The FIRST record
++ * after a fresh connection is skipped (tifs_prog_prev starts stale=150). */
+ #define TIFS_NBINS   4U
+-#define TIFS_NHIST   9U          /* buckets of 20 us: [0,20)...[160,inf) */
++#define TIFS_NHIST   256U        /* exact 1 us bins: CC0 value 0..255 */
+ struct tifs_bin {
+ 	uint16_t tifs;               /* programmed spacing that produced CC0 */
+ 	uint8_t  phy;
+ 	uint8_t  used;
+ 	uint32_t n_total;
+ 	uint32_t n_valid;            /* fresh CRC-valid RX preceded */
+-	uint16_t cc0_min, cc0_max;   /* over valid records */
+-	uint32_t hist[TIFS_NHIST];   /* CC0 histogram over valid records */
++	uint32_t hist[TIFS_NHIST];   /* exact-us CC0 histogram over valid */
+ };
+ static struct tifs_bin tifs_bins[TIFS_NBINS];
+ static uint8_t  tifs_fresh;      /* set in isr_rx on CRC-valid RX */
+-static uint16_t tifs_prog_prev = EVENT_IFS_DEFAULT_US;  /* 150 at start */
+-static uint32_t tifs_dropped;    /* records that found no free bin */
++static uint8_t  tifs_prime;      /* skip the first transition after connect */
++static uint16_t tifs_prog_prev = EVENT_IFS_DEFAULT_US;  /* 150, stale at start */
++static uint32_t tifs_dropped;    /* no free bin, or CC0 out of 0..255 range */
+ 
+ static inline void tifs_on_rx_crc_ok(void)
+ {
+@@ -142,8 +146,7 @@ static inline void tifs_on_rx_crc_ok(void)
+ static inline void tifs_on_tx(struct lll_conn *lll)
+ {
+ 	uint32_t cc0 = radio_tmr_ready_get();
+-	uint16_t cc = (cc0 > 60000U) ? 0xFFFFU : (uint16_t)cc0;
+-	uint16_t tifs = tifs_prog_prev;   /* the value that PRODUCED this CC0 */
++	uint16_t tifs = tifs_prog_prev;   /* value that PRODUCED this CC0 */
+ #if defined(CONFIG_BT_CTLR_PHY)
+ 	uint8_t phy = lll->phy_tx;
+ #else
+@@ -151,6 +154,15 @@ static inline void tifs_on_tx(struct lll_conn *lll)
+ #endif
+ 	struct tifs_bin *b = NULL;
+ 
++	/* Skip the first paired transition after a (re)connection: at that
++	 * point tifs_prog_prev is stale (init 150 / previous connection). */
++	if (tifs_prime) {
++		tifs_prime = 0U;
++		tifs_prog_prev = lll->tifs_tx_us;
++		tifs_fresh = 0U;
++		return;
++	}
++
+ 	for (uint8_t i = 0U; i < TIFS_NBINS; i++) {
+ 		if (tifs_bins[i].used && tifs_bins[i].tifs == tifs &&
+ 		    tifs_bins[i].phy == phy) {
+@@ -161,63 +173,80 @@ static inline void tifs_on_tx(struct lll_conn *lll)
+ 			b = &tifs_bins[i];
+ 		}
+ 	}
+-	if (b == NULL) {
++	if (b == NULL || cc0 > (TIFS_NHIST - 1U)) {
+ 		tifs_dropped++;
+ 	} else {
+ 		if (!b->used) {
+ 			b->used = 1U;
+ 			b->tifs = tifs;
+ 			b->phy = phy;
+-			b->cc0_min = 0xFFFFU;
+ 		}
+ 		b->n_total++;
+ 		if (tifs_fresh) {
+-			uint32_t h = cc / 20U;
+-
+-			if (h >= TIFS_NHIST) {
+-				h = TIFS_NHIST - 1U;
+-			}
+-			b->hist[h]++;
++			b->hist[cc0]++;
+ 			b->n_valid++;
+-			if (cc < b->cc0_min) {
+-				b->cc0_min = cc;
+-			}
+-			if (cc > b->cc0_max) {
+-				b->cc0_max = cc;
+-			}
+ 		}
+ 	}
+ 
+-	/* latch the value isr_tx is about to program (line below) for the
+-	 * NEXT event's CC0. */
+-	tifs_prog_prev = lll->tifs_tx_us;
++	tifs_prog_prev = lll->tifs_tx_us;   /* programs the NEXT switch */
+ 	tifs_fresh = 0U;
+ }
+ 
+-/* Drained + formatted from thread ctx (app printk's the buffer). Emits one
+- * line per active bin: programmed tifs, phy, totals, valid CC0 min/max, and
+- * the histogram (median derivable); plus a global dropped counter. Bins are
+- * left in place (cumulative) so a late-connecting reader still sees them. */
++/* Atomically clear all bins + counters. App calls this AFTER the 2 s
++ * post-FSU settle so only post-settle transitions aggregate; also prime the
++ * first-transition skip. */
++void bt_ctlr_tifs_clear(void);
++void bt_ctlr_tifs_clear(void)
++{
++	unsigned int key = irq_lock();
++
++	(void)memset(tifs_bins, 0, sizeof(tifs_bins));
++	tifs_dropped = 0U;
++	tifs_prime = 1U;
++	irq_unlock(key);
++}
++
++/* Snapshot under irq_lock(), format after unlock. Emits per active bin:
++ * programmed tifs, phy, totals, exact CC0 min/median/max, and drop count.
++ * drop MUST be 0 for acceptance. */
+ uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen);
+ uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen)
+ {
++	static struct tifs_bin snap[TIFS_NBINS];
++	uint32_t drop;
+ 	uint32_t used = 0U;
++	unsigned int key = irq_lock();
++
++	(void)memcpy(snap, tifs_bins, sizeof(snap));
++	drop = tifs_dropped;
++	irq_unlock(key);
+ 
+ 	for (uint8_t i = 0U; i < TIFS_NBINS; i++) {
+-		struct tifs_bin *b = &tifs_bins[i];
++		struct tifs_bin *b = &snap[i];
++		uint32_t cum = 0U, mn = 0xFFFFU, mx = 0U, med = 0U;
+ 		int w;
+ 
+-		if (!b->used || (buflen - used) < 140U) {
++		if (!b->used || b->n_valid == 0U || (buflen - used) < 96U) {
+ 			continue;
+ 		}
++		for (uint32_t v = 0U; v < TIFS_NHIST; v++) {
++			if (b->hist[v] == 0U) {
++				continue;
++			}
++			if (v < mn) {
++				mn = v;
++			}
++			mx = v;
++			cum += b->hist[v];
++			if (med == 0U && (cum * 2U) >= b->n_valid) {
++				med = v;
++			}
++		}
+ 		w = snprintf(&buf[used], buflen - used,
+-			     "TIFSBIN tifs=%u phy=%u n=%u nv=%u min=%u max=%u "
+-			     "hist=%u,%u,%u,%u,%u,%u,%u,%u,%u drop=%u\n",
++			     "TIFSBIN tifs=%u phy=%u n=%u nv=%u min=%u med=%u "
++			     "max=%u drop=%u\n",
+ 			     b->tifs, b->phy, b->n_total, b->n_valid,
+-			     b->cc0_min, b->cc0_max,
+-			     b->hist[0], b->hist[1], b->hist[2], b->hist[3],
+-			     b->hist[4], b->hist[5], b->hist[6], b->hist[7],
+-			     b->hist[8], tifs_dropped);
++			     mn, med, mx, drop);
+ 		if (w > 0) {
+ 			used += (uint32_t)w;
+ 		}
+-- 
+2.50.1 (Apple Git-155)
+
+
+From dc395c78936367ebda9eb16664f32c4fdc9d4634 Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Sat, 8 Aug 2026 01:05:28 -0500
+Subject: [PATCH 4/4] M0 6.1 instrument rev 4: freeze-then-snapshot (memset
+ outside irq_lock; lock holds only tiny flag flips; drain reads FROZEN bins
+ lock-free/copy-free - safe on the 1ms radio path); lower-median documented;
+ first-post-clear-transition skip reworded. Per review: no live 4KB copy under
+ lock every second.
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+---
+ .../controller/ll_sw/nordic/lll/lll_conn.c    | 63 +++++++++++++------
+ 1 file changed, 45 insertions(+), 18 deletions(-)
+
+diff --git a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+index 798f6dd4a59..9742df25a3e 100644
+--- a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+@@ -134,7 +134,8 @@ struct tifs_bin {
+ };
+ static struct tifs_bin tifs_bins[TIFS_NBINS];
+ static uint8_t  tifs_fresh;      /* set in isr_rx on CRC-valid RX */
+-static uint8_t  tifs_prime;      /* skip the first transition after connect */
++static uint8_t  tifs_prime;      /* skip the first post-clear transition */
++static uint8_t  tifs_capturing;  /* 1 = aggregate; 0 = frozen (drain-safe) */
+ static uint16_t tifs_prog_prev = EVENT_IFS_DEFAULT_US;  /* 150, stale at start */
+ static uint32_t tifs_dropped;    /* no free bin, or CC0 out of 0..255 range */
+ 
+@@ -154,8 +155,18 @@ static inline void tifs_on_tx(struct lll_conn *lll)
+ #endif
+ 	struct tifs_bin *b = NULL;
+ 
+-	/* Skip the first paired transition after a (re)connection: at that
+-	 * point tifs_prog_prev is stale (init 150 / previous connection). */
++	/* Frozen (drain in progress or run ended): keep the pairing latch
++	 * current but do not touch the bins the thread is reading. */
++	if (!tifs_capturing) {
++		tifs_prog_prev = lll->tifs_tx_us;
++		tifs_fresh = 0U;
++		return;
++	}
++
++	/* Skip the FIRST post-clear transition: tifs_prog_prev is stale
++	 * (from before the clear / a previous connection). NOTE: primed only
++	 * by bt_ctlr_tifs_clear(); runs are reset-isolated (one connection),
++	 * and a mid-run reconnect is rejected at analysis (disc must be 0). */
+ 	if (tifs_prime) {
+ 		tifs_prime = 0U;
+ 		tifs_prog_prev = lll->tifs_tx_us;
+@@ -192,37 +203,53 @@ static inline void tifs_on_tx(struct lll_conn *lll)
+ 	tifs_fresh = 0U;
+ }
+ 
+-/* Atomically clear all bins + counters. App calls this AFTER the 2 s
+- * post-FSU settle so only post-settle transitions aggregate; also prime the
+- * first-transition skip. */
++/* Start/restart capture after the post-FSU settle so only post-settle
++ * transitions aggregate. Freeze-then-clear-then-enable: the 4 KB memset is
++ * done OUTSIDE the lock (capture briefly off), so the lock is held only for
++ * two tiny flag flips — never for a KB-scale copy on the radio path. */
+ void bt_ctlr_tifs_clear(void);
+ void bt_ctlr_tifs_clear(void)
+ {
+ 	unsigned int key = irq_lock();
+ 
+-	(void)memset(tifs_bins, 0, sizeof(tifs_bins));
++	tifs_capturing = 0U;             /* freeze (tiny) */
++	irq_unlock(key);
++
++	(void)memset(tifs_bins, 0, sizeof(tifs_bins));   /* outside lock */
+ 	tifs_dropped = 0U;
++
++	key = irq_lock();
+ 	tifs_prime = 1U;
++	tifs_capturing = 1U;             /* enable (tiny) */
+ 	irq_unlock(key);
+ }
+ 
+-/* Snapshot under irq_lock(), format after unlock. Emits per active bin:
+- * programmed tifs, phy, totals, exact CC0 min/median/max, and drop count.
+- * drop MUST be 0 for acceptance. */
+-uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen);
+-uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen)
++/* Freeze capture (tiny locked flag change). Call at run END before drain;
++ * after this the ISR does not touch the bins, so the drain reads them
++ * directly with NO lock and NO live copy. */
++void bt_ctlr_tifs_freeze(void);
++void bt_ctlr_tifs_freeze(void)
+ {
+-	static struct tifs_bin snap[TIFS_NBINS];
+-	uint32_t drop;
+-	uint32_t used = 0U;
+ 	unsigned int key = irq_lock();
+ 
+-	(void)memcpy(snap, tifs_bins, sizeof(snap));
+-	drop = tifs_dropped;
++	tifs_capturing = 0U;
+ 	irq_unlock(key);
++}
++
++/* Format the FROZEN bins (call bt_ctlr_tifs_freeze() first). Emits per
++ * active bin: programmed tifs, phy, totals, exact CC0 min / LOWER-median /
++ * max, and drop count. drop MUST be 0 for acceptance. LOWER median = the
++ * first value whose cumulative count reaches ceil(n_valid/2) (documented in
++ * PREREG-TIMER.md; the ~1 us even/odd convention is immaterial vs a ~98 us
++ * delta). */
++uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen);
++uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen)
++{
++	uint32_t drop = tifs_dropped;
++	uint32_t used = 0U;
+ 
+ 	for (uint8_t i = 0U; i < TIFS_NBINS; i++) {
+-		struct tifs_bin *b = &snap[i];
++		struct tifs_bin *b = &tifs_bins[i];
+ 		uint32_t cum = 0U, mn = 0xFFFFU, mx = 0U, med = 0U;
+ 		int w;
+ 
+-- 
+2.50.1 (Apple Git-155)
+

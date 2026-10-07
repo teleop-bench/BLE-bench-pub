@@ -1,0 +1,27 @@
+/* §6.1 physical-timing capture instrument (BENCH-ONLY).
+ *
+ * Generic two-control-pin FEM: ctx-gpios asserts on radio TX-active,
+ * crx-gpios on RX-active, both HARDWARE-timed via GPIOTE+DPPI off the
+ * RADIO events (not a software toggle). The gap crx-deassert -> ctx-assert
+ * on the peripheral's turnaround = its transmit tIFS. Settle times = 0 so
+ * the pin edges sit at the radio ramp (tightest to the true event); the
+ * fixed residual offset cancels in the 150-vs-{100,52} DELTA and is
+ * measured by the pre-capture smoke. Pins P1.11/P1.12 = on gpiote20 (radio-routable) and the analyzer-
+ * verified header pins from the §14.9 watchdog bench.
+ *
+ * NOT on-air: this is a physical-timing PROXY (see PREREG.md). The two
+ * DKs talk over the air; only these two pins + GND go to the analyzer.
+ */
+/ {
+	nrf_radio_fem: fem {
+		compatible = "radio-fem-two-ctrl-pins";
+		ctx-gpios = <&gpio1 11 0>;  /* TX-active  (analyzer ch A) */
+		ctx-settle-time-us = <0>;
+		crx-gpios = <&gpio1 12 0>;  /* RX-active  (analyzer ch B) */
+		crx-settle-time-us = <0>;
+	};
+};
+
+&radio {
+	fem = <&nrf_radio_fem>;
+};

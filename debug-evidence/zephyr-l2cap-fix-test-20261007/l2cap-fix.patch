@@ -1,0 +1,27 @@
+diff --git a/subsys/bluetooth/host/l2cap.c b/subsys/bluetooth/host/l2cap.c
+index 554c228ff7c..f0be2381037 100644
+--- a/subsys/bluetooth/host/l2cap.c
++++ b/subsys/bluetooth/host/l2cap.c
+@@ -1349,14 +1349,19 @@ static void l2cap_chan_tx_give_credits(struct bt_l2cap_le_chan *chan,
+ 
+ 	atomic_add(&chan->tx.credits, credits);
+ 
++	if (atomic_get(&chan->tx.credits) == 0) {
++		return;   /* e.g. accepted with 0 initial credits: not sendable yet */
++	}
++
+ 	if (!atomic_test_and_set_bit(chan->chan.status, BT_L2CAP_STATUS_OUT)) {
+ 		LOG_DBG("chan %p unpaused", chan);
+ 		if (chan->chan.ops->status) {
+ 			chan->chan.ops->status(&chan->chan, chan->chan.status);
+ 		}
+-		if (chan_has_data(chan)) {
+-			raise_data_ready(chan);
+-		}
++	}
++
++	if (chan_has_data(chan)) {
++		raise_data_ready(chan);
+ 	}
+ }
+ 

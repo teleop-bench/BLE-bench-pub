@@ -1,0 +1,54 @@
+build/
+apps/esp32/esp32-nus-bridge/.pio/
+.pio/
+*.o
+*.a
+*.bin
+*.elf
+
+# build logs
+*.log
+
+# compiled swift client
+tools/mac-l2cap-client/l2cap_throughput
+
+# served firmware copies
+*.hex
+
+# DFU packages / macOS cruft
+*.zip
+.DS_Store
+# Zephyr build trees (all variants: build/, build-wdt/, build-hb/, ...)
+z54-*/build*/
+z44-*/build*/
+# clangd editor cache
+**/.cache/
+
+# Evidence is never ignored: raw logs/configs/hexes under debug-evidence are the point
+!debug-evidence/**
+# ...except compiled .elf debug binaries: they embed the local build path in DWARF
+# (privacy) and are redundant with their .hex/.config siblings. Kept locally, not in repo.
+debug-evidence/**/*.elf
+__pycache__/
+*.pyc
+
+# app-local build dirs (any name)
+build*/
+**/build*/
+
+# local-only working note, not part of the repo
+/PUBLISHING.md
+
+# run-all.sh newcomer capture output
+/run-all-captures/
+
+# regression fixtures must be tracked (labeled captures for tools/test_verify_run.py)
+!tools/verify-fixtures/
+!tools/verify-fixtures/*.log
+
+# editor/LSP caches (contain absolute local paths)
+.cache/
+/observer-captures/
+
+# run-campaigns.sh default output
+campaigns-*/

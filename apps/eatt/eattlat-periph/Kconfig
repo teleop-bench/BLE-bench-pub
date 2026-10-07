@@ -1,0 +1,69 @@
+# Test-only fault injection for the adv-restart retry branch (default off).
+config APP_ADV_FAIL_INJECT
+	bool "Inject one synthetic -ENOMEM on the first adv work invocation after recycled()"
+	default n
+	help
+	  Exercises the 100 ms retry/backoff branch of the work-item advertising
+	  restart (never taken naturally in 100 observed recoveries). Injects at the
+	  first post-recycled() invocation only — not at initial boot — and does not
+	  intercept or modify the Bluetooth API.
+
+config APP_SAFETY_WATCHDOG
+	bool "Actuator-side safety watchdog + STOP output (§14.9 DRAFT)"
+	default n
+	select GPIO
+	help
+	  Dedicated-heartbeat watchdog with latched, fail-safe-polarity STOP GPIO,
+	  physical-button re-arm, and N-consecutive-valid arming. DRAFT: k_timer
+	  deadline and bench GPIO placeholders — not the final independent safety
+	  path (see src/watchdog.c header).
+
+if APP_SAFETY_WATCHDOG
+
+config APP_WDT_TIMEOUT_MS
+	int "Heartbeat deadline (ms)"
+	default 200
+	range 20 10000
+	help
+	  Experimental starting point (~10 missed 20 ms heartbeats). NOT a
+	  finalized safety deadline: degraded-RF testing must establish the
+	  false-trip behavior and the hazard analysis the permitted stop latency.
+
+config APP_WDT_ARM_HEARTBEATS
+	int "Consecutive valid heartbeats required to arm"
+	default 10
+	range 1 100
+
+config APP_WDT_ARM_MIN_SPACING_MS
+	int "Minimum spacing between counted arming heartbeats (ms)"
+	default 10
+	range 1 1000
+	help
+	  Anti-burst: a heartbeat only advances the arming count if at least this
+	  long after the previously counted one. Ten frames delivered back-to-back
+	  from a queue must not demonstrate stable liveness.
+
+config APP_WDT_ARM_MIN_DURATION_MS
+	int "Minimum time in ARMING before RUNNING (ms)"
+	default 180
+	range 10 60000
+	help
+	  Independent dwell requirement (~(N-1) heartbeat periods): even with N
+	  spaced heartbeats, RUNNING is not entered before this much continuous
+	  ARMING time has elapsed.
+
+endif # APP_SAFETY_WATCHDOG
+
+config APP_TPUT_SINK
+	bool "Throughput cells: sink writes without echoing"
+	default n
+
+config APP_TIFS_CLEAR_S
+	int "§6.1 TIFS bench: clear bins at this second (post-FSU settle)"
+	default 18
+
+config APP_TIFS_END_S
+	int "§6.1 TIFS bench: freeze + print frozen bins at this second"
+	default 48
+
+source "Kconfig.zephyr"

@@ -1,0 +1,15 @@
+QUARANTINED SMOKE -- NOT Q2 EVIDENCE. Disposable integration test (commit e623808
+era). Found: (1) periph TX counter in wrong ISR [fixed], (2) runner reset only
+central [fixed], (3) OPEN: central<->periph link not exchanging (central snap
+aa/sess/sched=0 after Q2CONN; periph sched advancing, tx=0). Logs: obs/central/
+periph .txt. Do not interpret as an accepted cell.
+
+ENDPOINT-ONLY HEALTH TESTS (no observer/build), flushed clean captures:
+- 2-channel AND 37-channel maps BOTH fail identically -> channel map is NOT the
+  cause. Central never establishes (sched=0, no connected callback); peripheral
+  accepts (aa set, sess=1, sched advancing) but receives NOTHING from the central
+  (tx=0 = no CRC-good central RX) -> supervision timeout reason=0x08 -> re-adv.
+- Root cause OPEN: connection unstable / periph never hears central's connection
+  events. Needs focused debug (candidate: Q2 controller patch interfering with
+  connection setup, or minimal-app connection behavior). Stale UART buffers on
+  macOS confounded the first read; flush + post-boot reads required.

@@ -1,0 +1,108 @@
+Observer Q0 — pipeline-integrity gate (raw RADIO/PPI timestamps)
+================================================================
+Date: 2026-08-10
+Board: nRF52-DK (PCA10040), nRF52832, dev-id 1050347760
+App:   pca10040-radio-observer  (west build -b nrf52dk/nrf52832)
+Build/toolchain/hashes: see BUILD-INFO.txt and manifest.sha256
+        (verify with:  shasum -a 256 -c manifest.sha256)
+
+VERDICT (scope-bounded)
+-----------------------
+Q0 pipeline-integrity PASS: the raw RADIO/PPI/TIMER0 capture path works and
+its timestamps are physically GROUNDED against real BLE packet durations to
+within one 62.5 ns tick. This is NOT yet a "calibrated close-pair timing
+instrument": whether the observer can RETAIN and DISTINGUISH 52/70 us pairs
+under END_START re-arm is Q1 (the go/no-go), which requires the nRF54
+synthetic generator and is not demonstrated here.
+
+TWO CAPTURES ARCHIVED
+---------------------
+- q0_capture.txt    : first passing run (END-only ISR, ISR span 2.56 us).
+- q0_regression.txt : REVISED firmware (this bundle's elf/hex) after the
+                      review corrections below (ADDRESS+END ISR, loss
+                      counters, generator pair fields). ISR span 3.75 us.
+Both are single-boot, 6 s, ambient advertising on ch37 (1M).
+
+METHOD
+------
+Passive RX on ch37 (1M, AA=0x8E89BED6, CRCINIT=0x555555). No BT controller.
+HFXO started explicitly (RADIO will not run on the internal RC). Every packet
+is hardware-timestamped via pre-programmed PPI:
+  ch26  RADIO ADDRESS -> TIMER0 CAPTURE[1]  (address_ticks)
+  ch27  RADIO END     -> TIMER0 CAPTURE[2]  (end_ticks)
+TIMER0 free-running, 16 MHz, 32-bit (62.5 ns/tick). SHORTS
+READY_START|END_START|ADDRESS_RSSISTART keep RX self-re-arming.
+
+WHAT PASSES, WITH EVIDENCE
+--------------------------
+1. Correct silicon .......... PART=0x00052832 (nRF52832).                 PASS
+
+2. TIMER advances ........... address/end_ticks strictly increasing.      PASS
+
+3. PPI captures are REAL and physically grounded to WITHIN +1 TICK.
+   ADDRESS->END = (2 header + len + 3 CRC) bytes x 8 us at 1M
+                = (len+5) x 128 ticks, with a CONSISTENT +1 tick (+62.5 ns)
+   fixed offset (ADDRESS- vs END-event capture latency). From q0_capture.txt:
+     len=12 -> (17)x128=2176 ; measured 2177  (+1)
+     len=14 -> (19)x128=2432 ; measured 2433  (+1)
+     len=24 -> (29)x128=3712 ; measured 3713  (+1)
+     len=25 -> (30)x128=3840 ; measured 3841  (+1)
+     len=33 -> (38)x128=4864 ; measured 4865  (+1)
+     len=35 -> (40)x128=5120 ; measured 5121  (+1)
+   Lengths present in the ARCHIVED capture: 12,14,24,25,33,35. (An earlier,
+   non-archived dump also showed len=27; not cited here.) Not "exact" — it is
+   grounded to +1 tick.                                                    PASS
+
+4. Loss accounting (revised firmware, q0_regression.txt): every matched
+   ADDRESS produced an END, every END was recorded, no reversals/stale:
+     addr_irq=272 end_irq=272 records=272 ring_full_drops=0
+     addr_minus_end=0 end_minus_recorded=0 reversal=0 stale_addr=0        PASS
+   (Q0 "drops=0" now means the COMPLETE set: ring-full=0 AND addr==end AND
+    end==recorded AND no per-record reversal/stale flags — not ring-full
+    alone.)
+
+5. ISR-duration margin vs the CORRECT deadline. The ISR's only deadline is to
+   read CC[1]/CC[2] before CC[1] is OVERWRITTEN at the NEXT packet's ADDRESS.
+   That deadline after this packet's END is tIFS + (preamble+AA airtime):
+     2M: 52 + 24 = ~76 us   |   1M: 52 + 40 = ~92 us   (at 52 us tIFS)
+   Live-measured ISR span (free-running CC[3], not the PPI-frozen CC[2]):
+     2.56 us (END-only) / 3.75 us (revised). >= 20x margin.               PASS
+   NOTE: margin against the OVERWRITE deadline is necessary but NOT
+   sufficient for Q1 — whether END_START physically retains the SECOND
+   packet at 52/70 us is a separate on-air question, deferred to Q1.
+
+QUALITATIVE OBSERVATION (NOT a gate)
+------------------------------------
+CRC/RSSI: crc_ok ~ 60-80% of ambient packets. CRC failures are NOT confined
+to the noise floor -- q0_capture.txt has CRC-fail records at -72, -74, -83 dBm
+as well as -88..-92. Ambient advertisers + collisions make this a useful
+smoke observation of the receiver, not a calibrated coherence gate.
+
+DEFECTS FOUND & FIXED DURING Q0
+-------------------------------
+- captured=0 on first run: RADIO needs HFCLK from HFXO; internal RC unused by
+  the radio. Fixed by starting HFXO before radio config.
+- max_isr_ticks read 0: it diffed CC[2], a PPI-FROZEN capture register that
+  does not advance in-ISR. Fixed to capture the free-running counter into a
+  spare CC[3] at ISR entry/exit -> real 2.56/3.75 us.
+- record schema (review): observer_seq is OBSERVER-LOCAL, not the transmit
+  seq; the old "tx_tag" was merely the header S0 byte. Added gen_pairid /
+  gen_txtag fields populated from a documented payload offset (the generator
+  contract) and renamed the raw byte hdr_s0. For AMBIENT traffic these
+  ground-truth fields are meaningless and are labelled so.
+- loss accounting was ring-full only (review): added ADDRESS interrupt +
+  addr/end counters + reversal/stale-addr per-record flags.
+
+OPEN ITEMS BEFORE ACCEPTED Q1 DATA (tracked, not yet done)
+----------------------------------------------------------
+- Freeze the Q1 analyzer + acceptance protocol (separate doc).
+- nRF54 raw-radio synthetic generator honoring the payload contract above.
+- Capture-depth strategy for Q3 connected runs: the 2048-record ring fills
+  in ms under a full two-channel connected map. Plan: keep the normal map and
+  short windows, OR add bounded histogram/segmented captures, before Q3.
+
+SCOPE / LIMITS (do not overclaim)
+---------------------------------
+Q0 proves the instrument works on real BLE traffic and timestamps to +/-1
+tick. It does NOT prove close-pair discrimination (Q1), and Q1 is itself
+NECESSARY-not-sufficient for any on-air FSU claim (Q2/Q3 gate too).

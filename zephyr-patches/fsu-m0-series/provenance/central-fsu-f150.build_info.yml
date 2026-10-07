@@ -1,0 +1,64 @@
+cmake:
+  application:
+    configuration-dir: '$HOME/Desktop/develop/zenoh-pico-ble-test/q2-central'
+    source-dir: '$HOME/Desktop/develop/zenoh-pico-ble-test/q2-central'
+  board:
+    name: 'nrf54l15dk'
+    path:
+     - '$HOME/zephyrproject/zephyr/boards/nordic/nrf54l15dk'
+    qualifiers: 'nrf54l15/cpuapp'
+    revision: ''
+  devicetree:
+    bindings-dirs:
+     - '$HOME/zephyrproject/zephyr/dts/bindings'
+    files:
+     - '$HOME/zephyrproject/zephyr/boards/nordic/nrf54l15dk/nrf54l15dk_nrf54l15_cpuapp.dts'
+    include-dirs:
+     - '$HOME/zephyrproject/modules/hal/ambiq/dts'
+     - '$HOME/zephyrproject/modules/hal/atmel/include'
+     - '$HOME/zephyrproject/modules/hal/bouffalolab/include'
+     - '$HOME/zephyrproject/modules/hal/bouffalolab/include/zephyr'
+     - '$HOME/zephyrproject/modules/hal/gigadevice/include'
+     - '$HOME/zephyrproject/modules/hal/microchip/include'
+     - '$HOME/zephyrproject/modules/hal/microchip/dts'
+     - '$HOME/zephyrproject/modules/hal/nuvoton/dts'
+     - '$HOME/zephyrproject/modules/hal/nxp/dts'
+     - '$HOME/zephyrproject/modules/hal/stm32/dts'
+     - '$HOME/zephyrproject/modules/hal/ti/dts'
+     - '$HOME/zephyrproject/zephyr/include'
+     - '$HOME/zephyrproject/zephyr/include/zephyr'
+     - '$HOME/zephyrproject/zephyr/dts/common'
+     - '$HOME/zephyrproject/zephyr/dts/vendor'
+     - '$HOME/zephyrproject/zephyr/dts/rx'
+     - '$HOME/zephyrproject/zephyr/dts/x86'
+     - '$HOME/zephyrproject/zephyr/dts/xtensa'
+     - '$HOME/zephyrproject/zephyr/dts/sparc'
+     - '$HOME/zephyrproject/zephyr/dts/riscv'
+     - '$HOME/zephyrproject/zephyr/dts/posix'
+     - '$HOME/zephyrproject/zephyr/dts/arm64'
+     - '$HOME/zephyrproject/zephyr/dts/arm'
+     - '$HOME/zephyrproject/zephyr/dts/arc'
+     - '$HOME/zephyrproject/zephyr/dts'
+  kconfig:
+    extra-user-files:
+     - 'fsu-f150.conf'
+    files:
+     - '$HOME/zephyrproject/zephyr/boards/nordic/nrf54l15dk/nrf54l15dk_nrf54l15_cpuapp_defconfig'
+     - '$HOME/Desktop/develop/zenoh-pico-ble-test/q2-central/prj.conf'
+     - '$HOME/Desktop/develop/zenoh-pico-ble-test/q2-central/fsu-f150.conf'
+    user-files:
+     - '$HOME/Desktop/develop/zenoh-pico-ble-test/q2-central/prj.conf'
+  toolchain:
+    name: 'zephyr'
+    path: '$HOME/zephyr-sdk-1.0.1'
+  vendor-specific:
+    nordic:
+      svdfile: '$HOME/zephyrproject/modules/hal/nordic/nrfx/bsp/stable/mdk/nrf54l15_application.svd'
+  zephyr:
+    version: '4.4.1'
+    zephyr-base: '$HOME/zephyrproject/zephyr'
+version: '0.1.0'
+west:
+  command: '$HOME/zephyrproject/.venv/bin/west build -b nrf54l15dk/nrf54l15/cpuapp -d /tmp/q7cen150 $HOME/Desktop/develop/zenoh-pico-ble-test/q2-central -p always -- -DEXTRA_CONF_FILE=fsu-f150.conf'
+  topdir: '$HOME/zephyrproject'
+  version: '1.5.0'

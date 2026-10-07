@@ -1,0 +1,17 @@
+# Q3a FSU target: the central requests [MIN..MAX] frame space after connect.
+# MAX_US=0 => no request (FSU-off / f150 control). MIN_US=100 => reduce to 100us.
+config APP_FSU_MIN_US
+	int "FSU requested minimum frame space (us)"
+	default 0
+	range 0 10000
+config APP_FSU_MAX_US
+	int "FSU requested maximum frame space (us; 0 = no FSU request)"
+	default 0
+	range 0 10000
+
+config APP_Q3_MODE
+	bool "Q3 mode: enable the runtime 'F' FSU-trigger command path (Q2 unchanged when n)"
+	depends on BT_FRAME_SPACE_UPDATE
+	default n
+
+source "Kconfig.zephyr"

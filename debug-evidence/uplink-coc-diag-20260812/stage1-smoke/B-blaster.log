@@ -1,0 +1,44 @@
+    0.56 *** Booting Zephyr OS build v4.4.1-14-g9999e0404460 ***
+    0.57 [00:00:00.002,877] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+    0.57 [00:00:00.002,889] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+    0.58 [00:00:00.002,900] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 1[0m
+    0.59 [00:00:00.003,230] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+    0.60 [00:00:00.003,278] [0m<inf> bt_hci_core: Identity: FC:BE:FF:FA:E6:8B (random)[0m
+    0.61 [00:00:00.003,294] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+    0.61 [00:00:00.003,309] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+    0.61 
+    0.62 === nRF54L15 L2CAP CoC UPLINK BLASTER (Zephyr 4.4.1; #46073-motivated) run=3311 boot_tag=0x00000833 ===
+    0.63 L2CAP server on PSM 0x0080
+    0.63 Advertising as 'zenoh-nrf-l2cap' run=3311
+    2.30 idle 1s: conn=none run=3311 (advertising, awaiting central)
+    2.31 GAP connected: interval=6 peer=D6:C7:60:B1:D3:0E (random) run=3311 sess=1 aa=0x8ea08dc1
+    2.31 peripheral DLE req rc=0
+    2.31 DLE updated: tx_max=251 rx_max=27 run=3311
+    2.32 [00:00:01.059,321] [1;33m<wrn> bt_l2cap: Segmentation disabled but MTU > MPS, truncating MTU[0m
+    2.33 CoC up: tx.mtu=512 tx.mps=247 run=3311 sess=1 aa=0x8ea08dc1 (unpaced blaster armed)
+    2.34 uplink blasting 244-byte SDUs... run=3311 aa=0x8ea08dc1
+    2.34 PHY updated: tx=2 rx=2 run=3311
+    2.35 DLE updated: tx_max=251 rx_max=251 run=3311
+    2.36 UPLINK tx: 148 KiB/s (win_bytes=151768 total=151768) sub=622 cmp=611 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+    4.30 UPLINK tx: 156 KiB/s (win_bytes=160308 total=312076) sub=1279 cmp=1269 out=10 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+    4.32 UPLINK tx: 152 KiB/s (win_bytes=155916 total=467992) sub=1918 cmp=1907 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+    6.31 UPLINK tx: 152 KiB/s (win_bytes=156648 total=624640) sub=2560 cmp=2549 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+    6.32 UPLINK tx: 153 KiB/s (win_bytes=156892 total=781532) sub=3203 cmp=3192 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+    8.31 UPLINK tx: 152 KiB/s (win_bytes=155916 total=937448) sub=3842 cmp=3831 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+    8.32 UPLINK tx: 154 KiB/s (win_bytes=158112 total=1095560) sub=4490 cmp=4479 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   10.31 UPLINK tx: 153 KiB/s (win_bytes=157136 total=1252696) sub=5134 cmp=5123 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   10.32 UPLINK tx: 154 KiB/s (win_bytes=158356 total=1411052) sub=5783 cmp=5772 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   12.31 UPLINK tx: 154 KiB/s (win_bytes=158356 total=1569408) sub=6432 cmp=6421 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   12.32 UPLINK tx: 157 KiB/s (win_bytes=161284 total=1730692) sub=7093 cmp=7082 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   14.31 UPLINK tx: 153 KiB/s (win_bytes=157380 total=1888072) sub=7738 cmp=7727 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   14.32 UPLINK tx: 151 KiB/s (win_bytes=154940 total=2043012) sub=8373 cmp=8362 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   16.31 UPLINK tx: 135 KiB/s (win_bytes=138592 total=2181604) sub=8941 cmp=8930 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   16.32 UPLINK tx: 132 KiB/s (win_bytes=136152 total=2317756) sub=9499 cmp=9488 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   18.31 UPLINK tx: 136 KiB/s (win_bytes=139324 total=2457080) sub=10070 cmp=10060 out=10 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   18.32 UPLINK tx: 140 KiB/s (win_bytes=143960 total=2601040) sub=10660 cmp=10649 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   20.31 UPLINK tx: 148 KiB/s (win_bytes=151768 total=2752808) sub=11282 cmp=11271 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   20.32 UPLINK tx: 151 KiB/s (win_bytes=154696 total=2907504) sub=11916 cmp=11905 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   22.31 UPLINK tx: 156 KiB/s (win_bytes=160064 total=3067568) sub=12572 cmp=12561 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   22.32 UPLINK tx: 155 KiB/s (win_bytes=158844 total=3226412) sub=13223 cmp=13213 out=10 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   24.31 UPLINK tx: 152 KiB/s (win_bytes=156404 total=3382816) sub=13864 cmp=13853 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1
+   24.32 UPLINK tx: 153 KiB/s (win_bytes=157624 total=3540440) sub=14510 cmp=14499 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0x8ea08dc1

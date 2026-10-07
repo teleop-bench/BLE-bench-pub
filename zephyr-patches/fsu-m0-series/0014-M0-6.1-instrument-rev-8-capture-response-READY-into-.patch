@@ -1,0 +1,275 @@
+From 28789805a14188d5d02c673985cc905393f61194 Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Wed, 12 Aug 2026 00:07:47 -0500
+Subject: [PATCH 14/16] M0 6.1 instrument rev 8: capture response READY into
+ dedicated CC3 (leave CC0 untouched)
+
+Option-2 fix for the rev-7 perturbation (smoke-4/4b: re-arming READY into the
+controller-owned CC0 cost ~28% peripheral RX). rev 8 captures the response-TX READY
+into the DEDICATED sample CC (CC3 / SAMPLE task) and never touches CC0/TRX.
+
+radio.c (bench-only, DPPI): bt_ctlr_tifs_cc3_arm() disables ch10, clears CC0's
+CAPTURE0 subscription, subscribes CC3's CAPTURE3 to ch10, re-enables ch10;
+bt_ctlr_tifs_cc3_read() returns CC3; bt_ctlr_tifs_cc3_restore() disables ch10, clears
+CC3, restores CC0's subscription (channel left disabled; event setup re-enables).
+bt_ctlr_tifs_cc0_peek() for leak detection. BUILD_ASSERT ISR-profiling OFF + no FEM
+(CC3 is the HAL sample scratch register).
+
+lll_conn.c: arm the CC3 redirect ONLY for peripheral crc_ok in isr_rx (after the
+status reset, before packet processing); consume reads CC3 + restores CC0 at isr_tx OR
+isr_done; leak guards on double-arm, isr_done stale, and clear; CC0-snapshot compared
+at consume (cc0_changed). New TIFSDIAG: prog/arm/cons_tx/cons_done/stale_done/dup/
+consume_cc3/cleanup_error/cleanup_stale/cc0_changed/drop.
+
+Peripheral rebuilds clean (BUILD_ASSERTs pass); central unaffected (bench off).
+Expected smoke-5: periph CRC-good ~805 (retention >=95%), CC3 bins ~140/~90 (delta 50),
+cleanup/cc0_changed ~0 -> analyzer METRICS-OK (cell still quarantined preaccept).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../ll_sw/nordic/hal/nrf5/radio/radio.c       | 51 ++++++++--
+ .../controller/ll_sw/nordic/lll/lll_conn.c    | 98 ++++++++++++-------
+ 2 files changed, 106 insertions(+), 43 deletions(-)
+
+diff --git a/subsys/bluetooth/controller/ll_sw/nordic/hal/nrf5/radio/radio.c b/subsys/bluetooth/controller/ll_sw/nordic/hal/nrf5/radio/radio.c
+index fe3de8bb79f..99f9919298d 100644
+--- a/subsys/bluetooth/controller/ll_sw/nordic/hal/nrf5/radio/radio.c
++++ b/subsys/bluetooth/controller/ll_sw/nordic/hal/nrf5/radio/radio.c
+@@ -1805,17 +1805,50 @@ void radio_tmr_aa_capture(void)
+ }
+ 
+ #if defined(CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH)
+-/* §6.1 BENCH-ONLY (M0, rev 7): re-arm ONLY the RADIO EVENTS_READY -> EVENT_TIMER
+- * CAPTURE[TRX] capture. radio_tmr_status_reset() disables it after RX, so without this
+- * the response-TX READY is never captured and radio_tmr_ready_get() returns the stale
+- * event-start RX READY. Unlike radio_tmr_aa_capture() this does NOT touch the
+- * receive-timeout-cancel PPI. Call from the peripheral RX ISR after the status reset. */
+-void bt_ctlr_tifs_rearm_ready_capture(void);
+-void bt_ctlr_tifs_rearm_ready_capture(void)
+-{
+-	hal_radio_ready_time_capture_ppi_config();
++/* §6.1 BENCH-ONLY (M0, rev 8): capture the peripheral RESPONSE-TX READY into the
++ * DEDICATED sample CC (CC3 / SAMPLE task), leaving the controller-owned READY CC (CC0 /
++ * TRX) UNTOUCHED. rev-7 redirected READY into CC0 and cost ~28% peripheral RX (CC0 is
++ * reused by the radio's own capture+compare timing). RADIO EVENTS_READY already
++ * publishes to HAL_RADIO_READY_TIME_CAPTURE_PPI (set at event start); we only re-point
++ * the EVENT_TIMER subscriber from CC0 to CC3 for the response window, then restore CC0.
++ * CC3 is the HAL sample scratch register -- safe only with ISR profiling OFF and no FEM
++ * PA/LNA sampling (asserted). DPPI (nRF54L) only, which is the bench target. */
++BUILD_ASSERT(!IS_ENABLED(CONFIG_BT_CTLR_PROFILE_ISR),
++	     "TIFS bench uses CC3 (sample task); BT_CTLR_PROFILE_ISR must be disabled");
++BUILD_ASSERT(!IS_ENABLED(CONFIG_MPSL_FEM) && !IS_ENABLED(CONFIG_BT_CTLR_FEM),
++	     "TIFS bench uses CC3 (sample task); not supported with an active FEM");
++
++void bt_ctlr_tifs_cc3_arm(void);
++void bt_ctlr_tifs_cc3_arm(void)
++{
++	hal_radio_nrf_ppi_channels_disable(BIT(HAL_RADIO_READY_TIME_CAPTURE_PPI));
++	nrf_timer_subscribe_clear(EVENT_TIMER, HAL_EVENT_TIMER_READY_TASK);       /* CC0 off */
++	nrf_timer_subscribe_set(EVENT_TIMER, HAL_EVENT_TIMER_SAMPLE_TASK,         /* CC3 on  */
++				HAL_RADIO_READY_TIME_CAPTURE_PPI);
+ 	hal_radio_nrf_ppi_channels_enable(BIT(HAL_RADIO_READY_TIME_CAPTURE_PPI));
+ }
++
++uint32_t bt_ctlr_tifs_cc3_read(void);
++uint32_t bt_ctlr_tifs_cc3_read(void)
++{
++	return EVENT_TIMER->CC[HAL_EVENT_TIMER_SAMPLE_CC_OFFSET];   /* CC3 */
++}
++
++void bt_ctlr_tifs_cc3_restore(void);
++void bt_ctlr_tifs_cc3_restore(void)
++{
++	hal_radio_nrf_ppi_channels_disable(BIT(HAL_RADIO_READY_TIME_CAPTURE_PPI));
++	nrf_timer_subscribe_clear(EVENT_TIMER, HAL_EVENT_TIMER_SAMPLE_TASK);      /* CC3 off */
++	nrf_timer_subscribe_set(EVENT_TIMER, HAL_EVENT_TIMER_READY_TASK,          /* CC0 back */
++				HAL_RADIO_READY_TIME_CAPTURE_PPI);
++	/* leave the channel DISABLED; normal event setup (radio_tmr_aa_capture) re-enables. */
++}
++
++uint32_t bt_ctlr_tifs_cc0_peek(void);
++uint32_t bt_ctlr_tifs_cc0_peek(void)
++{
++	return EVENT_TIMER->CC[HAL_EVENT_TIMER_TRX_CC_OFFSET];      /* CC0 (leak detector) */
++}
+ #endif /* CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH */
+ 
+ uint32_t radio_tmr_aa_get(void)
+diff --git a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+index 9184ea09f4d..d15870eb202 100644
+--- a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+@@ -170,10 +170,12 @@ static uint8_t  tifs_lat_phy = 1U;
+ static uint32_t tifs_lat_gen;    /* ++ per switch programmed */
+ static uint8_t  tifs_armed;      /* CRC-good RX -> one response-transition sample pending */
+ static uint32_t tifs_cons_gen;   /* gen of the last consumed sample (duplicate guard) */
+-static uint8_t  tifs_rearmed;    /* rev 7: READY capture re-armed for THIS response TX */
++static uint8_t  tifs_cc3_active;   /* rev 8: READY capture currently redirected to CC3 */
++static uint32_t tifs_cc0_snap;     /* CC0 value snapshotted at arm (leak detector) */
+ /* diagnostics (drained as TIFSDIAG) */
+ static uint32_t tifs_prog_cnt, tifs_arm_cnt, tifs_cons_tx, tifs_cons_done,
+-		tifs_stale_done, tifs_dup_cnt, tifs_rearm_cnt, tifs_cons_norearm;
++		tifs_stale_done, tifs_dup_cnt, tifs_consume_cc3, tifs_cleanup_error,
++		tifs_cleanup_stale, tifs_cc0_changed;
+ 
+ /* Latch the tifs/phy that will PRODUCE the next CC0, at the moment the RX->TX switch is
+  * programmed (peripheral prepare for the first switch; isr_tx for continuing switches).
+@@ -191,28 +193,43 @@ void bt_ctlr_tifs_latch(uint16_t tifs_tx_us, uint8_t phy)
+ 
+ /* CRC-good RX successfully processed -> a response transition is expected. Arm exactly
+  * one pending sample (idempotent within an event). */
++/* rev 8: arming moved to the crc_ok+peripheral site in lll_conn_isr_rx (tifs_arm_cc3);
++ * this legacy hook is now a no-op. */
+ static inline void tifs_on_rx_crc_ok(void)
+ {
+-	if (tifs_capturing && !tifs_armed) {
+-		tifs_armed = 1U;
+-		tifs_arm_cnt++;
+-	}
+ }
+ 
+-/* rev 7: note that the READY capture PPI was re-armed for the upcoming response TX (the
+- * actual PPI re-arm is bt_ctlr_tifs_rearm_ready_capture() in radio.c). */
+-static inline void tifs_note_rearm(void)
++/* rev 8: redirect the READY capture into CC3 for the upcoming peripheral RESPONSE TX,
++ * snapshotting CC0 to detect a leak (CC0 must NOT change while redirected). */
++static inline void tifs_arm_cc3(void)
+ {
+-	if (tifs_capturing) {
+-		tifs_rearmed = 1U;
+-		tifs_rearm_cnt++;
++	extern void bt_ctlr_tifs_cc3_arm(void);
++	extern void bt_ctlr_tifs_cc3_restore(void);
++	extern uint32_t bt_ctlr_tifs_cc0_peek(void);
++
++	if (!tifs_capturing) {
++		return;
+ 	}
++	if (tifs_cc3_active) {
++		/* previous redirect never consumed -> restore first (leak guard) */
++		bt_ctlr_tifs_cc3_restore();
++		tifs_cc3_active = 0U;
++		tifs_cleanup_error++;
++	}
++	tifs_cc0_snap = bt_ctlr_tifs_cc0_peek();
++	bt_ctlr_tifs_cc3_arm();
++	tifs_cc3_active = 1U;
++	tifs_armed = 1U;
++	tifs_arm_cnt++;
+ }
+ 
+ /* Consume the pending response-transition sample once, at TX completion. via_done=1 at
+  * the isr_done route (final one-pair peripheral response), 0 at isr_tx (continuing). */
+ static inline void tifs_consume(uint8_t via_done)
+ {
++	extern uint32_t bt_ctlr_tifs_cc3_read(void);
++	extern void bt_ctlr_tifs_cc3_restore(void);
++	extern uint32_t bt_ctlr_tifs_cc0_peek(void);
+ 	uint32_t cc0;
+ 	struct tifs_bin *b = NULL;
+ 
+@@ -222,8 +239,14 @@ static inline void tifs_consume(uint8_t via_done)
+ 	if (!tifs_armed) {
+ 		/* no pending response at this completion: an unrelated/no-response
+ 		 * completion, OR a second visit for a sample already consumed. Never
+-		 * infer validity merely from entering isr_done. */
+-		if (via_done) {
++		 * infer validity merely from entering isr_done. Also clean up a leaked
++		 * CC3 redirect (armed cleared but redirect not restored) so the next
++		 * event does not capture into both CC0 and CC3. */
++		if (tifs_cc3_active) {
++			bt_ctlr_tifs_cc3_restore();
++			tifs_cc3_active = 0U;
++			tifs_cleanup_stale++;
++		} else if (via_done) {
+ 			if (tifs_lat_gen == tifs_cons_gen) {
+ 				tifs_dup_cnt++;      /* this gen already consumed elsewhere */
+ 			} else {
+@@ -232,19 +255,22 @@ static inline void tifs_consume(uint8_t via_done)
+ 		}
+ 		return;
+ 	}
+-	/* exactly one pending sample -> read CC0 BEFORE any status reset, clear the arm */
+-	cc0 = radio_tmr_ready_get();
++	/* exactly one pending sample -> read the response READY from CC3, then RESTORE the
++	 * READY capture to CC0 (leaving CC0 untouched throughout). */
++	cc0 = bt_ctlr_tifs_cc3_read();
++	if (bt_ctlr_tifs_cc0_peek() != tifs_cc0_snap) {
++		tifs_cc0_changed++;   /* CC0 moved while redirected -> a leak; sample suspect */
++	}
++	bt_ctlr_tifs_cc3_restore();
++	tifs_cc3_active = 0U;
+ 	tifs_armed = 0U;
+ 	tifs_cons_gen = tifs_lat_gen;
++	tifs_consume_cc3++;
+ 	if (via_done) {
+ 		tifs_cons_done++;
+ 	} else {
+ 		tifs_cons_tx++;
+ 	}
+-	if (!tifs_rearmed) {
+-		tifs_cons_norearm++;   /* CC0 is the STALE event-start RX READY, not response TX */
+-	}
+-	tifs_rearmed = 0U;
+ 	for (uint8_t i = 0U; i < TIFS_NBINS; i++) {
+ 		if (tifs_bins[i].used && tifs_bins[i].tifs == tifs_lat_tifs &&
+ 		    tifs_bins[i].phy == tifs_lat_phy) {
+@@ -284,11 +310,16 @@ void bt_ctlr_tifs_clear(void)
+ 	(void)memset(tifs_bins, 0, sizeof(tifs_bins));   /* outside lock */
+ 	tifs_dropped = 0U;
+ 	tifs_prog_cnt = tifs_arm_cnt = tifs_cons_tx = tifs_cons_done = 0U;
+-	tifs_stale_done = tifs_dup_cnt = tifs_rearm_cnt = tifs_cons_norearm = 0U;
++	tifs_stale_done = tifs_dup_cnt = tifs_consume_cc3 = 0U;
++	tifs_cleanup_error = tifs_cleanup_stale = tifs_cc0_changed = 0U;
+ 
+ 	key = irq_lock();
++	if (tifs_cc3_active) {           /* defensive: restore a leaked redirect before reset */
++		extern void bt_ctlr_tifs_cc3_restore(void);
++		bt_ctlr_tifs_cc3_restore();
++		tifs_cc3_active = 0U;
++	}
+ 	tifs_armed = 0U;     /* drop any pre-clear pending sample */
+-	tifs_rearmed = 0U;
+ 	tifs_lat_gen = 0U;
+ 	tifs_cons_gen = 0U;
+ 	tifs_capturing = 1U;             /* enable (tiny) */
+@@ -351,13 +382,14 @@ uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen)
+ 	}
+ 	/* diagnostic reconciliation line (analyzer ignores it): switches programmed,
+ 	 * responses armed, consumes per route, stale/duplicate isr_done, drops. */
+-	if ((buflen - used) >= 128U) {
++	if ((buflen - used) >= 160U) {
+ 		int w = snprintf(&buf[used], buflen - used,
+ 				 "TIFSDIAG prog=%u arm=%u cons_tx=%u cons_done=%u "
+-				 "stale_done=%u dup=%u rearm=%u cons_norearm=%u drop=%u\n",
++				 "stale_done=%u dup=%u consume_cc3=%u cleanup_error=%u "
++				 "cleanup_stale=%u cc0_changed=%u drop=%u\n",
+ 				 tifs_prog_cnt, tifs_arm_cnt, tifs_cons_tx, tifs_cons_done,
+-				 tifs_stale_done, tifs_dup_cnt, tifs_rearm_cnt,
+-				 tifs_cons_norearm, drop);
++				 tifs_stale_done, tifs_dup_cnt, tifs_consume_cc3,
++				 tifs_cleanup_error, tifs_cleanup_stale, tifs_cc0_changed, drop);
+ 		if (w > 0) {
+ 			used += (uint32_t)w;
+ 		}
+@@ -680,14 +712,12 @@ void lll_conn_isr_rx(void *param)
+ 	}
+ 
+ #if defined(CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH)
+-	/* rev 7: on the PERIPHERAL, RE-ARM the READY capture for the upcoming RESPONSE TX
+-	 * (lll_isr_rx_status_reset above disabled it). Placed after the no-RX return and
+-	 * before packet processing -> ample time before the response-TX READY event, so
+-	 * radio_tmr_ready_get() then reflects the response TX READY, not the stale RX one. */
+-	if (((struct lll_conn *)param)->role) {
+-		extern void bt_ctlr_tifs_rearm_ready_capture(void);
+-		bt_ctlr_tifs_rearm_ready_capture();
+-		tifs_note_rearm();
++	/* rev 8: on the PERIPHERAL, only for a CRC-good RX (a response WILL follow),
++	 * redirect the READY capture into CC3 for the upcoming response TX -- CC0 (the
++	 * controller-owned READY/TRX CC) is left untouched. After the status reset, before
++	 * packet processing -> ample time before the response-TX READY event. */
++	if (crc_ok && ((struct lll_conn *)param)->role) {
++		tifs_arm_cc3();
+ 	}
+ #endif
+ 

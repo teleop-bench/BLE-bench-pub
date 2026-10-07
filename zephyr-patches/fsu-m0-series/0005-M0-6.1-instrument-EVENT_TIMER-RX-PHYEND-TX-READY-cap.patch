@@ -1,0 +1,145 @@
+From f955cd7b2e7d5465b73bdd7303e7456a1b0198d3 Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Sat, 8 Aug 2026 00:22:42 -0500
+Subject: [PATCH 05/16] M0 6.1 instrument: EVENT_TIMER RX-PHYEND->TX-READY
+ capture (works, analyzer-free) - baseline gate PASSES
+
+Reads radio_tmr_ready_get() (CC0) at lll_conn_isr_tx start = the
+RX-PHYEND->TX-READY interval (single-timer clears the base at PHYEND;
+never CC0-CC2). Fresh+valid-RX gated (flag set on CRC-valid RX in isr_rx,
+consumed in isr_tx). No ISR printing: fixed-size records to a static
+ring, drained/formatted from thread ctx via bt_ctlr_tifs_drain_fmt().
+Per-record metadata: cc0, configured tifs, phy, validity, seq. Bench
+Kconfig BT_CTLR_TIFS_CAPTURE_BENCH. Baseline smoke (150us configured):
+cc0=120us stable, zero spread over 131 valid records (~30us fixed
+radio-chain offset before the RF bit, as predicted). Controller
+hardware-event timing PROXY, not on-air.
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+---
+ .../bluetooth/controller/Kconfig.ll_sw_split  | 10 +++
+ .../controller/ll_sw/nordic/lll/lll_conn.c    | 79 +++++++++++++++++++
+ 2 files changed, 89 insertions(+)
+
+diff --git a/subsys/bluetooth/controller/Kconfig.ll_sw_split b/subsys/bluetooth/controller/Kconfig.ll_sw_split
+index add2980032d..32deee263db 100644
+--- a/subsys/bluetooth/controller/Kconfig.ll_sw_split
++++ b/subsys/bluetooth/controller/Kconfig.ll_sw_split
+@@ -1517,3 +1517,13 @@ config BT_CTLR_FSU_BENCH_FORCE_FEAT
+ 	  peer answers LL_FRAME_SPACE_REQ with LL_UNKNOWN_RSP, which this
+ 	  implementation handles as clean procedure termination. Never
+ 	  enable outside the open<->open bench rig.
++
++config BT_CTLR_TIFS_CAPTURE_BENCH
++	bool "BENCH-ONLY: capture RX-PHYEND->TX-READY interval via EVENT_TIMER CC0"
++	help
++	  M0 §6.1 physical-timing PROXY. Reads the controller's shared
++	  EVENT_TIMER CC0 (radio_tmr_ready_get) at the start of
++	  lll_conn_isr_tx = the RX-PHYEND->TX-READY turnaround interval
++	  (single-timer mode). Records to a static ring, drained/printed from
++	  thread context via bt_ctlr_tifs_drain_fmt(). NOT on-air; not for
++	  production.
+diff --git a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+index adbeadb2dcb..5ddb114ea64 100644
+--- a/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
++++ b/subsys/bluetooth/controller/ll_sw/nordic/lll/lll_conn.c
+@@ -100,6 +100,75 @@ static uint8_t crc_valid;
+ static uint8_t is_aborted;
+ static uint16_t tx_cnt;
+ static uint16_t trx_cnt;
++
++#if defined(CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH)
++#include <stdio.h>
++/* §6.1 BENCH-ONLY (M0): read the controller's SHARED EVENT_TIMER CC0 at the
++ * start of lll_conn_isr_tx. With SW_SWITCH_SINGLE_TIMER the RX PHYEND clears
++ * the timebase, so CC0 (radio_tmr_ready_get()) IS the RX-PHYEND->TX-READY
++ * interval (a hardware-event timing PROXY, stops before the on-air TX bit;
++ * NOT on-air). No printing in the ISR: fixed-size records to a static ring,
++ * drained from thread context. Freshness-gated on a CRC-valid RX. */
++struct tifs_rec {
++	uint16_t cc0_us;      /* RX-PHYEND -> TX-READY interval */
++	uint16_t tifs_tx_us;  /* configured spacing this event */
++	uint8_t  phy;         /* lll->phy_tx */
++	uint8_t  valid;       /* fresh CRC-valid RX preceded */
++	uint32_t seq;         /* event sequence for pairing audit */
++};
++#define TIFS_RING_N 256U
++static struct tifs_rec tifs_ring[TIFS_RING_N];
++static volatile uint32_t tifs_head;   /* ISR writes */
++static uint32_t tifs_tail;            /* thread drains */
++static uint8_t tifs_fresh;            /* set in isr_rx on CRC-valid RX */
++static uint32_t tifs_seq;
++
++static inline void tifs_on_rx_crc_ok(void)
++{
++	tifs_fresh = 1U;
++}
++
++static inline void tifs_on_tx(struct lll_conn *lll)
++{
++	uint32_t cc0 = radio_tmr_ready_get();
++	struct tifs_rec *r = &tifs_ring[tifs_head & (TIFS_RING_N - 1U)];
++
++	r->cc0_us = (cc0 > 60000U) ? 0xFFFFU : (uint16_t)cc0;
++	r->tifs_tx_us = lll->tifs_tx_us;
++#if defined(CONFIG_BT_CTLR_PHY)
++	r->phy = lll->phy_tx;
++#else
++	r->phy = 1U;
++#endif
++	r->valid = tifs_fresh;   /* only fresh CRC-valid RX -> TX turnarounds count */
++	r->seq = tifs_seq++;
++	tifs_head++;
++	tifs_fresh = 0U;
++}
++
++/* Drained + formatted from thread/ULL context (app calls this and printk's
++ * the buffer). Keeps the record struct private to the controller. Emits one
++ * compact line per record; returns bytes written. */
++uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen);
++uint32_t bt_ctlr_tifs_drain_fmt(char *buf, uint32_t buflen)
++{
++	uint32_t used = 0U;
++
++	while (tifs_tail != tifs_head && (buflen - used) > 64U) {
++		struct tifs_rec *r = &tifs_ring[tifs_tail & (TIFS_RING_N - 1U)];
++		int w = snprintf(&buf[used], buflen - used,
++				 "TIFS cc0=%u tifs=%u phy=%u v=%u seq=%u\n",
++				 r->cc0_us, r->tifs_tx_us, r->phy, r->valid,
++				 r->seq);
++		if (w <= 0) {
++			break;
++		}
++		used += (uint32_t)w;
++		tifs_tail++;
++	}
++	return used;
++}
++#endif /* CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH */
+ static uint8_t trx_busy_iteration;
+ 
+ #if defined(CONFIG_BT_CTLR_LE_ENC)
+@@ -430,6 +499,9 @@ void lll_conn_isr_rx(void *param)
+ 	if (crc_ok) {
+ 		uint32_t err;
+ 
++#if defined(CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH)
++		tifs_on_rx_crc_ok();
++#endif
+ 		err = isr_rx_pdu(lll, pdu_data_rx, &is_rx_enqueue, &tx_release,
+ 				 &is_done);
+ 		if (err) {
+@@ -754,6 +826,13 @@ void lll_conn_isr_tx(void *param)
+ 
+ 	lll = param;
+ 
++#if defined(CONFIG_BT_CTLR_TIFS_CAPTURE_BENCH)
++	/* CC0 here = the preceding RX-PHYEND -> TX-READY interval (single-timer
++	 * base was cleared at RX PHYEND). Read BEFORE anything reprograms the
++	 * timer for the next tIFS. */
++	tifs_on_tx(lll);
++#endif
++
+ 	/* setup tIFS switching */
+ 	radio_tmr_tifs_set(lll->tifs_tx_us);
+ 

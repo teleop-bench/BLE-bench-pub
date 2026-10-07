@@ -1,0 +1,36 @@
+=== STRUCTURAL GATES ===
+  [PASS] exactly one CAPTURE-START  (1)
+  [PASS] exactly one CAPTURE-END  (1)
+  [PASS] exactly one FROZEN  (1)
+  [PASS] capture duration ~ declared cap  (30004ms vs cap=30000ms)
+  [PASS] no malformed REC  (0)
+  [PASS] FROZEN & LOSS present  ()
+  [PASS] parsed==FROZEN==LOSS records  (parsed=828 frozen=828 loss=828)
+  [PASS] ring_full_drops==0  ()
+  [PASS] LOSS.addr_minus_end==0  (0)
+  [PASS] LOSS.end_minus_recorded==0  (0)
+  [PASS] LOSS.reversal==0  (0)
+  [PASS] LOSS.stale_addr==0  (0)
+  [PASS] oseq contiguous  ()
+snapshot slop central=(125, 95)ms (sum 220) periph=(50, 131)ms (sum 181) ; combined ceil 3% of 30004ms = 900ms
+=== CONFIG BINDING ===
+  [PASS] combined slop <= 3% of capture (tight lower bound)  (C=220 P=181 ceil=900)
+  [PASS] chan_count==2  (2)
+  [PASS] map=={10,11}  (000c000000)
+  [PASS] observer cfg present  ({'phy': 1, 'aa': 2419017942, 'crcinit': 2301703, 'ch': 10, 'cap_ms': 30000})
+  [PASS] observer AA==connection  (0x902f48d6/0x902f48d6)
+  [PASS] observer CRCInit==connection  ()
+  [PASS] observer channel in {10,11}  (10)
+  [PASS] observer PHY==1M  (1)
+  [PASS] endpoint AA==observer AA  ()
+  [PASS] central AA==periph AA  ()
+  [PASS] distinct DEVICEIDs (C!=P)  (ff62faa3572a17b3/25ade47dfb0977df)
+  [PASS] central actual-TX delta > 0  (txC=423)
+  [PASS] periph resp-opportunity delta > 0  (txP=418)
+=== Q3 STEADY-STATE (f150) (METRICS ONLY; the runner owns the cell verdict) ===
+single plateau: n=414 median=3049.0t (tIFS~=150.62us) vs expected 3047 +/-2 OK
+  shape {'iqr': 6, 'drift': 2, 'conc_frac': 1.0}; whole-cell retention C 97.9% P 99.0%
+  on-chip: exactly one 150us bin, med=140us OK
+=== STEADY-METRICS-OK (f150: 150us plateau) ===
+
+=== analyzer exit 0; cell verdict ACCEPT (obs_image_verified=True endpoint_builds_valid=True quarantine_reason=-) ===

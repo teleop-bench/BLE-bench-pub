@@ -1,0 +1,22 @@
+/* Heartbeat-sender bench GPIOs (§14.9).
+ * Pins VERIFIED against zephyr/boards/nordic/nrf54l15dk on 2026-08-05:
+ * port-1 claims are P1.00/01 XL1/XL2 (32k crystal), P1.02/03 NFC,
+ * P1.04-07 uart20 console, P1.08 button2, P1.09 button1, P1.10 led1,
+ * P1.13 button0 (our fault-inject sw0), P1.14 led3.
+ * P1.15/P1.16 are NOT routed to the DK headers (PORT P1 header ends at
+ * 13/14, per board photo) — third signal moved to P2.06 (free: port-2
+ * claims are P2.01/02/04/05 SPI flash, P2.07 led2, P2.09 led0). */
+/ {
+	zephyr,user {
+		alive-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>; /* high while powered — fit an EXTERNAL
+		                     pull-down so it FALLS cleanly (not floats) on power loss */
+		hbtx-gpios  = <&gpio1 12 GPIO_ACTIVE_HIGH>; /* toggles per accepted-for-queueing HB */
+		fault-gpios = <&gpio2 6 GPIO_ACTIVE_HIGH>;  /* toggles at sw0 fault-injection edge */
+		mon-gpios   = <&gpio2 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+		                    /* cross-board fail-safe monitor (bench stand-in for the
+		                     * discrete pull-down): input + internal ~13k pull-down,
+		                     * jumpered to the PERIPHERAL's STOP pin for the
+		                     * unpowered->STOP-low check; this board survives that
+		                     * test, so its pull is external to the DUT. */
+	};
+};

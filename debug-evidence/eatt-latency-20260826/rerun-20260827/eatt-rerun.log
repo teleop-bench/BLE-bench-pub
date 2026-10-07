@@ -1,0 +1,66 @@
+=== rebuild eon/eoff (FIXED source) ===
+BUILT reon-cen
+BUILT reon-per
+BUILT reoff-cen
+BUILT reoff-per
+=== SMOKE (fixed): eon 45s, want eatt>=2 AND seqbad=0 ===
+-- runners.nrfutil: Board(s) with serial number(s) 1057719509 flashed successfully.
+-- runners.nrfutil: Board(s) with serial number(s) 1057794857 flashed successfully.
+captured rre_smoke
+smoke: eatt=4 maxseqbad=0
+=== ABBA ramps (ON / OFF / OFF / ON), reset-isolated, 455s each ===
+-- runners.nrfutil: Board(s) with serial number(s) 1057719509 flashed successfully.
+-- runners.nrfutil: Board(s) with serial number(s) 1057794857 flashed successfully.
+captured rre_on1
+-- runners.nrfutil: Board(s) with serial number(s) 1057719509 flashed successfully.
+-- runners.nrfutil: Board(s) with serial number(s) 1057794857 flashed successfully.
+captured rre_off1
+-- runners.nrfutil: Board(s) with serial number(s) 1057719509 flashed successfully.
+-- runners.nrfutil: Board(s) with serial number(s) 1057794857 flashed successfully.
+captured rre_off2
+-- runners.nrfutil: Board(s) with serial number(s) 1057719509 flashed successfully.
+-- runners.nrfutil: Board(s) with serial number(s) 1057794857 flashed successfully.
+captured rre_on2
+=== VALIDITY GATE + per-stage PCTL ===
+rre_on1 maxseqbad=63
+⛔ rre_on1 seqbad>0 INVALID
+rre_off1 maxseqbad=14
+⛔ rre_off1 seqbad>0 INVALID
+rre_off2 maxseqbad=29
+⛔ rre_off2 seqbad>0 INVALID
+rre_on2 maxseqbad=79
+⛔ rre_on2 seqbad>0 INVALID
+⛔ some arm invalid
+--- rre_on1 PCTL ---
+  70.441  PCTL target=0 tot=1997 to=0 p50=26 p90=26 p99=26 p99.9=41 max=41 g30=7 g100=0 (ms/counts)
+ 130.469  PCTL target=25 tot=1797 to=0 p50=26 p90=26 p99=102 p99.9=159 max=175 g30=126 g100=26 (ms/counts)
+ 190.457  PCTL target=50 tot=1492 to=6 p50=26 p90=39 p99=195 p99.9=198 max=199 g30=153 g100=81 (ms/counts)
+ 250.518  PCTL target=75 tot=1258 to=7 p50=26 p90=98 p99=198 p99.9=198 max=199 g30=221 g100=106 (ms/counts)
+ 310.501  PCTL target=100 tot=977 to=20 p50=26 p90=192 p99=198 p99.9=200 max=200 g30=251 g100=158 (ms/counts)
+ 370.490  PCTL target=125 tot=681 to=30 p50=26 p90=198 p99=199 p99.9=202 max=205 g30=287 g100=196 (ms/counts)
+ 430.552  PCTL target=150 tot=416 to=28 p50=106 p90=198 p99=200 p99.9=206 max=206 g30=352 g100=241 (ms/counts)
+--- rre_off1 PCTL ---
+  70.453  PCTL target=0 tot=1998 to=0 p50=26 p90=26 p99=26 p99.9=41 max=41 g30=5 g100=0 (ms/counts)
+ 130.514  PCTL target=25 tot=1760 to=0 p50=26 p90=26 p99=160 p99.9=160 max=175 g30=80 g100=43 (ms/counts)
+ 190.480  PCTL target=50 tot=1495 to=3 p50=26 p90=27 p99=193 p99.9=199 max=201 g30=138 g100=97 (ms/counts)
+ 250.497  PCTL target=75 tot=1241 to=7 p50=26 p90=129 p99=193 p99.9=197 max=199 g30=175 g100=134 (ms/counts)
+ 310.518  PCTL target=100 tot=957 to=2 p50=26 p90=193 p99=193 p99.9=200 max=200 g30=239 g100=183 (ms/counts)
+ 370.540  PCTL target=125 tot=685 to=8 p50=26 p90=193 p99=193 p99.9=198 max=198 g30=274 g100=232 (ms/counts)
+ 430.553  PCTL target=150 tot=405 to=6 p50=193 p90=193 p99=194 p99.9=198 max=199 g30=314 g100=294 (ms/counts)
+--- rre_off2 PCTL ---
+  70.514  PCTL target=0 tot=2000 to=0 p50=26 p90=26 p99=26 p99.9=26 max=41 g30=1 g100=0 (ms/counts)
+ 130.490  PCTL target=25 tot=1764 to=0 p50=26 p90=26 p99=160 p99.9=160 max=160 g30=81 g100=46 (ms/counts)
+ 190.497  PCTL target=50 tot=1500 to=0 p50=26 p90=27 p99=193 p99.9=193 max=195 g30=140 g100=100 (ms/counts)
+ 250.509  PCTL target=75 tot=1254 to=2 p50=26 p90=82 p99=193 p99.9=193 max=194 g30=178 g100=118 (ms/counts)
+ 310.488  PCTL target=100 tot=937 to=13 p50=26 p90=193 p99=194 p99.9=200 max=200 g30=230 g100=178 (ms/counts)
+ 370.519  PCTL target=125 tot=671 to=7 p50=26 p90=193 p99=196 p99.9=199 max=200 g30=270 g100=236 (ms/counts)
+ 430.519  PCTL target=150 tot=375 to=24 p50=193 p90=193 p99=199 p99.9=200 max=201 g30=307 g100=266 (ms/counts)
+--- rre_on2 PCTL ---
+  70.482  PCTL target=0 tot=1994 to=0 p50=26 p90=26 p99=26 p99.9=41 max=41 g30=13 g100=0 (ms/counts)
+ 130.480  PCTL target=25 tot=1798 to=0 p50=26 p90=26 p99=102 p99.9=143 max=160 g30=123 g100=28 (ms/counts)
+ 190.505  PCTL target=50 tot=1497 to=2 p50=26 p90=31 p99=195 p99.9=198 max=200 g30=157 g100=95 (ms/counts)
+ 250.545  PCTL target=75 tot=1227 to=26 p50=26 p90=97 p99=198 p99.9=199 max=200 g30=215 g100=108 (ms/counts)
+ 310.523  PCTL target=100 tot=975 to=26 p50=26 p90=191 p99=198 p99.9=200 max=200 g30=261 g100=147 (ms/counts)
+ 370.545  PCTL target=125 tot=677 to=28 p50=26 p90=198 p99=199 p99.9=201 max=202 g30=294 g100=195 (ms/counts)
+ 430.583  PCTL target=150 tot=411 to=32 p50=106 p90=198 p99=201 p99.9=208 max=213 g30=345 g100=241 (ms/counts)
+=== EATT-RERUN DONE ===

@@ -1,0 +1,7 @@
+REJECTED 2026-08-07: duplex cell 8 (arm 52, pair 4 B). Central+periph
+captures truncated to ~58 s (periph 32-33 accepted rows vs required >=100)
+due to a late serial-reader start (reader-ready race). Link was healthy
+(disc=0, spacing=52 confirmed) — this is an instrumentation truncation,
+not a firmware/link failure. SUPERSEDED by rerun m0-dx2m-f52-rr1786142027 (full 150 s, 149/150
+rows, disc=0, spacing=52). Quarantined; excluded from the accepted
+manifest below.

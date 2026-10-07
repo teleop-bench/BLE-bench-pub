@@ -1,0 +1,63 @@
+{
+  "verdict": "ACCEPT",
+  "analyzer_exit": 0,
+  "cell_exit": 0,
+  "quarantine_reason": "",
+  "args": {
+    "obs_port": "/dev/cu.usbmodem0010503477601",
+    "central_port": "/dev/cu.usbmodem0010577195093",
+    "periph_port": "/dev/cu.usbmodem0010577948573",
+    "obs_devid": "1050347760",
+    "central_devid": "1057719509",
+    "periph_devid": "1057794857",
+    "outdir": "$HOME/Desktop/develop/zenoh-pico-ble-test/debug-evidence/observer-q2-nearfarB1-20260811",
+    "mode": "nearfar",
+    "near": "periph",
+    "calib": "$HOME/Desktop/develop/zenoh-pico-ble-test/debug-evidence/gap-proxy-calibration-20260811.json",
+    "obs_app": "$HOME/Desktop/develop/zenoh-pico-ble-test/pca10040-radio-observer",
+    "board": "nrf52dk/nrf52832",
+    "skip_obs_flash": false,
+    "obs_prebuilt_build": "/tmp/q2obs",
+    "central_build": "/tmp/q2cen-far40",
+    "periph_build": "/tmp/q2per-swap",
+    "smoke": false,
+    "pre_run_dirty": false,
+    "obs_hex_path": "/tmp/q2obs/zephyr/zephyr.hex"
+  },
+  "connection": {
+    "AA": "0x8ab907b3",
+    "CRCInit": "0x1df29e",
+    "map": "000c000000",
+    "ch": 10,
+    "phy": "1M"
+  },
+  "source_commit": "fc873dcc768dbe0d32e34b16a538b2824fd2f4f6",
+  "tree_dirty": false,
+  "board": "nrf52dk/nrf52832",
+  "devids": {
+    "obs": "1050347760",
+    "central": "1057719509",
+    "periph": "1057794857"
+  },
+  "observer_image_verified": true,
+  "sha256": {
+    "observer.hex": "50cb7bfa77af10bc5bef0a47c2fecb8565a0123a1645ce3850ecd0b4b275349b",
+    "obs.txt": "5bd19643dd799d42d89dac8255b6ad691c7f6a8aecb2d063b12102df5883693f",
+    "central.txt": "485d019648a80de14cbb46d75df7e56b16b22ff1fe3ad2de2ce2b4a92dd036a9",
+    "periph.txt": "c5f204dcf53fb1ee658a223bab928affecae45dee00e14b151e0ca41467a2feb",
+    "analysis.txt": "2fe7650c36dc4cb0693dd5c19f8b52c61450297652d369029438ae2185e2729e",
+    "analyze_q2.py": "404f3634b050e0a57bb6eaa715e054da505fdf5bc89769d670e341275be774e3",
+    "q2_run.py": "eb22be9d88096cc889f3a2fa539f4f265d0771e448b6c3527c4ea8788a38231c",
+    "combine_calib.py": "69ddee031968bc29a0a2fbcb7428d1ae6fd69ffc93757e957d3b6fcaa404edb3",
+    "Q2-ACCEPTANCE-PROTOCOL.md": "7f8939c33e5ec3a5fbaf043f02f2610dfdf127b9a3f74ea7d4138fe8719ad2d5"
+  },
+  "central_build": {
+    "zephyr.hex": "76a92a64f6c2f03ca93d98fbb69c63452171c7985010576af555e3eab2672dd3",
+    ".config": "facc2230f5afcb5ca7a59e302c499f508b275a55abcddde408ee3b19021a8912"
+  },
+  "periph_build": {
+    "zephyr.hex": "c0ca096d71af656daf1d5bb96f538c656033bf686548f1d82beb09b7bc1bde9b",
+    ".config": "7f2db723d5fde18b8d4f6e52563268679ded4c06fb1dc2342fe0f38f41ddfac7"
+  },
+  "calibration_artifact": "c9b27022fee65dc5c119e2512d2e36793ec87bf8b4c394d8502a89850351c021"
+}

@@ -1,0 +1,20 @@
+/* Chip-EXTERNAL safety watchdog (§14.9 rung 3) — nRF52-DK (PCA10040).
+ *
+ * Pins verified against zephyr/boards/nordic/nrf52dk (buttons P0.13-16,
+ * LEDs P0.17-20, UART P0.05-08, 32k xtal P0.00/01, NFC P0.09/10):
+ * P0.11, P0.12, P0.22 are free and on the edge headers.
+ *
+ * ⚠ ELECTRICAL: nRF52-DK I/O is 3.0 V. Set BOTH nRF54L15-DK boards to
+ * VDD 3.0 V (Board Configurator) BEFORE connecting the feed wire — 3.3 V
+ * into a 3.0 V-supplied nRF52 pin sits at its absolute-maximum rating.
+ *
+ * stop is GPIO_ACTIVE_LOW like the nRF54 watchdog: asserted = line LOW;
+ * production fits an external pull-down so unpowered/reset/hi-Z = STOP. */
+/ {
+	zephyr,user {
+		feed-gpios   = <&gpio0 11 GPIO_ACTIVE_HIGH>; /* from periph P2.10 (HBRX mirror):
+		                                              * one toggle per valid heartbeat */
+		stop-gpios   = <&gpio0 12 GPIO_ACTIVE_LOW>;  /* independent STOP output -> LA CH6 */
+		extexp-gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>; /* expiry marker -> LA CH7 */
+	};
+};

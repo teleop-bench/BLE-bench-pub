@@ -1,0 +1,91 @@
+    0.21 *** Booting Zephyr OS build v4.4.1-14-g9999e0404460 ***
+    0.26 [00:01:38.448,862] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+    0.27 [00:01:38.448,874] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+    0.28 [00:01:38.448,886] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 1[0m
+    0.29 [00:01:38.449,246] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+    0.30 [00:01:38.449,293] [0m<inf> bt_hci_core: Identity: D6:C7:60:B1:D3:0E (random)[0m
+    0.30 [00:01:38.449,309] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+    0.31 [00:01:38.449,324] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+    0.32 
+    0.32 === nRF54L15 L2CAP CoC UPLINK SINK (Zephyr 4.4.1) run=98449326 boot_tag=0x05de329e ===
+    0.33 scan start rc=0
+    0.33 MODE = s
+    3.26 Q2CONN AA=d3188d38 CRCINIT=bb08a0 hop=8 chan_count=37 map=ffffffff1f
+    3.34 GAP connected: peer=FC:BE:FF:FA:E6:8B (random) run=98449326 sess=1 aa=0xd3188d38
+    3.35 phy req rc=0
+    3.35 [00:01:41.737,160] [1;33m<wrn> bt_hci_core: opcode 0x2032 status 0x0c [0m
+    3.36 [00:01:41.737,168] [1;31m<err> bt_conn: Failed LE Set PHY (-13)[0m
+    3.36 DLE: tx_max=27 rx_max=251 run=98449326
+    3.37 PHY: tx=2 rx=2 run=98449326
+    3.37 dle req rc=0
+    3.37 DLE: tx_max=251 rx_max=251 run=98449326
+    3.37 l2cap_chan_connect rc=0 (after 2M + eff251) run=98449326 aa=0xd3188d38
+    3.38 L2CAP connected — uplink sink ready run=98449326 sess=1 aa=0xd3188d38
+    3.39 teardown armed: at connect+16s (mode read at fire time) run=98449326
+    4.97 UPLINK-SINK rx: 82 KiB/s (win_bytes=84180 total=84180) | run=98449326 sess=1 aa=0xd3188d38
+    4.99 UPLINK-SINK rx: 156 KiB/s (win_bytes=159820 total=244000) | run=98449326 sess=1 aa=0xd3188d38
+    6.97 UPLINK-SINK rx: 149 KiB/s (win_bytes=152988 total=396988) | run=98449326 sess=1 aa=0xd3188d38
+    6.99 UPLINK-SINK rx: 144 KiB/s (win_bytes=147864 total=544852) | run=98449326 sess=1 aa=0xd3188d38
+    8.88 UPLINK-SINK rx: 157 KiB/s (win_bytes=161772 total=706624) | run=98449326 sess=1 aa=0xd3188d38
+    8.99 [00:01:46.756,735] [1;31m<err> bt_l2cap: Unable to allocate buffer for op 0x16[0m
+    9.00 [00:01:46.756,751] [1;31m<err> bt_l2cap: bt_l2cap_chan_give_credits: PDU failed -105.[0m
+    9.01 UPLINK-SINK rx: 152 KiB/s (win_bytes=156160 total=862784) | run=98449326 sess=1 aa=0xd3188d38
+   10.88 UPLINK-SINK rx: 156 KiB/s (win_bytes=160552 total=1023336) | run=98449326 sess=1 aa=0xd3188d38
+   10.99 UPLINK-SINK rx: 155 KiB/s (win_bytes=158844 total=1182180) | run=98449326 sess=1 aa=0xd3188d38
+   12.88 UPLINK-SINK rx: 59 KiB/s (win_bytes=61000 total=1243180) | run=98449326 sess=1 aa=0xd3188d38
+   12.99 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=1243180) | run=98449326 sess=1 aa=0xd3188d38
+   14.97 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=1243180) | run=98449326 sess=1 aa=0xd3188d38
+   14.99 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=1243180) | run=98449326 sess=1 aa=0xd3188d38
+   16.97 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=1243180) | run=98449326 sess=1 aa=0xd3188d38
+   16.99 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=1243180) | run=98449326 sess=1 aa=0xd3188d38
+   18.98 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=1243180) | run=98449326 sess=1 aa=0xd3188d38
+   18.99 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=1243180) | run=98449326 sess=1 aa=0xd3188d38
+   19.31 >>> ACTION mode=s graceful+sameboot: LL_TERMINATE(0x13), no reboot <<<
+   19.42 L2CAP disconnected
+   19.42 GAP disconnected 0x16 run=98449326 aa=0xd3188d38
+   19.42 scan start rc=0
+   19.43 Q2CONN AA=168af861 CRCINIT=181ccd hop=14 chan_count=37 map=ffffffff1f
+   19.43 GAP connected: peer=FC:BE:FF:FA:E6:8B (random) run=98449326 sess=2 aa=0x168af861
+   19.44 phy req rc=0
+   19.44 [00:01:57.886,565] [1;33m<wrn> bt_hci_core: opcode 0x2032 status 0x0c [0m
+   19.45 [00:01:57.886,573] [1;31m<err> bt_conn: Failed LE Set PHY (-13)[0m
+   19.45 DLE: tx_max=27 rx_max=251 run=98449326
+   20.40 PHY: tx=2 rx=2 run=98449326
+   20.46 dle req rc=0
+   20.46 DLE: tx_max=251 rx_max=251 run=98449326
+   20.46 l2cap_chan_connect rc=0 (after 2M + eff251) run=98449326 aa=0x168af861
+   20.47 L2CAP connected — uplink sink ready run=98449326 sess=2 aa=0x168af861
+   20.48 UPLINK-SINK rx: 73 KiB/s (win_bytes=75640 total=1318820) | run=98449326 sess=2 aa=0x168af861
+   21.94 UPLINK-SINK rx: 154 KiB/s (win_bytes=158356 total=1477176) | run=98449326 sess=2 aa=0x168af861
+   21.99 UPLINK-SINK rx: 156 KiB/s (win_bytes=160308 total=1637484) | run=98449326 sess=2 aa=0x168af861
+   23.96 UPLINK-SINK rx: 151 KiB/s (win_bytes=155428 total=1792912) | run=98449326 sess=2 aa=0x168af861
+   23.99 UPLINK-SINK rx: 155 KiB/s (win_bytes=159088 total=1952000) | run=98449326 sess=2 aa=0x168af861
+   25.36 [00:02:02.906,138] [1;31m<err> bt_l2cap: Unable to allocate buffer for op 0x16[0m
+   25.42 [00:02:02.906,160] [1;31m<err> bt_l2cap: bt_l2cap_chan_give_credits: PDU failed -105.[0m
+   25.43 UPLINK-SINK rx: 156 KiB/s (win_bytes=160308 total=2112308) | run=98449326 sess=2 aa=0x168af861
+   26.91 UPLINK-SINK rx: 155 KiB/s (win_bytes=159576 total=2271884) | run=98449326 sess=2 aa=0x168af861
+   26.99 UPLINK-SINK rx: 154 KiB/s (win_bytes=158112 total=2429996) | run=98449326 sess=2 aa=0x168af861
+   28.98 UPLINK-SINK rx: 153 KiB/s (win_bytes=157624 total=2587620) | run=98449326 sess=2 aa=0x168af861
+   28.99 UPLINK-SINK rx: 155 KiB/s (win_bytes=159332 total=2746952) | run=98449326 sess=2 aa=0x168af861
+   30.97 UPLINK-SINK rx: 157 KiB/s (win_bytes=161284 total=2908236) | run=98449326 sess=2 aa=0x168af861
+   30.99 UPLINK-SINK rx: 158 KiB/s (win_bytes=162260 total=3070496) | run=98449326 sess=2 aa=0x168af861
+   32.98 UPLINK-SINK rx: 154 KiB/s (win_bytes=158112 total=3228608) | run=98449326 sess=2 aa=0x168af861
+   32.99 UPLINK-SINK rx: 155 KiB/s (win_bytes=158844 total=3387452) | run=98449326 sess=2 aa=0x168af861
+   34.88 UPLINK-SINK rx: 156 KiB/s (win_bytes=159820 total=3547272) | run=98449326 sess=2 aa=0x168af861
+   34.99 UPLINK-SINK rx: 153 KiB/s (win_bytes=157624 total=3704896) | run=98449326 sess=2 aa=0x168af861
+   36.98 UPLINK-SINK rx: 154 KiB/s (win_bytes=158600 total=3863496) | run=98449326 sess=2 aa=0x168af861
+   36.99 UPLINK-SINK rx: 153 KiB/s (win_bytes=157136 total=4020632) | run=98449326 sess=2 aa=0x168af861
+   38.88 UPLINK-SINK rx: 152 KiB/s (win_bytes=156404 total=4177036) | run=98449326 sess=2 aa=0x168af861
+   38.99 UPLINK-SINK rx: 154 KiB/s (win_bytes=158356 total=4335392) | run=98449326 sess=2 aa=0x168af861
+   40.98 UPLINK-SINK rx: 155 KiB/s (win_bytes=159088 total=4494480) | run=98449326 sess=2 aa=0x168af861
+   40.99 UPLINK-SINK rx: 155 KiB/s (win_bytes=159576 total=4654056) | run=98449326 sess=2 aa=0x168af861
+   42.89 UPLINK-SINK rx: 155 KiB/s (win_bytes=158844 total=4812900) | run=98449326 sess=2 aa=0x168af861
+   42.99 UPLINK-SINK rx: 155 KiB/s (win_bytes=158844 total=4971744) | run=98449326 sess=2 aa=0x168af861
+   44.88 UPLINK-SINK rx: 155 KiB/s (win_bytes=159332 total=5131076) | run=98449326 sess=2 aa=0x168af861
+   44.99 UPLINK-SINK rx: 155 KiB/s (win_bytes=159332 total=5290408) | run=98449326 sess=2 aa=0x168af861
+   46.97 UPLINK-SINK rx: 156 KiB/s (win_bytes=159820 total=5450228) | run=98449326 sess=2 aa=0x168af861
+   46.99 UPLINK-SINK rx: 156 KiB/s (win_bytes=160308 total=5610536) | run=98449326 sess=2 aa=0x168af861
+   48.88 UPLINK-SINK rx: 155 KiB/s (win_bytes=159576 total=5770112) | run=98449326 sess=2 aa=0x168af861
+   48.99 UPLINK-SINK rx: 155 KiB/s (win_bytes=158844 total=5928956) | run=98449326 sess=2 aa=0x168af861
+   50.88 UPLINK-SINK rx: 156 KiB/s (win_bytes=160064 total=6089020) | run=98449326 sess=2 aa=0x168af861
+   50.99 UPLINK-SINK rx: 152 KiB/s (win_bytes=156160 total=6245180) | run=98449326 sess=2 aa=0x168af861

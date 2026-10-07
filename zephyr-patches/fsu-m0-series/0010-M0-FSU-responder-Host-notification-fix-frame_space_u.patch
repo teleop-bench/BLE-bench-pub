@@ -1,0 +1,78 @@
+From 94d38e16188ad4c387fa1396c1a1dbab971a13fd Mon Sep 17 00:00:00 2001
+From: teleop-bench <325283884+teleop-bench@users.noreply.github.com>
+Date: Tue, 11 Aug 2026 22:01:26 -0500
+Subject: [PATCH 10/16] M0 FSU: responder Host notification fix
+ (frame_space_updated on the peripheral)
+
+Smoke-1 finding: the central completed FSU (spacing=100) and the on-air tIFS
+demonstrably reduced ~50us, but the peripheral Host never got frame_space_updated.
+Root cause (responder/rp_comm path):
+- At RX of LL_FRAME_SPACE_REQ the responder applied the effective values but DISCARDED
+  ull_fsu_update_eff()'s changed flag; preserve it into ctx->data.fsu.ntf_fsu (the
+  second update_eff at completion sees no change because the masks are already cleared).
+- rp_comm_ntf() had only a DATA_LENGTH branch (with an assert proc==DATA_LENGTH that
+  would fault on FSU); add a PROC_FRAME_SPACE branch calling llcp_ntf_encode_fsu_change.
+The initiator side (lp_comm_ntf_fsu_change) already notified; this fixes the responder.
+Both endpoints rebuild clean; hardware re-run pending.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../controller/ll_sw/ull_llcp_common.c        | 30 +++++++++++++++----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
+
+diff --git a/subsys/bluetooth/controller/ll_sw/ull_llcp_common.c b/subsys/bluetooth/controller/ll_sw/ull_llcp_common.c
+index fe1f03db0aa..581d0d13cfe 100644
+--- a/subsys/bluetooth/controller/ll_sw/ull_llcp_common.c
++++ b/subsys/bluetooth/controller/ll_sw/ull_llcp_common.c
+@@ -1080,7 +1080,11 @@ static void rp_comm_rx_decode(struct ll_conn *conn, struct proc_ctx *ctx, struct
+ 	case PDU_DATA_LLCTRL_TYPE_FRAME_SPACE_REQ:
+ 		/* receive req from remote */
+ 		llcp_pdu_decode_fsu_req(conn, pdu);
+-		ull_fsu_update_eff(conn);
++		/* The responder applies the effective values BEFORE transmitting its RSP
++		 * (per spec), which clears the pending masks; preserve the 'changed' result
++		 * here so the completion path can still generate the Host notification (the
++		 * second update_eff at completion would otherwise see no change). */
++		ctx->data.fsu.ntf_fsu = ull_fsu_update_eff(conn);
+ 
+ 		llcp_rx_node_retain(ctx);
+ 		break;
+@@ -1231,7 +1235,7 @@ static void rp_comm_ntf(struct ll_conn *conn, struct proc_ctx *ctx, uint8_t gene
+ 	/* And release memory if no NTF to be generated */
+ 	ntf->hdr.type = NODE_RX_TYPE_RELEASE;
+ 
+-#if defined(CONFIG_BT_CTLR_DATA_LENGTH)
++#if defined(CONFIG_BT_CTLR_DATA_LENGTH) || defined(CONFIG_BT_CTLR_FRAME_SPACE_UPDATE)
+ 
+ 	if (generate_ntf) {
+ 		struct pdu_data *pdu;
+@@ -1239,10 +1243,26 @@ static void rp_comm_ntf(struct ll_conn *conn, struct proc_ctx *ctx, uint8_t gene
+ 		ntf->hdr.type = NODE_RX_TYPE_DC_PDU;
+ 		ntf->hdr.handle = conn->lll.handle;
+ 		pdu = (struct pdu_data *)ntf->pdu;
+-		LL_ASSERT_DBG(ctx->proc == PROC_DATA_LENGTH_UPDATE);
+-		llcp_ntf_encode_length_change(conn, pdu);
+-	}
++		switch (ctx->proc) {
++#if defined(CONFIG_BT_CTLR_DATA_LENGTH)
++		case PROC_DATA_LENGTH_UPDATE:
++			llcp_ntf_encode_length_change(conn, pdu);
++			break;
+ #endif /* CONFIG_BT_CTLR_DATA_LENGTH */
++#if defined(CONFIG_BT_CTLR_FRAME_SPACE_UPDATE)
++		case PROC_FRAME_SPACE:
++			/* responder-side Host notification (the initiator side is emitted
++			 * by lp_comm_ntf_fsu_change); without this branch the callback never
++			 * reaches the peer Host even after the values are adopted. */
++			llcp_ntf_encode_fsu_change(conn, pdu);
++			break;
++#endif /* CONFIG_BT_CTLR_FRAME_SPACE_UPDATE */
++		default:
++			LL_ASSERT_DBG(0);
++			break;
++		}
++	}
++#endif /* CONFIG_BT_CTLR_DATA_LENGTH || CONFIG_BT_CTLR_FRAME_SPACE_UPDATE */
+ 
+ 	/* Enqueue notification towards LL - releases mem if no ntf */
+ 	ll_rx_put_sched(ntf->hdr.link, ntf);

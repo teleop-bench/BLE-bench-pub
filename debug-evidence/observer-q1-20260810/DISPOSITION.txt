@@ -1,0 +1,45 @@
+Q1 capture DISPOSITION LEDGER (every attempt, ALL failed gates)
+==================================================================
+ACCEPTED   = passes all frozen rev-2 gates; used for the verdict (>=2/cell)
+SUPERSEDED = valid ACCEPT, but a surplus rep beyond the 2 kept per cell
+INVALID    = failed >=1 structural gate (tooling artifact, not instrument)
+
+1M_DKA_run1      INVALID    1702 recs; cause = double-boot (parsed!=FROZEN AND non-contiguous oseq AND duplication)
+                   - FAIL: obs: no malformed REC lines (1 malformed)
+                   - FAIL: obs: parsed==FROZEN.records==LOSS.records (parsed=1701 frozen=1600 loss=1600)
+                   - FAIL: obs: addr_irq==end_irq==records ({'addr_irq': 1600, 'end_irq': 1600, 'records': 1600, 'ring_full_drops': 0, 'addr_minus_end': 0, 'end_minus_recorded': 0, 'reversal': 0, 'stale_addr': 0})
+                   - FAIL: obs: oseq contiguous 0..n-1 (no dup/gap) (min=0 max=1599 distinct=1600/1701)
+                   - FAIL: obs: no CRC-good pairid has >2 records (duplication) (51 over, e.g. [(344, [1, 2, 1, 2]), (345, [1, 2, 1, 2]), (346, [1, 2, 1, 2])])
+
+1M_DKA_run1b     ACCEPTED   1600 recs; all gates pass
+
+1M_DKA_run2      SUPERSEDED 1600 recs; all gates pass
+
+1M_DKA_run2b     ACCEPTED   1600 recs; all gates pass
+
+1M_DKB_run1      ACCEPTED   1599 recs; all gates pass
+
+1M_DKB_run2      ACCEPTED   1600 recs; all gates pass
+
+2M_DKA_run1      INVALID    1702 recs; cause = double-boot (parsed!=FROZEN AND non-contiguous oseq AND duplication)
+                   - FAIL: obs: parsed==FROZEN.records==LOSS.records (parsed=1702 frozen=1600 loss=1600)
+                   - FAIL: obs: addr_irq==end_irq==records ({'addr_irq': 1600, 'end_irq': 1600, 'records': 1600, 'ring_full_drops': 0, 'addr_minus_end': 0, 'end_minus_recorded': 0, 'reversal': 0, 'stale_addr': 0})
+                   - FAIL: obs: oseq contiguous 0..n-1 (no dup/gap) (min=0 max=1599 distinct=1600/1702)
+                   - FAIL: obs: no CRC-good pairid has >2 records (duplication) (52 over, e.g. [(339, [2, 1, 2]), (340, [1, 2, 1, 2]), (341, [1, 2, 1, 2])])
+
+2M_DKA_run1b     INVALID    1601 recs; cause = single malformed UART line (only the malformed gate fails; NOT a double-boot)
+                   - FAIL: obs: no malformed REC lines (1 malformed)
+
+2M_DKA_run2      ACCEPTED   1600 recs; all gates pass
+
+2M_DKA_run2b     ACCEPTED   1600 recs; all gates pass
+
+2M_DKB_run1      ACCEPTED   1600 recs; all gates pass
+
+2M_DKB_run2      ACCEPTED   1600 recs; all gates pass
+
+TOTALS: 8 ACCEPTED, 1 SUPERSEDED, 3 INVALID
+INVALID breakdown: 2 double-boots (1M_DKA_run1, 2M_DKA_run1) +
+                   1 single-malformed-line (2M_DKA_run1b). = THREE invalid attempts.
+All invalids are capture-tooling artifacts; none is an instrument/physics failure.
+Board identity per file: harness explicit --dev-id + BOARD-ID-MAP.txt + board-id-boot-logs/.

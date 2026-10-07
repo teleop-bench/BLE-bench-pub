@@ -1,0 +1,81 @@
+   1.713  *** Booting Zephyr OS build v4.4.2-16-gfee9fbc62095 ***
+   1.713  
+   1.714  === MINIMAL REPRO acceptor+sender, PSM 0x29 ===
+   1.714  advertising
+   2.146  L2CAP channel connected
+   2.695  sent=24 done=23 alloc-fail=4
+   3.716  sent=73 done=71 alloc-fail=5
+   4.685  sent=123 done=121 alloc-fail=5
+   5.711  sent=173 done=171 alloc-fail=5
+   6.687  sent=222 done=220 alloc-fail=5
+   7.711  sent=272 done=270 alloc-fail=5
+   8.687  sent=322 done=320 alloc-fail=5
+   9.713  sent=372 done=369 alloc-fail=5
+  10.732  sent=422 done=419 alloc-fail=5
+  11.705  sent=471 done=469 alloc-fail=5
+  12.730  sent=521 done=518 alloc-fail=5
+  13.747  sent=571 done=568 alloc-fail=5
+  14.720  sent=621 done=618 alloc-fail=5
+  15.741  sent=671 done=667 alloc-fail=5
+  16.711  sent=720 done=719 alloc-fail=5
+  17.736  sent=770 done=769 alloc-fail=5
+  18.754  sent=820 done=819 alloc-fail=5
+  19.727  sent=870 done=868 alloc-fail=5
+  20.747  sent=920 done=918 alloc-fail=5
+  21.760  sent=969 done=968 alloc-fail=5
+  22.782  sent=1019 done=1017 alloc-fail=5
+  23.761  sent=1069 done=1067 alloc-fail=5
+  24.735  sent=1119 done=1117 alloc-fail=5
+  25.760  sent=1169 done=1166 alloc-fail=5
+  26.791  sent=1218 done=1216 alloc-fail=5
+  27.612  L2CAP channel disconnected
+  27.667  GAP disconnected (0x08) — re-advertising once the connection is freed
+  27.667  advertising
+  27.722  L2CAP channel connected
+  27.776  sent=3 done=0 alloc-fail=0
+  28.762  sent=48 done=47 alloc-fail=5
+  29.800  sent=98 done=96 alloc-fail=5
+  30.775  sent=147 done=146 alloc-fail=5
+  31.799  sent=197 done=195 alloc-fail=5
+  32.767  sent=247 done=245 alloc-fail=5
+  33.778  sent=297 done=295 alloc-fail=5
+  34.803  sent=347 done=344 alloc-fail=5
+  35.768  sent=396 done=394 alloc-fail=5
+  36.793  sent=446 done=444 alloc-fail=5
+  37.805  sent=496 done=493 alloc-fail=5
+  38.781  sent=546 done=543 alloc-fail=5
+  39.812  sent=596 done=593 alloc-fail=5
+  40.834  sent=645 done=642 alloc-fail=5
+  41.800  sent=695 done=692 alloc-fail=5
+  42.829  sent=745 done=742 alloc-fail=5
+  43.801  sent=795 done=791 alloc-fail=5
+  44.839  sent=845 done=844 alloc-fail=5
+  45.806  sent=894 done=893 alloc-fail=5
+  46.834  sent=944 done=943 alloc-fail=5
+  47.809  sent=994 done=992 alloc-fail=5
+  48.831  sent=1044 done=1042 alloc-fail=5
+  49.851  sent=1094 done=1092 alloc-fail=5
+  50.810  sent=1143 done=1141 alloc-fail=5
+  51.835  sent=1193 done=1191 alloc-fail=5
+  52.853  sent=1243 done=1238 alloc-fail=5  <-- TX WEDGED (completions stalled)
+  53.232  L2CAP channel disconnected
+  53.232  GAP disconnected (0x08) — re-advertising once the connection is freed
+  53.232  advertising
+  53.283  L2CAP channel connected
+  53.869  sent=24 done=20 alloc-fail=4
+  54.847  sent=72 done=71 alloc-fail=5
+  55.874  sent=122 done=121 alloc-fail=5
+  56.879  sent=172 done=171 alloc-fail=5
+  57.846  sent=222 done=220 alloc-fail=5
+  58.877  sent=272 done=270 alloc-fail=5
+  59.847  sent=321 done=320 alloc-fail=5
+  60.880  sent=371 done=369 alloc-fail=5
+  61.857  sent=421 done=419 alloc-fail=5
+  62.894  sent=471 done=469 alloc-fail=5
+  63.879  sent=521 done=518 alloc-fail=5
+  64.901  sent=570 done=568 alloc-fail=5
+  65.885  sent=620 done=618 alloc-fail=5
+  66.911  sent=670 done=667 alloc-fail=5
+  67.879  sent=720 done=717 alloc-fail=5
+  68.901  sent=770 done=767 alloc-fail=5
+  69.919  sent=819 done=816 alloc-fail=5

@@ -1,0 +1,106 @@
+Observer Q1 — close-pair retention & discrimination (the go/no-go)
+=================================================================
+Date: 2026-08-10
+Result: ACCEPT across the FULL matrix (1M+2M x both nRF54 DKs x 2 reset-
+        isolated reps). Frozen gates: Q1-ACCEPTANCE-PROTOCOL-rev2.md (rev-2
+        supersedes the rev-1 protocol + amendment after review). Per-run
+        detail below is the FIRST clean 1M run; the full matrix is in
+        matrix/SUMMARY.txt (+ matrix/*_obs.txt / *_gen.txt).
+
+FULL MATRIX (matrix/SUMMARY.txt) — every listed run ACCEPT:
+  1M (offset 640): all rungs land on G*16+640-1 = 3039/2239/1759/1471,
+     DK-A x2 + DK-B x2, retention 99.5-100%.
+  2M (offset 384): all rungs land on G*16+384-1 = 2783/1983/1503/1215,
+     DK-A x2 + DK-B x2, retention 98.5-100%.
+  Medians are IDENTICAL across DK-A vs DK-B and across reset-isolated reps
+  (board-position / TX-identity invariance, per plan). Fidelity = 1 tick vs
+  commanded on every rung/PHY; separation deltas = commanded exactly.
+  Analyzer hardened with structural-integrity gates (rejects duplication /
+  count-mismatch / non-contiguous oseq; self-tested: a doubled capture REJECTs).
+
+HARDWARE
+--------
+Observer : nRF52-DK (PCA10040), nRF52832  FICR PART=0x00052832, dev-id 1050347760
+Generator: nRF54L15-DK x2 (both used) -- DK-A dev-id 1057719509 DEVICEID=25ade47dfb0977df;
+           DK-B dev-id 1057794857 DEVICEID=ff62faa3572a17b3 (see BOARD-ID-MAP.txt)
+Link (both, MUST match): ch37 (2402 MHz), 1M AND 2M (matrix; -DPHY2M),
+        AA=0x71764129, CRCINIT=0x555555,
+        CRCPOLY=0x0100065B, whitening DISABLED (removes any DATAWHITE poly/IV
+        mismatch; airtime unaffected). Generator PHYENDTXDELAY=0 (pinned).
+Build/toolchain/hashes: manifest.sha256 (verify: shasum -a 256 -c manifest.sha256)
+        + generator_1m/2m + observer_1m/2m .resolved.config (firmware/) — reconstruction.
+Observer built with -DQ1=1 (dedicated AA, whitening off, 10 s window).
+
+METHOD
+------
+Generator emits BLE-format packet PAIRS: A (len=20, txtag=1) then B (len=30,
+txtag=2), asymmetric lengths so the two packet CLASSES are distinguishable (A/B
+are two classes from ONE generator -- pair membership, NOT two endpoints /
+near-far, which is Q2);
+payload[0..1]=pair id, payload[2]=txtag. The A->B END->START gap G is timed
+ENTIRELY in hardware (TIMER10 compare -> RADIO TXEN via DPPI); TX ramp-up
+cancels in CC_B-CC_A = airtime_A + G. Ladder G in {150,100,70,52} us, 200
+pairs each, emitted ROUND-ROBIN (interleaved, not blocked) so no rung is a
+contiguous time block; the 150 us rung is the unreduced-tIFS control. Each
+pair is self-timestamped (TX ADDRESS of B minus TX PHYEND of A -> gap_gen).
+Observer passively captures on the same channel, hardware-timestamping every
+packet's ADDRESS/END via PPI 26/27 -> TIMER0 (16 MHz), and dumps all records.
+
+GROUND TRUTH (and a corrected reference -- disclosed)
+-----------------------------------------------------
+The clean ground truth is the COMMANDED on-air gap: CC_B-CC_A is exact
+hardware, so the observer's ADDRESS-to-END span should read G*16 + 640 ticks
+(640 = 1M preamble+AA = 5 bytes x 8 us x 16), offset by the observer's own
+Q0-measured ADDRESS-vs-END capture bias of -1 tick.
+
+CORRECTION (made AFTER the first Q1 run, disclosed for review): the frozen
+protocol named the generator self-timestamp gap_gen as the primary fidelity
+reference "to avoid assuming a constant." The data showed gap_gen is NOT a
+clean reference -- it carries the generator's OWN fixed TX PHYEND-vs-ADDRESS
+capture-latency artifact (a constant ~-50 ticks vs commanded, identical on all
+four rungs). Using an uncalibrated second instrument as ground truth was the
+error. Primary fidelity is therefore observer-span vs COMMANDED; gap_gen is
+kept only as an inter-instrument constant-offset consistency check.
+
+Two REFERENCE-INDEPENDENT facts already establish the core result, needing no
+reference choice at all:
+  * IQR = 0 on every rung -- the observer's span shows NO observed spread at 62.5 ns
+    resolution (every one of 200 pairs measured the identical value;
+    sub-tick jitter is unresolved).
+  * Rung-to-rung DELTAS = commanded exactly (150->100->70->52 measured
+    3039->2239->1759->1471; deltas 800/480/288 ticks = 50/30/18 us x 16),
+    which involves no absolute reference.
+
+RESULT (q1_analysis.txt, clean single run: 1600 records, 800 pairids x2)
+-----------------------------------------------------------------------
+  rung  retention        span(med)  vs commanded   IQR   sep-delta
+  150   200/200 100%     3039        3040 (-1)      0     --
+  100   200/200 100%     2239        2240 (-1)      0     800  (=commanded)
+   70   200/200 100%     1759        1760 (-1)      0     480  (=commanded)
+   52   200/200 100%     1471        1472 (-1)      0     288  (=commanded)
+  observer loss accounting: addr_irq=end_irq=records=1600, drops/reversal/
+  stale all 0.  generator missed_deadline=0.  span-gap_gen = +49 ticks
+  (CONSTANT across all rungs; mechanism = fixed TX-emit vs RX-detect
+  event-latency difference, NOT clock ppm/phase (which would scale with the
+  interval); not fully isolated, so gap_gen is a consistency check, NOT an
+  independent calibration).
+
+VERDICT: The nRF52832 observer RETAINS both packets of every 52 & 70 us pair
+(100%), measures the commanded gap to within its 1-tick (62.5 ns) Q0 calib
+with NO OBSERVED SPREAD at 62.5 ns resolution (IQR=0; sub-tick jitter unresolved), and cleanly DISTINGUISHES all four rungs. Q1 = PASS.
+
+TEST-ORCHESTRATION NOTE (diagnosed & eliminated)
+------------------------------------------------
+An earlier run showed 120 duplicated pairids (0-119). Root cause: `west flash`
+auto-runs the generator, so a flash-run was still emitting when the observer
+booted, then an explicit reset started a 2nd run; the observer caught run#1's
+tail + all of run#2. NOT a firmware defect. Fixed by running ONE coordinated
+reset with no overlapping re-flash -> exactly 1600 records, every pairid x2.
+
+SCOPE / LIMITS (do not overclaim)
+---------------------------------
+Q1 qualifies the INSTRUMENT in symmetric geometry with a synthetic source. It
+is NECESSARY-not-sufficient for any on-air FSU claim: Q2 (follow a real
+connection) and Q3 (measure the FSU tIFS step on a live link) still gate.
+"No public tool that physically measures achieved FSU on-air spacing was found
+in the 2026-08-10 search" -- a dated-search statement, not a priority claim.

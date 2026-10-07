@@ -1,0 +1,17 @@
+# Design-gate verification over the ARCHIVED resolved configs (configs/) — 2026-09-09T02:41:43Z
+# check_matched_pair.py: each on/off pair must differ ONLY in APP_FSU_MIN/MAX_US.
+  GATE open 6: MATCHED
+  GATE open 12: MATCHED
+  GATE open 20: MATCHED
+  GATE open 30: MATCHED
+  GATE open 40: MATCHED
+  GATE sdc 6: MATCHED
+  GATE sdc 12: MATCHED
+  GATE sdc 20: MATCHED
+  GATE sdc 30: MATCHED
+  GATE sdc 40: MATCHED
+  SINK open: auto-update OFF
+  SINK open: FSU floor OK
+  SINK sdc: auto-update OFF
+  SINK sdc: FSU floor OK
+RESULT: 10/10 pairs MATCHED + both sinks capable — PASS

@@ -1,0 +1,35 @@
+# CoC central FSU target: request [MIN..MAX] frame space after the channel is up.
+# In-band control uses MIN=MAX=150 (FSU procedure runs, grants no reduction) so the
+# ONLY variable between arms is the granted spacing (52 vs 150 us).
+config APP_FSU_MIN_US
+	int "FSU requested minimum frame space (us)"
+	default 0
+	range 0 10000
+config APP_FSU_MAX_US
+	int "FSU requested maximum frame space (us; 0 = no FSU request)"
+	default 0
+	range 0 10000
+config APP_AUTO_FSU
+	bool "Auto-request FSU once the CoC channel is up"
+	depends on BT_FRAME_SPACE_UPDATE
+	default n
+config APP_CONN_INT_UNITS
+	int "Pinned connection interval (1.25 ms units): 6=7.5ms 12=15ms 20=25ms"
+	default 6
+	range 6 3200
+
+config APP_POOL_DEPTH
+	int "TX pool depth (bulk+ping share it): 64=deep/saturating, 2-4=completion-paced analog"
+	default 64
+	range 1 128
+
+config APP_NO_BULK
+	bool "Disable bulk blast (idle/unsaturated ping-pong only)"
+	default n
+
+config APP_OFFERED_KBPS
+	int "Offered bulk rate KB/s (0 = saturate/blast)"
+	default 0
+	range 0 300
+
+source "Kconfig.zephyr"

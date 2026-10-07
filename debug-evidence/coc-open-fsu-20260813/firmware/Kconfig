@@ -1,0 +1,17 @@
+# CoC central FSU target: request [MIN..MAX] frame space after the channel is up.
+# In-band control uses MIN=MAX=150 (FSU procedure runs, grants no reduction) so the
+# ONLY variable between arms is the granted spacing (52 vs 150 us).
+config APP_FSU_MIN_US
+	int "FSU requested minimum frame space (us)"
+	default 0
+	range 0 10000
+config APP_FSU_MAX_US
+	int "FSU requested maximum frame space (us; 0 = no FSU request)"
+	default 0
+	range 0 10000
+config APP_AUTO_FSU
+	bool "Auto-request FSU once the CoC channel is up"
+	depends on BT_FRAME_SPACE_UPDATE
+	default n
+
+source "Kconfig.zephyr"

@@ -1,0 +1,84 @@
+    0.26 *** Booting Zephyr OS build v4.4.1-14-g9999e0404460 ***
+    0.26 [00:01:12.032,920] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+    0.27 [00:01:12.032,932] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+    0.28 [00:01:12.032,944] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 1[0m
+    0.29 [00:01:12.033,303] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+    0.29 [00:01:12.033,350] [0m<inf> bt_hci_core: Identity: D6:C7:60:B1:D3:0E (random)[0m
+    0.30 [00:01:12.033,366] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+    0.31 [00:01:12.033,381] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+    0.31 
+    0.32 === nRF54L15 L2CAP CoC UPLINK SINK (Zephyr 4.4.1) run=72033384 boot_tag=0x044b1f59 ===
+    0.32 scan start rc=0
+    3.36 Q2CONN AA=4e82d176 CRCINIT=712daa hop=10 chan_count=37 map=ffffffff1f
+    3.37 GAP connected: peer=FC:BE:FF:FA:E6:8B (random) run=72033384 sess=1 aa=0x4e82d176
+    3.37 phy req rc=0
+    3.38 [00:01:15.344,953] [1;33m<wrn> bt_hci_core: opcode 0x2032 status 0x0c [0m
+    3.38 [00:01:15.344,961] [1;31m<err> bt_conn: Failed LE Set PHY (-13)[0m
+    3.39 DLE: tx_max=27 rx_max=251 run=72033384
+    3.39 PHY: tx=2 rx=2 run=72033384
+    3.39 dle req rc=0
+    3.40 DLE: tx_max=251 rx_max=251 run=72033384
+    3.40 l2cap_chan_connect rc=0 (after 2M + eff251) run=72033384 aa=0x4e82d176
+    3.41 L2CAP connected — uplink sink ready run=72033384 sess=1 aa=0x4e82d176
+    4.98 UPLINK-SINK rx: 57 KiB/s (win_bytes=58804 total=58804) | run=72033384 sess=1 aa=0x4e82d176
+    4.99 UPLINK-SINK rx: 127 KiB/s (win_bytes=131028 total=189832) | run=72033384 sess=1 aa=0x4e82d176
+    6.98 UPLINK-SINK rx: 112 KiB/s (win_bytes=115656 total=305488) | run=72033384 sess=1 aa=0x4e82d176
+    6.98 UPLINK-SINK rx: 120 KiB/s (win_bytes=122976 total=428464) | run=72033384 sess=1 aa=0x4e82d176
+    8.98 UPLINK-SINK rx: 120 KiB/s (win_bytes=123220 total=551684) | run=72033384 sess=1 aa=0x4e82d176
+    8.99 [00:01:20.379,526] [1;31m<err> bt_l2cap: Unable to allocate buffer for op 0x16[0m
+    8.99 [00:01:20.379,543] [1;31m<err> bt_l2cap: bt_l2cap_chan_give_credits: PDU failed -105.[0m
+    9.00 UPLINK-SINK rx: 128 KiB/s (win_bytes=131760 total=683444) | run=72033384 sess=1 aa=0x4e82d176
+   10.98 UPLINK-SINK rx: 124 KiB/s (win_bytes=127368 total=810812) | run=72033384 sess=1 aa=0x4e82d176
+   10.99 UPLINK-SINK rx: 118 KiB/s (win_bytes=121756 total=932568) | run=72033384 sess=1 aa=0x4e82d176
+   12.98 UPLINK-SINK rx: 60 KiB/s (win_bytes=61976 total=994544) | run=72033384 sess=1 aa=0x4e82d176
+   12.98 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=994544) | run=72033384 sess=1 aa=0x4e82d176
+   14.98 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=994544) | run=72033384 sess=1 aa=0x4e82d176
+   14.98 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=994544) | run=72033384 sess=1 aa=0x4e82d176
+   16.98 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=994544) | run=72033384 sess=1 aa=0x4e82d176
+   16.98 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=994544) | run=72033384 sess=1 aa=0x4e82d176
+   18.98 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=994544) | run=72033384 sess=1 aa=0x4e82d176
+   18.98 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=994544) | run=72033384 sess=1 aa=0x4e82d176
+   20.67 *** Booting Zephyr OS build v4.4.1-14-g9999e0404460 ***
+   20.68 [00:01:32.449,088] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+   20.69 [00:01:32.449,101] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+   20.70 [00:01:32.449,113] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 1[0m
+   20.70 [00:01:32.449,472] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+   20.71 [00:01:32.449,519] [0m<inf> bt_hci_core: Identity: D6:C7:60:B1:D3:0E (random)[0m
+   20.72 [00:01:32.449,535] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+   20.73 [00:01:32.449,549] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+   20.73 
+   20.73 === nRF54L15 L2CAP CoC UPLINK SINK (Zephyr 4.4.1) run=92449552 boot_tag=0x0582a601 ===
+   20.74 scan start rc=0
+   24.41 Q2CONN AA=329144c6 CRCINIT=3e52fb hop=9 chan_count=37 map=ffffffff1f
+   24.42 GAP connected: peer=FC:BE:FF:FA:E6:8B (random) run=92449552 sess=1 aa=0x329144c6
+   24.42 phy req rc=0
+   24.43 [00:01:36.403,143] [1;33m<wrn> bt_hci_core: opcode 0x2032 status 0x0c [0m
+   24.44 [00:01:36.403,151] [1;31m<err> bt_conn: Failed LE Set PHY (-13)[0m
+   24.44 DLE: tx_max=27 rx_max=251 run=92449552
+   24.44 PHY: tx=2 rx=2 run=92449552
+   24.44 dle req rc=0
+   24.45 DLE: tx_max=251 rx_max=251 run=92449552
+   24.45 l2cap_chan_connect rc=0 (after 2M + eff251) run=92449552 aa=0x329144c6
+   24.46 L2CAP connected — uplink sink ready run=92449552 sess=1 aa=0x329144c6
+   26.39 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   26.40 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   28.39 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   28.40 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   30.39 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   30.40 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   32.39 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   32.40 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   34.39 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   34.40 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   36.39 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   36.40 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   38.39 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   38.40 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   40.39 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   40.40 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   42.39 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   42.40 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   44.39 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   44.40 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   46.39 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6
+   46.40 UPLINK-SINK rx: 0 KiB/s (win_bytes=0 total=0) | run=92449552 sess=1 aa=0x329144c6

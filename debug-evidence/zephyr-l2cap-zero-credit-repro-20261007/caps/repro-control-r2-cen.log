@@ -1,0 +1,51 @@
+   2.219  *** Booting Zephyr OS build v4.4.2-16-gfee9fbc62095 ***
+   2.219  [00:00:21.371,834] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+   2.219  [00:00:21.371,847] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+   2.219  [00:00:21.371,859] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 2[0m
+   2.219  [00:00:21.372,222] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+   2.219  [00:00:21.372,269] [0m<inf> bt_hci_core: Identity: FC:BE:FF:FA:E6:8B (random)[0m
+   2.269  [00:00:21.372,286] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+   2.269  [00:00:21.372,301] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+   2.269  
+   2.269  === MINIMAL REPRO initiator+receiver (self-reboots), PSM 0x29 ===
+   2.269  scanning
+   2.269  Q2CONN AA=d2444bd0 CRCINIT=d2cc94 hop=10 chan_count=37 map=ffffffff1f
+   2.269  Connected
+   2.269  [00:00:21.429,243] [1;31m<err> bt_l2cap: Limiting RX MPS by stack buffer size.[0m
+   2.269  l2cap connect rc=0
+   2.269  L2CAP channel connected
+   2.269  will reboot in 25 s
+  27.333  *** Booting Zephyr OS build v4.4.2-16-gfee9fbc62095 ***
+  27.334  [00:00:00.001,893] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+  27.334  [00:00:00.001,905] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+  27.334  [00:00:00.001,917] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 2[0m
+  27.334  [00:00:00.002,280] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+  27.334  [00:00:00.002,327] [0m<inf> bt_hci_core: Identity: FC:BE:FF:FA:E6:8B (random)[0m
+  27.385  [00:00:00.002,345] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+  27.386  [00:00:00.002,359] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+  27.386  
+  27.386  === MINIMAL REPRO initiator+receiver (self-reboots), PSM 0x29 ===
+  27.386  scanning
+  28.526  Q2CONN AA=cfd4cc53 CRCINIT=9f8a49 hop=6 chan_count=37 map=ffffffff1f
+  28.526  Connected
+  28.526  [00:00:00.521,009] [1;31m<err> bt_l2cap: Limiting RX MPS by stack buffer size.[0m
+  28.526  l2cap connect rc=0
+  28.526  L2CAP channel connected
+  28.526  will reboot in 25 s
+  52.913  *** Booting Zephyr OS build v4.4.2-16-gfee9fbc62095 ***
+  52.913  [00:00:00.001,863] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+  52.913  [00:00:00.001,875] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+  52.913  [00:00:00.001,887] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 2[0m
+  52.913  [00:00:00.002,250] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+  52.913  [00:00:00.002,297] [0m<inf> bt_hci_core: Identity: FC:BE:FF:FA:E6:8B (random)[0m
+  52.967  [00:00:00.002,314] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+  52.967  [00:00:00.002,329] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+  52.967  
+  52.967  === MINIMAL REPRO initiator+receiver (self-reboots), PSM 0x29 ===
+  52.967  scanning
+  54.102  Q2CONN AA=937b39f0 CRCINIT=43a4a4 hop=10 chan_count=37 map=ffffffff1f
+  54.102  Connected
+  54.102  [00:00:00.526,392] [1;31m<err> bt_l2cap: Limiting RX MPS by stack buffer size.[0m
+  54.102  l2cap connect rc=0
+  54.102  L2CAP channel connected
+  54.102  will reboot in 25 s

@@ -1,0 +1,27 @@
+== Q1 build provenance (both PHYs, both boards) ==
+zephyr_base_sha: dc395c78936367ebda9eb16664f32c4fdc9d4634
+sdk: arm-zephyr-eabi-gcc (Zephyr SDK 1.0.1) 14.3.0
+
+generator_1m: west build -b nrf54l15dk/nrf54l15/cpuapp z54-q1-generator
+generator_2m: west build -b nrf54l15dk/nrf54l15/cpuapp z54-q1-generator -- -DPHY2M=1
+observer_1m:  west build -b nrf52dk/nrf52832 pca10040-radio-observer -- -DQ1=1
+observer_2m:  west build -b nrf52dk/nrf52832 pca10040-radio-observer -- -DQ1=1 -DPHY2M=1
+flash: west flash --dev-id <jlink-serial>   reset: nrfutil device reset --serial-number <jlink-serial>
+
+boards: DK-A jlink=1057719509 DEVICEID=25ade47dfb0977df ; DK-B jlink=1057794857 DEVICEID=ff62faa3572a17b3
+observer: nRF52832 FICR PART=0x00052832 jlink=1050347760
+generator PHYENDTXDELAY=0 (pinned); whitening off both sides
+
+firmware sha256 (firmware/):
+  7db5ddafd03955101229ceddd73f76333aaa335cb7079d94c56991879d84a5a7  firmware/generator_1m.elf
+  6e9048dc814abb3b22f05fbbe3a66c899ac34d64b62e03b10262c96294bfaea3  firmware/generator_2m.elf
+  9ec4759b25aef0afb24ff60a798c7bf84813bf22141de9c3fdbe25cc041dad1e  firmware/observer_1m.elf
+  845995af1d58aa96c8aeeaf541ba1a253fa1ccbe0a851b776d11ca209cd42f32  firmware/observer_2m.elf
+  5cf516cf11ac89a61fc6141dd5b9c8a087e36c8196b7d8af568a2cfa5cfde0b9  firmware/generator_1m.hex
+  c8e867beee7246fb34adbafb921989d9ed19e75d85f72605ecad9010528feb67  firmware/generator_2m.hex
+  1ce7bf2149e14a60599d7d62afec8c5fa6ce8b5dfe2217bc881a0c5bb4e99652  firmware/observer_1m.hex
+  a44a80d8ec68d92076c6a19a17283263daa260c32d0525b3ccc1b3fa57f507c1  firmware/observer_2m.hex
+
+NOTE: matrix/* captures used a generator revision identical to firmware/
+except for the boot-time DEVICEID printk (no RF/timer/DPPI change); source
+at git d0c6717. Board identity per run = harness explicit --dev-id + BOARD-ID-MAP.

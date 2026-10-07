@@ -1,0 +1,32 @@
+== building 12 images into <SCRATCH>/b2777530-2abd-4537-b0c5-d116f2eaefd4/scratchpad/ow/b-smoke
+  built max/gatt-open/sink
+  built max/gatt-open/c-off-20
+  built max/gatt-open/c-on-20
+  built max/gatt-sdc/sink
+  built max/gatt-sdc/c-off-20
+  built max/gatt-sdc/c-on-20
+  built max/coc-open/sink
+  built max/coc-open/c-off-20
+  built max/coc-open/c-on-20
+  built max/coc-sdc/sink
+  built max/coc-sdc/c-off-20
+  built max/coc-sdc/c-on-20
+== design gates
+  12 images: matched pairs, profile present on both boards, host parity across stacks, FSU-capable sinks — OK
+  central 1057719509 /dev/cu.usbmodem0010577195093 / peripheral 1057794857 /dev/cu.usbmodem0010577948573
+== sweep (profile max), interleaved
+{"tag": "sweep-max-gatt-open-20-off-r1", "kbps": 118.0, "spacing": 150, "onset_s": 6.978, "reject": []}
+{"tag": "sweep-max-gatt-open-20-on-r1", "kbps": 157, "spacing": 52, "onset_s": 10.139, "reject": []}
+{"tag": "sweep-max-gatt-sdc-20-off-r1", "kbps": 127.5, "spacing": 150, "onset_s": 16.051, "reject": []}
+{"tag": "sweep-max-gatt-sdc-20-on-r1", "kbps": 162.0, "spacing": 70, "onset_s": 18.993, "reject": []}
+{"tag": "sweep-max-coc-open-20-off-r1", "kbps": 111.5, "spacing": 150, "onset_s": 2.332, "reject": []}
+{"tag": "sweep-max-coc-open-20-on-r1", "kbps": 168.5, "spacing": 52, "onset_s": 6.427, "reject": []}
+{"tag": "sweep-max-coc-sdc-20-off-r1", "kbps": 132.5, "spacing": 150, "onset_s": 2.558, "reject": []}
+{"tag": "sweep-max-coc-sdc-20-on-r1", "kbps": 162.5, "spacing": 65, "onset_s": 6.381, "reject": []}
+== one-way FSU, same session, equal tuning (profile max); KB/s receiver-delivered
+-- GATT
+  interval | Zephyr off -> on (FSU gain)          | SDC off -> on (FSU gain)             | Zephyr - SDC (off / on)
+   25.00ms | 118.0 -> 157.0 (+33.1% ± nan, n=1) | 127.5 -> 162.0 (+27.1% ± nan, n=1) |  -9.5± nan /  -5.0± nan
+-- COC
+  interval | Zephyr off -> on (FSU gain)          | SDC off -> on (FSU gain)             | Zephyr - SDC (off / on)
+   25.00ms | 111.5 -> 168.5 (+51.1% ± nan, n=1) | 132.5 -> 162.5 (+22.6% ± nan, n=1) | -21.0± nan /  +6.0± nan

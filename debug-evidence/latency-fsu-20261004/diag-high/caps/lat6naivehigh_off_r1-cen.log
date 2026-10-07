@@ -1,0 +1,711 @@
+   0.990  PHY tx=2 rx=2
+   0.991  discovery start (post-PHY +500ms) interval=7500 phy2m=1
+   0.991  SUBSCRIBED, vh=14
+   0.991  LOADRAMP: bulk char handle=17
+   0.991  LOADRAMP: target=0 KBps for 60s
+   0.991  t=1s RTT mean=11846 min=10640 max=11922 n=20 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=20 tot_to=0 maxever=11922 >2ms=20 >5ms=20 >15ms=0 >20ms=0 >30ms=0 | probes=21 wrfail=0 down=0s maxout=0s
+   2.023  *** Booting Zephyr OS build v4.4.2-16-gfee9fbc62095 ***
+   2.083  [00:56:00.731,060] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+   2.083  [00:56:00.731,072] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+   2.083  [00:56:00.731,084] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 2[0m
+   2.083  [00:56:00.731,429] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+   2.083  [00:56:00.731,477] [0m<inf> bt_hci_core: Identity: FC:BE:FF:FA:E6:8B (random)[0m
+   2.083  [00:56:00.731,493] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+   2.083  [00:56:00.731,508] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+   2.083  
+   2.083  === nRF54L15 RTT ping-pong CENTRAL ===
+   2.083  scan rc=0
+   2.142  Q2CONN AA=a7629d9c CRCINIT=9fb784 hop=12 chan_count=37 map=ffffffff1f
+   2.142  GAP connected interval=7500
+   2.142  MTU err=0 mtu=247
+   3.176  PHY tx=2 rx=2
+   3.176  discovery start (post-PHY +500ms) interval=7500 phy2m=1
+   3.176  SUBSCRIBED, vh=14
+   3.176  LOADRAMP: bulk char handle=17
+   3.176  LOADRAMP: target=0 KBps for 60s
+   3.176  t=1s RTT mean=13220 min=11911 max=27926 n=18 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=18 tot_to=0 maxever=27926 >2ms=18 >5ms=18 >15ms=2 >20ms=1 >30ms=0 | probes=19 wrfail=0 down=0s maxout=0s
+   5.063  t=2s RTT mean=12376 min=11911 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=83 tot_to=0 maxever=27926 >2ms=83 >5ms=83 >15ms=6 >20ms=1 >30ms=0 | probes=84 wrfail=0 down=0s maxout=0s
+   5.064  RPT pe: events=267 mean=0.95 mode=1 max=2 | 0:13 1:252 2:2
+   5.064  t=3s RTT mean=12747 min=11469 max=19859 n=63 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=146 tot_to=0 maxever=27926 >2ms=146 >5ms=146 >15ms=13 >20ms=1 >30ms=0 | probes=147 wrfail=0 down=0s maxout=0s
+   6.696  FSU: request [150..150] us (ACL both dirs, 1M+2M) rc=0
+   6.757  t=4s RTT mean=12142 min=11874 max=19414 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=212 tot_to=0 maxever=27926 >2ms=212 >5ms=212 >15ms=15 >20ms=1 >30ms=0 | probes=212 wrfail=0 down=0s maxout=0s
+   8.071  RPT pe: events=267 mean=0.98 mode=1 max=2 | 0:6 1:259 2:2
+   8.071  t=5s RTT mean=12261 min=11469 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=277 tot_to=0 maxever=27926 >2ms=277 >5ms=277 >15ms=18 >20ms=1 >30ms=0 | probes=278 wrfail=0 down=0s maxout=0s
+   8.071  t=6s RTT mean=12029 min=11911 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=342 tot_to=0 maxever=27926 >2ms=342 >5ms=342 >15ms=19 >20ms=1 >30ms=0 | probes=343 wrfail=0 down=0s maxout=0s
+  10.075  RPT pe: events=266 mean=0.97 mode=1 max=2 | 0:7 1:259
+  10.076  t=7s RTT mean=12607 min=11911 max=19415 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=407 tot_to=0 maxever=27926 >2ms=407 >5ms=407 >15ms=25 >20ms=1 >30ms=0 | probes=407 wrfail=0 down=0s maxout=0s
+  10.076  t=8s RTT mean=12882 min=11469 max=19421 n=62 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=469 tot_to=0 maxever=27926 >2ms=469 >5ms=469 >15ms=33 >20ms=1 >30ms=0 | probes=470 wrfail=0 down=0s maxout=0s
+  12.034  RPT pe: events=267 mean=0.91 mode=1 max=2 | 0:24 1:242 2:1
+  12.091  t=9s RTT mean=13694 min=11911 max=26922 n=59 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=528 tot_to=0 maxever=27926 >2ms=528 >5ms=528 >15ms=45 >20ms=3 >30ms=0 | probes=529 wrfail=0 down=0s maxout=0s
+  12.091  t=10s RTT mean=13104 min=11909 max=26921 n=63 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=591 tot_to=0 maxever=27926 >2ms=591 >5ms=591 >15ms=52 >20ms=6 >30ms=0 | probes=591 wrfail=0 down=0s maxout=0s
+  14.021  RPT pe: events=267 mean=0.95 mode=1 max=2 | 0:15 1:249 2:3
+  14.081  t=11s RTT mean=12748 min=11525 max=19421 n=63 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=654 tot_to=0 maxever=27926 >2ms=654 >5ms=654 >15ms=59 >20ms=6 >30ms=0 | probes=655 wrfail=0 down=0s maxout=0s
+  14.081  t=12s RTT mean=12383 min=11527 max=19415 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=718 tot_to=0 maxever=27926 >2ms=718 >5ms=718 >15ms=63 >20ms=6 >30ms=0 | probes=719 wrfail=0 down=0s maxout=0s
+  16.051  RPT pe: events=267 mean=1.00 mode=1 max=2 | 0:5 1:256 2:6
+  16.051  t=13s RTT mean=12026 min=11832 max=19414 n=67 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=785 tot_to=0 maxever=27926 >2ms=785 >5ms=785 >15ms=64 >20ms=6 >30ms=0 | probes=785 wrfail=0 down=0s maxout=0s
+  16.111  t=14s RTT mean=12747 min=11469 max=26914 n=63 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=848 tot_to=0 maxever=27926 >2ms=848 >5ms=848 >15ms=70 >20ms=7 >30ms=0 | probes=849 wrfail=0 down=0s maxout=0s
+  18.038  RPT pe: events=266 mean=0.93 mode=1 max=2 | 0:18 1:246 2:2
+  18.038  t=15s RTT mean=13267 min=11467 max=26914 n=61 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=909 tot_to=0 maxever=27926 >2ms=909 >5ms=909 >15ms=79 >20ms=9 >30ms=0 | probes=910 wrfail=0 down=0s maxout=0s
+  18.095  t=16s RTT mean=12866 min=11468 max=26913 n=63 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=972 tot_to=0 maxever=27926 >2ms=972 >5ms=972 >15ms=86 >20ms=10 >30ms=0 | probes=972 wrfail=0 down=0s maxout=0s
+  20.040  RPT pe: events=267 mean=0.96 mode=1 max=2 | 0:16 1:245 2:6
+  20.040  t=17s RTT mean=12382 min=11464 max=19415 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1036 tot_to=0 maxever=27926 >2ms=1036 >5ms=1036 >15ms=90 >20ms=10 >30ms=0 | probes=1037 wrfail=0 down=0s maxout=0s
+  20.100  t=18s RTT mean=12255 min=11466 max=19857 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1102 tot_to=0 maxever=27926 >2ms=1102 >5ms=1102 >15ms=93 >20ms=10 >30ms=0 | probes=1102 wrfail=0 down=0s maxout=0s
+  22.030  RPT pe: events=267 mean=0.98 mode=1 max=2 | 0:13 1:244 2:10
+  22.082  t=19s RTT mean=12629 min=11465 max=19869 n=63 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1165 tot_to=0 maxever=27926 >2ms=1165 >5ms=1165 >15ms=99 >20ms=10 >30ms=0 | probes=1166 wrfail=0 down=0s maxout=0s
+  22.082  t=20s RTT mean=12260 min=11469 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1230 tot_to=0 maxever=27926 >2ms=1230 >5ms=1230 >15ms=102 >20ms=10 >30ms=0 | probes=1231 wrfail=0 down=0s maxout=0s
+  24.052  RPT pe: events=266 mean=0.98 mode=1 max=2 | 0:6 1:259 2:1
+  24.053  t=21s RTT mean=12255 min=11906 max=19421 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1296 tot_to=0 maxever=27926 >2ms=1296 >5ms=1296 >15ms=105 >20ms=10 >30ms=0 | probes=1296 wrfail=0 down=0s maxout=0s
+  24.110  t=22s RTT mean=12028 min=11470 max=19413 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1362 tot_to=0 maxever=27926 >2ms=1362 >5ms=1362 >15ms=106 >20ms=10 >30ms=0 | probes=1363 wrfail=0 down=0s maxout=0s
+  26.068  RPT pe: events=267 mean=0.98 mode=1 max=2 | 0:6 1:258 2:3
+  26.068  t=23s RTT mean=12145 min=11469 max=19422 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1427 tot_to=0 maxever=27926 >2ms=1427 >5ms=1427 >15ms=108 >20ms=10 >30ms=0 | probes=1428 wrfail=0 down=0s maxout=0s
+  26.068  t=24s RTT mean=12026 min=11469 max=19413 n=67 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1494 tot_to=0 maxever=27926 >2ms=1494 >5ms=1494 >15ms=109 >20ms=10 >30ms=0 | probes=1494 wrfail=0 down=0s maxout=0s
+  28.051  RPT pe: events=267 mean=0.98 mode=1 max=2 | 0:4 1:262 2:1
+  28.051  t=25s RTT mean=12260 min=11911 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1559 tot_to=0 maxever=27926 >2ms=1559 >5ms=1559 >15ms=112 >20ms=10 >30ms=0 | probes=1560 wrfail=0 down=0s maxout=0s
+  28.105  t=26s RTT mean=12383 min=11911 max=19414 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1623 tot_to=0 maxever=27926 >2ms=1623 >5ms=1623 >15ms=116 >20ms=10 >30ms=0 | probes=1624 wrfail=0 down=0s maxout=0s
+  30.063  RPT pe: events=266 mean=0.95 mode=1 max=2 | 0:11 1:255
+  30.063  t=27s RTT mean=12735 min=11911 max=19421 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1687 tot_to=0 maxever=27926 >2ms=1687 >5ms=1687 >15ms=123 >20ms=10 >30ms=0 | probes=1687 wrfail=0 down=0s maxout=0s
+  30.063  t=28s RTT mean=12260 min=11911 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1752 tot_to=0 maxever=27926 >2ms=1752 >5ms=1752 >15ms=126 >20ms=10 >30ms=0 | probes=1753 wrfail=0 down=0s maxout=0s
+  32.066  RPT pe: events=267 mean=0.97 mode=1 max=2 | 0:7 1:260
+  32.066  t=29s RTT mean=12383 min=11911 max=19422 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1816 tot_to=0 maxever=27926 >2ms=1816 >5ms=1816 >15ms=130 >20ms=10 >30ms=0 | probes=1817 wrfail=0 down=0s maxout=0s
+  32.066  t=30s RTT mean=12491 min=11911 max=19415 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1881 tot_to=0 maxever=27926 >2ms=1881 >5ms=1881 >15ms=135 >20ms=10 >30ms=0 | probes=1881 wrfail=0 down=0s maxout=0s
+  34.043  RPT pe: events=267 mean=0.97 mode=1 max=2 | 0:6 1:261
+  34.043  t=31s RTT mean=12028 min=11899 max=19422 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=1947 tot_to=0 maxever=27926 >2ms=1947 >5ms=1947 >15ms=136 >20ms=10 >30ms=0 | probes=1948 wrfail=0 down=0s maxout=0s
+  34.094  t=32s RTT mean=12260 min=11021 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2012 tot_to=0 maxever=27926 >2ms=2012 >5ms=2012 >15ms=139 >20ms=10 >30ms=0 | probes=2013 wrfail=0 down=0s maxout=0s
+  36.022  RPT pe: events=266 mean=0.97 mode=1 max=3 | 0:8 1:257 3:1
+  36.081  t=33s RTT mean=12376 min=11904 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2077 tot_to=0 maxever=27926 >2ms=2077 >5ms=2077 >15ms=143 >20ms=10 >30ms=0 | probes=2077 wrfail=0 down=0s maxout=0s
+  36.081  t=34s RTT mean=12499 min=11469 max=19415 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2141 tot_to=0 maxever=27926 >2ms=2141 >5ms=2141 >15ms=148 >20ms=10 >30ms=0 | probes=2142 wrfail=0 down=0s maxout=0s
+  38.064  RPT pe: events=267 mean=0.98 mode=1 max=3 | 0:8 1:255 2:4
+  38.064  t=35s RTT mean=12028 min=11470 max=19420 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2207 tot_to=0 maxever=27926 >2ms=2207 >5ms=2207 >15ms=149 >20ms=10 >30ms=0 | probes=2208 wrfail=0 down=0s maxout=0s
+  38.064  t=36s RTT mean=12261 min=11466 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2272 tot_to=0 maxever=27926 >2ms=2272 >5ms=2272 >15ms=152 >20ms=10 >30ms=0 | probes=2273 wrfail=0 down=0s maxout=0s
+  40.042  RPT pe: events=267 mean=0.98 mode=1 max=3 | 0:6 1:259 2:2
+  40.042  t=37s RTT mean=12376 min=11903 max=19438 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2337 tot_to=0 maxever=27926 >2ms=2337 >5ms=2337 >15ms=156 >20ms=10 >30ms=0 | probes=2338 wrfail=0 down=0s maxout=0s
+  40.097  t=38s RTT mean=12376 min=11904 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2402 tot_to=0 maxever=27926 >2ms=2402 >5ms=2402 >15ms=160 >20ms=10 >30ms=0 | probes=2402 wrfail=0 down=0s maxout=0s
+  42.053  RPT pe: events=266 mean=0.98 mode=1 max=3 | 0:4 1:261 2:1
+  42.053  t=39s RTT mean=12146 min=11911 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2467 tot_to=0 maxever=27926 >2ms=2467 >5ms=2467 >15ms=162 >20ms=10 >30ms=0 | probes=2468 wrfail=0 down=0s maxout=0s
+  42.110  t=40s RTT mean=12260 min=11911 max=19415 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2532 tot_to=0 maxever=27926 >2ms=2532 >5ms=2532 >15ms=165 >20ms=10 >30ms=0 | probes=2533 wrfail=0 down=0s maxout=0s
+  44.071  RPT pe: events=267 mean=0.97 mode=1 max=3 | 0:7 1:259 2:1
+  44.072  t=41s RTT mean=12255 min=11471 max=26914 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2598 tot_to=0 maxever=27926 >2ms=2598 >5ms=2598 >15ms=167 >20ms=11 >30ms=0 | probes=2598 wrfail=0 down=0s maxout=0s
+  44.072  t=42s RTT mean=12500 min=11469 max=19414 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2662 tot_to=0 maxever=27926 >2ms=2662 >5ms=2662 >15ms=172 >20ms=11 >30ms=0 | probes=2663 wrfail=0 down=0s maxout=0s
+  46.039  RPT pe: events=267 mean=0.97 mode=1 max=3 | 0:9 1:256 2:2
+  46.098  t=43s RTT mean=12146 min=11911 max=19413 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2727 tot_to=0 maxever=27926 >2ms=2727 >5ms=2727 >15ms=174 >20ms=11 >30ms=0 | probes=2728 wrfail=0 down=0s maxout=0s
+  46.099  t=44s RTT mean=12255 min=11902 max=19413 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2793 tot_to=0 maxever=27926 >2ms=2793 >5ms=2793 >15ms=177 >20ms=11 >30ms=0 | probes=2793 wrfail=0 down=0s maxout=0s
+  48.063  RPT pe: events=267 mean=0.98 mode=1 max=3 | 0:6 1:260 2:1
+  48.063  t=45s RTT mean=12262 min=11467 max=19422 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2858 tot_to=0 maxever=27926 >2ms=2858 >5ms=2858 >15ms=180 >20ms=11 >30ms=0 | probes=2859 wrfail=0 down=0s maxout=0s
+  48.063  t=46s RTT mean=12260 min=11902 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2923 tot_to=0 maxever=27926 >2ms=2923 >5ms=2923 >15ms=183 >20ms=11 >30ms=0 | probes=2924 wrfail=0 down=0s maxout=0s
+  50.028  RPT pe: events=266 mean=0.97 mode=1 max=3 | 0:8 1:256 2:2
+  50.088  t=47s RTT mean=12500 min=11468 max=19419 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=2987 tot_to=0 maxever=27926 >2ms=2987 >5ms=2987 >15ms=188 >20ms=11 >30ms=0 | probes=2988 wrfail=0 down=0s maxout=0s
+  50.088  t=48s RTT mean=12141 min=11911 max=19413 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3053 tot_to=0 maxever=27926 >2ms=3053 >5ms=3053 >15ms=190 >20ms=11 >30ms=0 | probes=3054 wrfail=0 down=0s maxout=0s
+  52.076  RPT pe: events=267 mean=0.97 mode=1 max=3 | 0:7 1:259 2:1
+  52.076  t=49s RTT mean=12500 min=11471 max=19422 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3117 tot_to=0 maxever=27926 >2ms=3117 >5ms=3117 >15ms=195 >20ms=11 >30ms=0 | probes=3118 wrfail=0 down=0s maxout=0s
+  52.076  t=50s RTT mean=12260 min=11910 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3182 tot_to=0 maxever=27926 >2ms=3182 >5ms=3182 >15ms=198 >20ms=11 >30ms=0 | probes=3183 wrfail=0 down=0s maxout=0s
+  54.032  RPT pe: events=267 mean=0.98 mode=1 max=3 | 0:5 1:262
+  54.084  t=51s RTT mean=12260 min=11904 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3247 tot_to=0 maxever=27926 >2ms=3247 >5ms=3247 >15ms=201 >20ms=11 >30ms=0 | probes=3248 wrfail=0 down=0s maxout=0s
+  54.084  t=52s RTT mean=12026 min=11905 max=19415 n=67 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3314 tot_to=0 maxever=27926 >2ms=3314 >5ms=3314 >15ms=202 >20ms=11 >30ms=0 | probes=3314 wrfail=0 down=0s maxout=0s
+  56.071  RPT pe: events=266 mean=1.00 mode=1 max=3 | 0:1 1:264 2:1
+  56.071  t=53s RTT mean=11914 min=11467 max=12379 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3380 tot_to=0 maxever=27926 >2ms=3380 >5ms=3380 >15ms=202 >20ms=11 >30ms=0 | probes=3381 wrfail=0 down=0s maxout=0s
+  56.071  t=54s RTT mean=12141 min=11469 max=19412 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3446 tot_to=0 maxever=27926 >2ms=3446 >5ms=3446 >15ms=204 >20ms=11 >30ms=0 | probes=3447 wrfail=0 down=0s maxout=0s
+  58.026  RPT pe: events=267 mean=0.98 mode=1 max=3 | 0:5 1:261 2:1
+  58.086  t=55s RTT mean=12376 min=11911 max=19419 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3511 tot_to=0 maxever=27926 >2ms=3511 >5ms=3511 >15ms=208 >20ms=11 >30ms=0 | probes=3511 wrfail=0 down=0s maxout=0s
+  58.086  t=56s RTT mean=12260 min=11904 max=19417 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3576 tot_to=0 maxever=27926 >2ms=3576 >5ms=3576 >15ms=211 >20ms=11 >30ms=0 | probes=3577 wrfail=0 down=0s maxout=0s
+  60.072  RPT pe: events=267 mean=0.98 mode=1 max=3 | 0:5 1:261 2:1
+  60.072  t=57s RTT mean=12029 min=11468 max=19419 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3642 tot_to=0 maxever=27926 >2ms=3642 >5ms=3642 >15ms=212 >20ms=11 >30ms=0 | probes=3643 wrfail=0 down=0s maxout=0s
+  60.072  t=58s RTT mean=12375 min=11906 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3707 tot_to=0 maxever=27926 >2ms=3707 >5ms=3707 >15ms=216 >20ms=11 >30ms=0 | probes=3707 wrfail=0 down=0s maxout=0s
+  62.031  RPT pe: events=266 mean=0.97 mode=1 max=3 | 0:6 1:260
+  62.091  t=59s RTT mean=12145 min=11910 max=19432 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3772 tot_to=0 maxever=27926 >2ms=3772 >5ms=3772 >15ms=218 >20ms=11 >30ms=0 | probes=3773 wrfail=0 down=0s maxout=0s
+  62.091  t=60s RTT mean=12145 min=11911 max=19423 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3837 tot_to=0 maxever=27926 >2ms=3837 >5ms=3837 >15ms=220 >20ms=11 >30ms=0 | probes=3838 wrfail=0 down=0s maxout=0s
+  63.894  PCTL target=0 tot=3885 to=0 p50=11 p90=11 p99=19 p99.9=26 max=26 g30=0 g100=0 (ms/counts)
+  63.894  LOADRAMP: target=140 KBps for 60s
+  63.894  RPT pe: events=266 mean=1.30 mode=1 max=5 | 0:7 1:236 4:3 5:20
+  63.894  t=61s RTT mean=14132 min=5970 max=41457 n=58 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3895 tot_to=0 maxever=41457 >2ms=3895 >5ms=3895 >15ms=229 >20ms=15 >30ms=4 | probes=3896 wrfail=0 down=0s maxout=0s
+  65.074  t=62s RTT mean=35565 min=23592 max=50861 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3921 tot_to=0 maxever=50861 >2ms=3921 >5ms=3921 >15ms=255 >20ms=41 >30ms=29 | probes=3922 wrfail=0 down=0s maxout=0s
+  65.074  RPT pe: events=267 mean=4.73 mode=5 max=6 | 0:8 1:3 2:4 3:2 4:5 5:244 6:1
+  65.075  t=63s RTT mean=33594 min=13023 max=43753 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3948 tot_to=0 maxever=50861 >2ms=3948 >5ms=3948 >15ms=281 >20ms=67 >30ms=54 | probes=3949 wrfail=0 down=0s maxout=0s
+  67.049  t=64s RTT mean=35436 min=31179 max=46622 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=3974 tot_to=0 maxever=50861 >2ms=3974 >5ms=3974 >15ms=307 >20ms=93 >30ms=80 | probes=3975 wrfail=0 down=0s maxout=0s
+  67.105  RPT pe: events=266 mean=4.69 mode=5 max=6 | 0:5 1:6 2:7 3:5 4:1 5:242
+  67.105  t=65s RTT mean=35961 min=31541 max=43304 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4000 tot_to=0 maxever=50861 >2ms=4000 >5ms=4000 >15ms=333 >20ms=119 >30ms=106 | probes=4001 wrfail=0 down=0s maxout=0s
+  69.086  t=66s RTT mean=36810 min=31537 max=49414 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4025 tot_to=0 maxever=50861 >2ms=4025 >5ms=4025 >15ms=358 >20ms=144 >30ms=131 | probes=4026 wrfail=0 down=0s maxout=0s
+  69.087  RPT pe: events=267 mean=4.57 mode=5 max=6 | 0:10 1:6 2:9 3:6 5:236
+  69.087  t=67s RTT mean=36810 min=31540 max=46089 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4050 tot_to=0 maxever=50861 >2ms=4050 >5ms=4050 >15ms=383 >20ms=169 >30ms=156 | probes=4051 wrfail=0 down=0s maxout=0s
+  71.076  t=68s RTT mean=35689 min=31540 max=44696 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4076 tot_to=0 maxever=50861 >2ms=4076 >5ms=4076 >15ms=409 >20ms=195 >30ms=182 | probes=4077 wrfail=0 down=0s maxout=0s
+  71.076  RPT pe: events=267 mean=4.62 mode=5 max=6 | 0:10 1:5 2:3 3:5 4:10 5:234
+  71.076  t=69s RTT mean=36998 min=31619 max=46624 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4101 tot_to=0 maxever=50861 >2ms=4101 >5ms=4101 >15ms=434 >20ms=220 >30ms=207 | probes=4102 wrfail=0 down=0s maxout=0s
+  73.067  t=70s RTT mean=35967 min=31540 max=41929 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4126 tot_to=0 maxever=50861 >2ms=4126 >5ms=4126 >15ms=459 >20ms=245 >30ms=232 | probes=4127 wrfail=0 down=0s maxout=0s
+  73.068  RPT pe: events=267 mean=4.67 mode=5 max=6 | 0:11 1:1 2:5 3:5 4:3 5:242
+  73.128  t=71s RTT mean=35781 min=31536 max=41911 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4152 tot_to=0 maxever=50861 >2ms=4152 >5ms=4152 >15ms=485 >20ms=271 >30ms=258 | probes=4153 wrfail=0 down=0s maxout=0s
+  75.052  t=72s RTT mean=36395 min=31538 max=45231 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4177 tot_to=0 maxever=50861 >2ms=4177 >5ms=4177 >15ms=510 >20ms=296 >30ms=283 | probes=4178 wrfail=0 down=0s maxout=0s
+  75.103  RPT pe: events=266 mean=4.72 mode=5 max=6 | 0:5 1:4 2:5 3:7 4:2 5:243
+  75.104  t=73s RTT mean=35087 min=31540 max=44781 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4204 tot_to=0 maxever=50861 >2ms=4204 >5ms=4204 >15ms=537 >20ms=323 >30ms=310 | probes=4205 wrfail=0 down=0s maxout=0s
+  77.081  t=74s RTT mean=35383 min=28309 max=48017 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4230 tot_to=0 maxever=50861 >2ms=4230 >5ms=4230 >15ms=563 >20ms=349 >30ms=335 | probes=4230 wrfail=0 down=0s maxout=0s
+  77.082  RPT pe: events=267 mean=4.64 mode=5 max=6 | 0:8 1:8 2:6 3:2 4:2 5:241
+  77.082  t=75s RTT mean=37397 min=31541 max=52280 n=24 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4254 tot_to=0 maxever=52280 >2ms=4254 >5ms=4254 >15ms=587 >20ms=373 >30ms=359 | probes=4255 wrfail=0 down=0s maxout=0s
+  79.063  t=76s RTT mean=34253 min=28311 max=40519 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4281 tot_to=0 maxever=52280 >2ms=4281 >5ms=4281 >15ms=614 >20ms=400 >30ms=385 | probes=4282 wrfail=0 down=0s maxout=0s
+  79.064  RPT pe: events=267 mean=4.77 mode=5 max=6 | 0:3 1:6 2:4 3:3 4:4 5:247
+  79.117  t=77s RTT mean=34029 min=20521 max=41910 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4308 tot_to=0 maxever=52280 >2ms=4308 >5ms=4308 >15ms=641 >20ms=427 >30ms=411 | probes=4309 wrfail=0 down=0s maxout=0s
+  81.062  t=78s RTT mean=34009 min=13013 max=43296 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4335 tot_to=0 maxever=52280 >2ms=4335 >5ms=4335 >15ms=667 >20ms=453 >30ms=437 | probes=4336 wrfail=0 down=0s maxout=0s
+  81.062  RPT pe: events=266 mean=4.71 mode=5 max=6 | 0:2 1:11 2:3 3:5 4:2 5:243
+  81.122  t=79s RTT mean=32386 min=11911 max=46465 n=28 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4363 tot_to=0 maxever=52280 >2ms=4363 >5ms=4363 >15ms=693 >20ms=479 >30ms=463 | probes=4364 wrfail=0 down=0s maxout=0s
+  83.051  t=80s RTT mean=34132 min=9203 max=43221 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4390 tot_to=0 maxever=52280 >2ms=4390 >5ms=4390 >15ms=719 >20ms=505 >30ms=489 | probes=4391 wrfail=0 down=0s maxout=0s
+  83.111  RPT pe: events=267 mean=4.68 mode=5 max=6 | 0:8 1:4 2:4 3:6 4:5 5:240
+  83.111  t=81s RTT mean=36677 min=31540 max=46619 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4415 tot_to=0 maxever=52280 >2ms=4415 >5ms=4415 >15ms=744 >20ms=530 >30ms=514 | probes=4416 wrfail=0 down=0s maxout=0s
+  85.093  t=82s RTT mean=34358 min=26470 max=41912 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4442 tot_to=0 maxever=52280 >2ms=4442 >5ms=4442 >15ms=771 >20ms=557 >30ms=540 | probes=4443 wrfail=0 down=0s maxout=0s
+  85.093  RPT pe: events=267 mean=4.75 mode=5 max=6 | 0:5 1:5 2:2 3:4 4:6 5:245
+  85.093  t=83s RTT mean=34358 min=13469 max=43752 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4469 tot_to=0 maxever=52280 >2ms=4469 >5ms=4469 >15ms=797 >20ms=583 >30ms=566 | probes=4470 wrfail=0 down=0s maxout=0s
+  87.101  t=84s RTT mean=34518 min=26913 max=41460 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4495 tot_to=0 maxever=52280 >2ms=4495 >5ms=4495 >15ms=823 >20ms=609 >30ms=591 | probes=4496 wrfail=0 down=0s maxout=0s
+  87.101  RPT pe: events=266 mean=4.73 mode=5 max=6 | 0:3 1:7 2:4 3:6 4:4 5:242
+  87.101  t=85s RTT mean=34516 min=13021 max=45231 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4522 tot_to=0 maxever=52280 >2ms=4522 >5ms=4522 >15ms=849 >20ms=635 >30ms=617 | probes=4523 wrfail=0 down=0s maxout=0s
+  89.061  t=86s RTT mean=35401 min=26915 max=41911 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4548 tot_to=0 maxever=52280 >2ms=4548 >5ms=4548 >15ms=875 >20ms=661 >30ms=642 | probes=4549 wrfail=0 down=0s maxout=0s
+  89.061  RPT pe: events=267 mean=4.72 mode=5 max=6 | 0:6 1:7 2:1 3:3 4:6 5:244
+  89.121  t=87s RTT mean=33473 min=13022 max=42358 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4575 tot_to=0 maxever=52280 >2ms=4575 >5ms=4575 >15ms=901 >20ms=687 >30ms=668 | probes=4576 wrfail=0 down=0s maxout=0s
+  91.053  t=88s RTT mean=35096 min=31540 max=45167 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4601 tot_to=0 maxever=52280 >2ms=4601 >5ms=4601 >15ms=927 >20ms=713 >30ms=694 | probes=4602 wrfail=0 down=0s maxout=0s
+  91.111  RPT pe: events=267 mean=4.65 mode=5 max=6 | 0:7 1:9 2:4 3:2 4:5 5:240
+  91.111  t=89s RTT mean=36194 min=31539 max=49861 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4627 tot_to=0 maxever=52280 >2ms=4627 >5ms=4627 >15ms=953 >20ms=739 >30ms=720 | probes=4628 wrfail=0 down=0s maxout=0s
+  93.064  t=90s RTT mean=35222 min=31540 max=42358 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4653 tot_to=0 maxever=52280 >2ms=4653 >5ms=4653 >15ms=979 >20ms=765 >30ms=746 | probes=4654 wrfail=0 down=0s maxout=0s
+  93.064  RPT pe: events=267 mean=4.49 mode=5 max=6 | 0:7 1:19 2:5 3:3 4:3 5:230
+  93.116  t=91s RTT mean=38217 min=31540 max=55519 n=24 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4677 tot_to=0 maxever=55519 >2ms=4677 >5ms=4677 >15ms=1003 >20ms=789 >30ms=770 | probes=4678 wrfail=0 down=0s maxout=0s
+  95.096  t=92s RTT mean=35386 min=31540 max=44802 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4703 tot_to=0 maxever=55519 >2ms=4703 >5ms=4703 >15ms=1029 >20ms=815 >30ms=796 | probes=4704 wrfail=0 down=0s maxout=0s
+  95.096  RPT pe: events=266 mean=4.66 mode=5 max=6 | 0:6 1:9 2:4 3:2 4:6 5:239
+  95.096  t=93s RTT mean=35563 min=31540 max=43754 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4729 tot_to=0 maxever=55519 >2ms=4729 >5ms=4729 >15ms=1055 >20ms=841 >30ms=822 | probes=4730 wrfail=0 down=0s maxout=0s
+  97.095  t=94s RTT mean=34535 min=31540 max=40069 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4755 tot_to=0 maxever=55519 >2ms=4755 >5ms=4755 >15ms=1081 >20ms=867 >30ms=848 | probes=4756 wrfail=0 down=0s maxout=0s
+  97.095  RPT pe: events=267 mean=4.78 mode=5 max=6 | 0:6 1:2 3:6 4:7 5:246
+  97.095  t=95s RTT mean=34410 min=31539 max=41911 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4782 tot_to=0 maxever=55519 >2ms=4782 >5ms=4782 >15ms=1108 >20ms=894 >30ms=875 | probes=4783 wrfail=0 down=0s maxout=0s
+  99.066  t=96s RTT mean=36483 min=31540 max=46540 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4808 tot_to=0 maxever=55519 >2ms=4808 >5ms=4808 >15ms=1134 >20ms=920 >30ms=901 | probes=4808 wrfail=0 down=0s maxout=0s
+  99.066  RPT pe: events=267 mean=4.53 mode=5 max=6 | 0:9 1:3 2:18 3:5 4:3 5:229
+  99.122  t=97s RTT mean=35798 min=31536 max=44701 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4833 tot_to=0 maxever=55519 >2ms=4833 >5ms=4833 >15ms=1159 >20ms=945 >30ms=926 | probes=4834 wrfail=0 down=0s maxout=0s
+ 101.096  t=98s RTT mean=36810 min=31540 max=52648 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4858 tot_to=0 maxever=55519 >2ms=4858 >5ms=4858 >15ms=1184 >20ms=970 >30ms=951 | probes=4859 wrfail=0 down=0s maxout=0s
+ 101.096  RPT pe: events=266 mean=4.57 mode=5 max=6 | 0:5 1:3 2:22 3:3 4:3 5:230
+ 101.096  t=99s RTT mean=35781 min=31540 max=44693 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4884 tot_to=0 maxever=55519 >2ms=4884 >5ms=4884 >15ms=1210 >20ms=996 >30ms=977 | probes=4885 wrfail=0 down=0s maxout=0s
+ 103.063  t=100s RTT mean=36031 min=31170 max=48960 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4910 tot_to=0 maxever=55519 >2ms=4910 >5ms=4910 >15ms=1236 >20ms=1022 >30ms=1003 | probes=4911 wrfail=0 down=0s maxout=0s
+ 103.063  RPT pe: events=267 mean=4.72 mode=5 max=6 | 0:5 1:6 2:4 3:3 4:7 5:241 6:1
+ 103.117  t=101s RTT mean=34645 min=31530 max=46090 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4936 tot_to=0 maxever=55519 >2ms=4936 >5ms=4936 >15ms=1262 >20ms=1048 >30ms=1029 | probes=4937 wrfail=0 down=0s maxout=0s
+ 105.071  t=102s RTT mean=34359 min=13023 max=41915 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4963 tot_to=0 maxever=55519 >2ms=4963 >5ms=4963 >15ms=1288 >20ms=1074 >30ms=1055 | probes=4964 wrfail=0 down=0s maxout=0s
+ 105.071  RPT pe: events=267 mean=4.62 mode=5 max=6 | 0:5 1:5 2:7 3:15 4:4 5:231
+ 105.131  t=103s RTT mean=36565 min=31539 max=52195 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=4988 tot_to=0 maxever=55519 >2ms=4988 >5ms=4988 >15ms=1313 >20ms=1099 >30ms=1080 | probes=4989 wrfail=0 down=0s maxout=0s
+ 107.077  t=104s RTT mean=34585 min=30225 max=41481 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5015 tot_to=0 maxever=55519 >2ms=5015 >5ms=5015 >15ms=1340 >20ms=1126 >30ms=1107 | probes=5016 wrfail=0 down=0s maxout=0s
+ 107.077  RPT pe: events=266 mean=4.74 mode=5 max=6 | 0:7 1:4 2:3 3:2 4:6 5:243 6:1
+ 107.077  t=105s RTT mean=35966 min=31539 max=46170 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5040 tot_to=0 maxever=55519 >2ms=5040 >5ms=5040 >15ms=1365 >20ms=1151 >30ms=1132 | probes=5041 wrfail=0 down=0s maxout=0s
+ 109.071  t=106s RTT mean=34184 min=28304 max=47587 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5067 tot_to=0 maxever=55519 >2ms=5067 >5ms=5067 >15ms=1392 >20ms=1178 >30ms=1158 | probes=5068 wrfail=0 down=0s maxout=0s
+ 109.071  RPT pe: events=268 mean=4.75 mode=5 max=6 | 0:4 1:5 2:5 3:3 4:4 5:247
+ 109.131  t=107s RTT mean=33751 min=13022 max=42358 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5094 tot_to=0 maxever=55519 >2ms=5094 >5ms=5094 >15ms=1418 >20ms=1204 >30ms=1184 | probes=5095 wrfail=0 down=0s maxout=0s
+ 111.084  t=108s RTT mean=35835 min=26916 max=48962 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5120 tot_to=0 maxever=55519 >2ms=5120 >5ms=5120 >15ms=1444 >20ms=1230 >30ms=1209 | probes=5121 wrfail=0 down=0s maxout=0s
+ 111.084  RPT pe: events=266 mean=4.71 mode=5 max=6 | 0:9 1:2 2:5 3:3 4:3 5:244
+ 111.084  t=109s RTT mean=34428 min=22375 max=42370 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5146 tot_to=0 maxever=55519 >2ms=5146 >5ms=5146 >15ms=1470 >20ms=1256 >30ms=1233 | probes=5147 wrfail=0 down=0s maxout=0s
+ 113.063  t=110s RTT mean=33339 min=5970 max=49405 n=28 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5174 tot_to=0 maxever=55519 >2ms=5174 >5ms=5174 >15ms=1497 >20ms=1282 >30ms=1259 | probes=5175 wrfail=0 down=0s maxout=0s
+ 113.063  RPT pe: events=266 mean=4.72 mode=5 max=6 | 0:7 1:4 2:5 3:2 4:3 5:245
+ 113.123  t=111s RTT mean=34287 min=13020 max=41911 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5201 tot_to=0 maxever=55519 >2ms=5201 >5ms=5201 >15ms=1523 >20ms=1308 >30ms=1285 | probes=5202 wrfail=0 down=0s maxout=0s
+ 115.097  t=112s RTT mean=33577 min=13022 max=43754 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5228 tot_to=0 maxever=55519 >2ms=5228 >5ms=5228 >15ms=1549 >20ms=1334 >30ms=1311 | probes=5229 wrfail=0 down=0s maxout=0s
+ 115.097  RPT pe: events=268 mean=4.72 mode=5 max=6 | 0:4 1:7 2:5 3:5 4:1 5:246
+ 115.097  t=113s RTT mean=33751 min=13020 max=41910 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5255 tot_to=0 maxever=55519 >2ms=5255 >5ms=5255 >15ms=1575 >20ms=1360 >30ms=1337 | probes=5256 wrfail=0 down=0s maxout=0s
+ 117.092  t=114s RTT mean=36811 min=31533 max=47567 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5280 tot_to=0 maxever=55519 >2ms=5280 >5ms=5280 >15ms=1600 >20ms=1385 >30ms=1362 | probes=5281 wrfail=0 down=0s maxout=0s
+ 117.092  RPT pe: events=266 mean=4.61 mode=5 max=6 | 0:13 1:5 2:3 3:2 4:5 5:238
+ 117.093  t=115s RTT mean=36069 min=31540 max=46620 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5306 tot_to=0 maxever=55519 >2ms=5306 >5ms=5306 >15ms=1626 >20ms=1411 >30ms=1388 | probes=5307 wrfail=0 down=0s maxout=0s
+ 119.092  t=116s RTT mean=35275 min=31524 max=41909 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5332 tot_to=0 maxever=55519 >2ms=5332 >5ms=5332 >15ms=1652 >20ms=1437 >30ms=1414 | probes=5333 wrfail=0 down=0s maxout=0s
+ 119.093  RPT pe: events=267 mean=4.75 mode=5 max=6 | 0:4 1:6 2:4 3:4 4:2 5:247
+ 119.093  t=117s RTT mean=35165 min=31536 max=44696 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5358 tot_to=0 maxever=55519 >2ms=5358 >5ms=5358 >15ms=1678 >20ms=1463 >30ms=1440 | probes=5359 wrfail=0 down=0s maxout=0s
+ 121.056  t=118s RTT mean=35511 min=31540 max=48960 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5384 tot_to=0 maxever=55519 >2ms=5384 >5ms=5384 >15ms=1704 >20ms=1489 >30ms=1466 | probes=5385 wrfail=0 down=0s maxout=0s
+ 121.109  RPT pe: events=266 mean=4.72 mode=5 max=6 | 0:7 1:4 2:1 3:4 4:10 5:240
+ 121.109  t=119s RTT mean=35727 min=31540 max=44780 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5410 tot_to=0 maxever=55519 >2ms=5410 >5ms=5410 >15ms=1730 >20ms=1515 >30ms=1492 | probes=5411 wrfail=0 down=0s maxout=0s
+ 123.101  t=120s RTT mean=35275 min=31619 max=45146 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5436 tot_to=0 maxever=55519 >2ms=5436 >5ms=5436 >15ms=1756 >20ms=1541 >30ms=1518 | probes=5437 wrfail=0 down=0s maxout=0s
+ 123.101  PCTL target=140 tot=1567 to=0 p50=34 p90=41 p99=47 p99.9=52 max=55 g30=1539 g100=0 (ms/counts)
+ 123.101  LOADRAMP: target=150 KBps for 60s
+ 123.101  RPT pe: events=267 mean=4.73 mode=5 max=6 | 0:7 1:3 2:3 3:6 4:4 5:244
+ 123.101  t=121s RTT mean=35293 min=29786 max=41920 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5462 tot_to=0 maxever=55519 >2ms=5462 >5ms=5462 >15ms=1782 >20ms=1567 >30ms=1543 | probes=5463 wrfail=0 down=0s maxout=0s
+ 125.065  t=122s RTT mean=35618 min=31537 max=48017 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5488 tot_to=0 maxever=55519 >2ms=5488 >5ms=5488 >15ms=1808 >20ms=1593 >30ms=1569 | probes=5489 wrfail=0 down=0s maxout=0s
+ 125.065  RPT pe: events=267 mean=4.73 mode=5 max=6 | 0:9 1:2 2:3 3:3 4:3 5:247
+ 125.122  t=123s RTT mean=35910 min=31540 max=47579 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5513 tot_to=0 maxever=55519 >2ms=5513 >5ms=5513 >15ms=1833 >20ms=1618 >30ms=1594 | probes=5514 wrfail=0 down=0s maxout=0s
+ 127.070  t=124s RTT mean=35205 min=31540 max=45226 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5539 tot_to=0 maxever=55519 >2ms=5539 >5ms=5539 >15ms=1859 >20ms=1644 >30ms=1620 | probes=5540 wrfail=0 down=0s maxout=0s
+ 127.070  RPT pe: events=266 mean=4.75 mode=5 max=6 | 0:4 1:4 2:5 3:6 4:2 5:245
+ 127.130  t=125s RTT mean=36140 min=31540 max=44780 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5565 tot_to=0 maxever=55519 >2ms=5565 >5ms=5565 >15ms=1885 >20ms=1670 >30ms=1646 | probes=5566 wrfail=0 down=0s maxout=0s
+ 129.081  t=126s RTT mean=34769 min=31540 max=40067 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5591 tot_to=0 maxever=55519 >2ms=5591 >5ms=5591 >15ms=1911 >20ms=1696 >30ms=1672 | probes=5592 wrfail=0 down=0s maxout=0s
+ 129.081  RPT pe: events=267 mean=4.80 mode=5 max=6 | 0:4 1:3 2:3 3:2 4:6 5:249
+ 129.141  t=127s RTT mean=34897 min=31537 max=41912 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5618 tot_to=0 maxever=55519 >2ms=5618 >5ms=5618 >15ms=1938 >20ms=1723 >30ms=1699 | probes=5619 wrfail=0 down=0s maxout=0s
+ 131.090  t=128s RTT mean=35610 min=31540 max=48962 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5643 tot_to=0 maxever=55519 >2ms=5643 >5ms=5643 >15ms=1963 >20ms=1748 >30ms=1724 | probes=5644 wrfail=0 down=0s maxout=0s
+ 131.090  RPT pe: events=267 mean=4.71 mode=5 max=6 | 0:8 1:5 2:1 3:3 4:7 5:243
+ 131.090  t=129s RTT mean=36030 min=31537 max=43303 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5669 tot_to=0 maxever=55519 >2ms=5669 >5ms=5669 >15ms=1989 >20ms=1774 >30ms=1750 | probes=5670 wrfail=0 down=0s maxout=0s
+ 133.074  t=130s RTT mean=35692 min=31540 max=50803 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5695 tot_to=0 maxever=55519 >2ms=5695 >5ms=5695 >15ms=2015 >20ms=1800 >30ms=1776 | probes=5696 wrfail=0 down=0s maxout=0s
+ 133.074  RPT pe: events=266 mean=4.79 mode=5 max=6 | 0:6 1:2 2:2 3:3 4:4 5:249
+ 133.134  t=131s RTT mean=35041 min=31540 max=43754 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5721 tot_to=0 maxever=55519 >2ms=5721 >5ms=5721 >15ms=2041 >20ms=1826 >30ms=1802 | probes=5722 wrfail=0 down=0s maxout=0s
+ 135.091  t=132s RTT mean=35672 min=31540 max=49431 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5747 tot_to=0 maxever=55519 >2ms=5747 >5ms=5747 >15ms=2067 >20ms=1852 >30ms=1828 | probes=5748 wrfail=0 down=0s maxout=0s
+ 135.091  RPT pe: events=267 mean=4.75 mode=5 max=6 | 0:9 1:2 2:3 4:3 5:250
+ 135.091  t=133s RTT mean=34538 min=31540 max=48023 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5773 tot_to=0 maxever=55519 >2ms=5773 >5ms=5773 >15ms=2093 >20ms=1878 >30ms=1854 | probes=5774 wrfail=0 down=0s maxout=0s
+ 137.074  t=134s RTT mean=36248 min=31540 max=52193 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5799 tot_to=0 maxever=55519 >2ms=5799 >5ms=5799 >15ms=2119 >20ms=1904 >30ms=1880 | probes=5800 wrfail=0 down=0s maxout=0s
+ 137.074  RPT pe: events=267 mean=4.59 mode=5 max=6 | 0:7 1:3 2:16 3:5 4:4 5:232
+ 137.131  t=135s RTT mean=35617 min=31537 max=50804 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5825 tot_to=0 maxever=55519 >2ms=5825 >5ms=5825 >15ms=2145 >20ms=1930 >30ms=1906 | probes=5826 wrfail=0 down=0s maxout=0s
+ 139.093  t=136s RTT mean=37111 min=31538 max=49410 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5850 tot_to=0 maxever=55519 >2ms=5850 >5ms=5850 >15ms=2170 >20ms=1955 >30ms=1931 | probes=5850 wrfail=0 down=0s maxout=0s
+ 139.093  RPT pe: events=266 mean=4.59 mode=5 max=6 | 0:3 1:5 2:20 3:5 4:4 5:229
+ 139.093  t=137s RTT mean=35096 min=31540 max=49406 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5876 tot_to=0 maxever=55519 >2ms=5876 >5ms=5876 >15ms=2196 >20ms=1981 >30ms=1957 | probes=5877 wrfail=0 down=0s maxout=0s
+ 141.109  t=138s RTT mean=34877 min=31540 max=48018 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5902 tot_to=0 maxever=55519 >2ms=5902 >5ms=5902 >15ms=2222 >20ms=2007 >30ms=1983 | probes=5903 wrfail=0 down=0s maxout=0s
+ 141.109  RPT pe: events=267 mean=4.70 mode=5 max=6 | 0:6 1:3 2:5 3:8 4:5 5:240
+ 141.109  t=139s RTT mean=35275 min=31538 max=41910 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5928 tot_to=0 maxever=55519 >2ms=5928 >5ms=5928 >15ms=2248 >20ms=2033 >30ms=2009 | probes=5929 wrfail=0 down=0s maxout=0s
+ 143.072  t=140s RTT mean=35168 min=31540 max=47587 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5954 tot_to=0 maxever=55519 >2ms=5954 >5ms=5954 >15ms=2274 >20ms=2059 >30ms=2035 | probes=5955 wrfail=0 down=0s maxout=0s
+ 143.072  RPT pe: events=267 mean=4.70 mode=5 max=6 | 0:3 1:1 2:3 3:25 4:2 5:233
+ 143.126  t=141s RTT mean=35275 min=31541 max=43303 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=5980 tot_to=0 maxever=55519 >2ms=5980 >5ms=5980 >15ms=2300 >20ms=2085 >30ms=2061 | probes=5981 wrfail=0 down=0s maxout=0s
+ 145.079  t=142s RTT mean=35960 min=31540 max=44691 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6006 tot_to=0 maxever=55519 >2ms=6006 >5ms=6006 >15ms=2326 >20ms=2111 >30ms=2087 | probes=6007 wrfail=0 down=0s maxout=0s
+ 145.079  RPT pe: events=267 mean=4.66 mode=5 max=6 | 0:8 1:4 2:3 3:10 4:4 5:238
+ 145.139  t=143s RTT mean=35402 min=31539 max=50803 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6032 tot_to=0 maxever=55519 >2ms=6032 >5ms=6032 >15ms=2352 >20ms=2137 >30ms=2113 | probes=6033 wrfail=0 down=0s maxout=0s
+ 147.077  t=144s RTT mean=35148 min=31540 max=46088 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6058 tot_to=0 maxever=55519 >2ms=6058 >5ms=6058 >15ms=2378 >20ms=2163 >30ms=2139 | probes=6059 wrfail=0 down=0s maxout=0s
+ 147.077  RPT pe: events=266 mean=4.70 mode=5 max=6 | 0:8 1:3 2:6 3:1 4:6 5:242
+ 147.131  t=145s RTT mean=36251 min=31540 max=48959 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6084 tot_to=0 maxever=55519 >2ms=6084 >5ms=6084 >15ms=2404 >20ms=2189 >30ms=2165 | probes=6084 wrfail=0 down=0s maxout=0s
+ 149.111  t=146s RTT mean=35294 min=31540 max=41910 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6110 tot_to=0 maxever=55519 >2ms=6110 >5ms=6110 >15ms=2430 >20ms=2215 >30ms=2191 | probes=6111 wrfail=0 down=0s maxout=0s
+ 149.112  RPT pe: events=267 mean=4.74 mode=5 max=6 | 0:7 1:3 2:2 3:4 4:8 5:243
+ 149.112  t=147s RTT mean=35892 min=31540 max=51254 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6135 tot_to=0 maxever=55519 >2ms=6135 >5ms=6135 >15ms=2455 >20ms=2240 >30ms=2216 | probes=6136 wrfail=0 down=0s maxout=0s
+ 151.072  t=148s RTT mean=34757 min=31540 max=43303 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6162 tot_to=0 maxever=55519 >2ms=6162 >5ms=6162 >15ms=2482 >20ms=2267 >30ms=2243 | probes=6163 wrfail=0 down=0s maxout=0s
+ 151.072  RPT pe: events=267 mean=4.71 mode=5 max=6 | 0:6 1:2 2:8 3:6 4:1 5:244
+ 151.132  t=149s RTT mean=35854 min=31540 max=48027 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6187 tot_to=0 maxever=55519 >2ms=6187 >5ms=6187 >15ms=2507 >20ms=2292 >30ms=2268 | probes=6188 wrfail=0 down=0s maxout=0s
+ 153.107  t=150s RTT mean=35382 min=31540 max=48961 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6213 tot_to=0 maxever=55519 >2ms=6213 >5ms=6213 >15ms=2533 >20ms=2318 >30ms=2294 | probes=6214 wrfail=0 down=0s maxout=0s
+ 153.107  RPT pe: events=266 mean=4.69 mode=5 max=6 | 0:8 1:3 2:5 3:7 4:1 5:242
+ 153.107  t=151s RTT mean=35509 min=31540 max=46090 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6239 tot_to=0 maxever=55519 >2ms=6239 >5ms=6239 >15ms=2559 >20ms=2344 >30ms=2320 | probes=6240 wrfail=0 down=0s maxout=0s
+ 155.068  t=152s RTT mean=36358 min=31538 max=49412 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6265 tot_to=0 maxever=55519 >2ms=6265 >5ms=6265 >15ms=2585 >20ms=2370 >30ms=2346 | probes=6266 wrfail=0 down=0s maxout=0s
+ 155.128  RPT pe: events=267 mean=4.64 mode=5 max=6 | 0:11 1:4 2:5 3:4 4:2 5:241
+ 155.128  t=153s RTT mean=36227 min=31540 max=44698 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6290 tot_to=0 maxever=55519 >2ms=6290 >5ms=6290 >15ms=2610 >20ms=2395 >30ms=2371 | probes=6291 wrfail=0 down=0s maxout=0s
+ 157.071  t=154s RTT mean=36124 min=31540 max=49428 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6316 tot_to=0 maxever=55519 >2ms=6316 >5ms=6316 >15ms=2636 >20ms=2421 >30ms=2397 | probes=6317 wrfail=0 down=0s maxout=0s
+ 157.071  RPT pe: events=267 mean=4.68 mode=5 max=6 | 0:11 1:1 2:5 3:2 4:7 5:241
+ 157.126  t=155s RTT mean=35275 min=31539 max=60145 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6342 tot_to=0 maxever=60145 >2ms=6342 >5ms=6342 >15ms=2662 >20ms=2447 >30ms=2423 | probes=6343 wrfail=0 down=0s maxout=0s
+ 159.084  t=156s RTT mean=35005 min=31541 max=41910 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6368 tot_to=0 maxever=60145 >2ms=6368 >5ms=6368 >15ms=2688 >20ms=2473 >30ms=2449 | probes=6369 wrfail=0 down=0s maxout=0s
+ 159.084  RPT pe: events=266 mean=4.81 mode=5 max=6 | 0:4 1:2 2:2 3:3 4:10 5:245
+ 159.144  t=157s RTT mean=35147 min=31537 max=47567 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6394 tot_to=0 maxever=60145 >2ms=6394 >5ms=6394 >15ms=2714 >20ms=2499 >30ms=2475 | probes=6395 wrfail=0 down=0s maxout=0s
+ 161.112  t=158s RTT mean=36141 min=31540 max=47587 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6420 tot_to=0 maxever=60145 >2ms=6420 >5ms=6420 >15ms=2740 >20ms=2525 >30ms=2501 | probes=6420 wrfail=0 down=0s maxout=0s
+ 161.112  RPT pe: events=267 mean=4.70 mode=5 max=6 | 0:7 1:7 2:3 3:3 4:2 5:245
+ 161.112  t=159s RTT mean=35386 min=31540 max=46625 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6446 tot_to=0 maxever=60145 >2ms=6446 >5ms=6446 >15ms=2766 >20ms=2551 >30ms=2527 | probes=6446 wrfail=0 down=0s maxout=0s
+ 163.098  t=160s RTT mean=36041 min=31571 max=48962 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6471 tot_to=0 maxever=60145 >2ms=6471 >5ms=6471 >15ms=2791 >20ms=2576 >30ms=2552 | probes=6472 wrfail=0 down=0s maxout=0s
+ 163.098  RPT pe: events=267 mean=4.68 mode=5 max=6 | 0:7 1:6 2:4 3:3 4:7 5:240
+ 163.098  t=161s RTT mean=36809 min=31540 max=48014 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6496 tot_to=0 maxever=60145 >2ms=6496 >5ms=6496 >15ms=2816 >20ms=2601 >30ms=2577 | probes=6497 wrfail=0 down=0s maxout=0s
+ 165.098  t=162s RTT mean=35853 min=31541 max=48019 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6522 tot_to=0 maxever=60145 >2ms=6522 >5ms=6522 >15ms=2842 >20ms=2627 >30ms=2603 | probes=6523 wrfail=0 down=0s maxout=0s
+ 165.098  RPT pe: events=266 mean=4.68 mode=5 max=6 | 0:9 1:3 2:5 3:5 4:2 5:242
+ 165.098  t=163s RTT mean=35275 min=31540 max=41911 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6548 tot_to=0 maxever=60145 >2ms=6548 >5ms=6548 >15ms=2868 >20ms=2653 >30ms=2629 | probes=6549 wrfail=0 down=0s maxout=0s
+ 167.092  t=164s RTT mean=35616 min=31535 max=47568 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6574 tot_to=0 maxever=60145 >2ms=6574 >5ms=6574 >15ms=2894 >20ms=2679 >30ms=2655 | probes=6575 wrfail=0 down=0s maxout=0s
+ 167.093  RPT pe: events=267 mean=4.70 mode=5 max=6 | 0:8 1:4 2:3 3:4 4:6 5:242
+ 167.147  t=165s RTT mean=35168 min=31539 max=45240 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6600 tot_to=0 maxever=60145 >2ms=6600 >5ms=6600 >15ms=2920 >20ms=2705 >30ms=2681 | probes=6601 wrfail=0 down=0s maxout=0s
+ 169.096  t=166s RTT mean=34646 min=31538 max=43304 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6626 tot_to=0 maxever=60145 >2ms=6626 >5ms=6626 >15ms=2946 >20ms=2731 >30ms=2707 | probes=6627 wrfail=0 down=0s maxout=0s
+ 169.096  RPT pe: events=267 mean=4.68 mode=5 max=6 | 0:8 1:3 2:6 3:5 4:5 5:240
+ 169.096  t=167s RTT mean=36865 min=31540 max=51254 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6651 tot_to=0 maxever=60145 >2ms=6651 >5ms=6651 >15ms=2971 >20ms=2756 >30ms=2732 | probes=6652 wrfail=0 down=0s maxout=0s
+ 171.111  t=168s RTT mean=35781 min=31541 max=49411 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6677 tot_to=0 maxever=60145 >2ms=6677 >5ms=6677 >15ms=2997 >20ms=2782 >30ms=2758 | probes=6678 wrfail=0 down=0s maxout=0s
+ 171.111  RPT pe: events=267 mean=4.65 mode=5 max=6 | 0:7 1:6 2:5 3:7 4:3 5:239
+ 171.111  t=169s RTT mean=36210 min=31541 max=43754 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6703 tot_to=0 maxever=60145 >2ms=6703 >5ms=6703 >15ms=3023 >20ms=2808 >30ms=2784 | probes=6704 wrfail=0 down=0s maxout=0s
+ 173.080  t=170s RTT mean=35040 min=31540 max=46091 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6729 tot_to=0 maxever=60145 >2ms=6729 >5ms=6729 >15ms=3049 >20ms=2834 >30ms=2810 | probes=6730 wrfail=0 down=0s maxout=0s
+ 173.081  RPT pe: events=266 mean=4.81 mode=5 max=6 | 0:1 1:2 2:6 3:6 4:7 5:244
+ 173.141  t=171s RTT mean=34879 min=31541 max=41911 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6755 tot_to=0 maxever=60145 >2ms=6755 >5ms=6755 >15ms=3075 >20ms=2860 >30ms=2836 | probes=6756 wrfail=0 down=0s maxout=0s
+ 175.124  t=172s RTT mean=35094 min=31540 max=52732 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6781 tot_to=0 maxever=60145 >2ms=6781 >5ms=6781 >15ms=3101 >20ms=2886 >30ms=2862 | probes=6782 wrfail=0 down=0s maxout=0s
+ 175.124  RPT pe: events=267 mean=4.74 mode=5 max=6 | 0:5 1:6 2:2 3:5 4:4 5:245
+ 175.124  t=173s RTT mean=35167 min=31537 max=44697 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6807 tot_to=0 maxever=60145 >2ms=6807 >5ms=6807 >15ms=3127 >20ms=2912 >30ms=2888 | probes=6808 wrfail=0 down=0s maxout=0s
+ 177.079  t=174s RTT mean=36301 min=31538 max=43299 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6833 tot_to=0 maxever=60145 >2ms=6833 >5ms=6833 >15ms=3153 >20ms=2938 >30ms=2914 | probes=6834 wrfail=0 down=0s maxout=0s
+ 177.079  RPT pe: events=267 mean=4.70 mode=5 max=6 | 0:8 1:2 2:7 3:5 4:1 5:244
+ 177.139  t=175s RTT mean=34826 min=31540 max=46090 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6859 tot_to=0 maxever=60145 >2ms=6859 >5ms=6859 >15ms=3179 >20ms=2964 >30ms=2940 | probes=6860 wrfail=0 down=0s maxout=0s
+ 179.100  t=176s RTT mean=35276 min=31541 max=43303 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6885 tot_to=0 maxever=60145 >2ms=6885 >5ms=6885 >15ms=3205 >20ms=2990 >30ms=2966 | probes=6886 wrfail=0 down=0s maxout=0s
+ 179.100  RPT pe: events=266 mean=4.66 mode=5 max=6 | 0:5 1:7 2:4 3:9 4:6 5:235
+ 179.100  t=177s RTT mean=35563 min=31540 max=49410 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6911 tot_to=0 maxever=60145 >2ms=6911 >5ms=6911 >15ms=3231 >20ms=3016 >30ms=2992 | probes=6912 wrfail=0 down=0s maxout=0s
+ 181.122  t=178s RTT mean=36248 min=31540 max=50799 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6937 tot_to=0 maxever=60145 >2ms=6937 >5ms=6937 >15ms=3257 >20ms=3042 >30ms=3018 | probes=6938 wrfail=0 down=0s maxout=0s
+ 181.122  RPT pe: events=267 mean=4.62 mode=5 max=6 | 0:8 1:2 2:7 3:14 4:3 5:233
+ 181.122  t=179s RTT mean=35610 min=31536 max=44694 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6962 tot_to=0 maxever=60145 >2ms=6962 >5ms=6962 >15ms=3282 >20ms=3067 >30ms=3043 | probes=6963 wrfail=0 down=0s maxout=0s
+ 183.080  t=180s RTT mean=34966 min=31540 max=40518 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=6989 tot_to=0 maxever=60145 >2ms=6989 >5ms=6989 >15ms=3309 >20ms=3094 >30ms=3070 | probes=6990 wrfail=0 down=0s maxout=0s
+ 183.080  PCTL target=150 tot=1554 to=0 p50=34 p90=41 p99=49 p99.9=52 max=62 g30=1553 g100=0 (ms/counts)
+ 183.080  LOADRAMP: target=160 KBps for 60s
+ 183.080  RPT pe: events=267 mean=4.68 mode=5 max=6 | 0:7 1:5 2:5 3:4 4:6 5:240
+ 183.140  t=181s RTT mean=36081 min=31539 max=62567 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7014 tot_to=0 maxever=62567 >2ms=7014 >5ms=7014 >15ms=3334 >20ms=3119 >30ms=3095 | probes=7015 wrfail=0 down=0s maxout=0s
+ 185.074  t=182s RTT mean=35454 min=31537 max=47567 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7040 tot_to=0 maxever=62567 >2ms=7040 >5ms=7040 >15ms=3360 >20ms=3145 >30ms=3121 | probes=7041 wrfail=0 down=0s maxout=0s
+ 185.130  RPT pe: events=266 mean=4.57 mode=5 max=6 | 0:11 1:4 2:4 3:4 4:23 5:220
+ 185.131  t=183s RTT mean=36942 min=31540 max=46619 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7065 tot_to=0 maxever=62567 >2ms=7065 >5ms=7065 >15ms=3385 >20ms=3170 >30ms=3146 | probes=7066 wrfail=0 down=0s maxout=0s
+ 187.077  t=184s RTT mean=34950 min=31540 max=43754 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7092 tot_to=0 maxever=62567 >2ms=7092 >5ms=7092 >15ms=3412 >20ms=3197 >30ms=3173 | probes=7092 wrfail=0 down=0s maxout=0s
+ 187.077  RPT pe: events=267 mean=4.63 mode=5 max=6 | 0:7 1:9 2:2 3:3 4:15 5:231
+ 187.131  t=185s RTT mean=36509 min=31540 max=46624 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7117 tot_to=0 maxever=62567 >2ms=7117 >5ms=7117 >15ms=3437 >20ms=3222 >30ms=3198 | probes=7118 wrfail=0 down=0s maxout=0s
+ 189.091  t=186s RTT mean=36340 min=31542 max=45147 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7142 tot_to=0 maxever=62567 >2ms=7142 >5ms=7142 >15ms=3462 >20ms=3247 >30ms=3223 | probes=7143 wrfail=0 down=0s maxout=0s
+ 189.091  RPT pe: events=267 mean=4.59 mode=5 max=6 | 0:13 1:3 2:2 3:10 4:6 5:232 6:1
+ 189.091  t=187s RTT mean=36304 min=31540 max=52282 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7168 tot_to=0 maxever=62567 >2ms=7168 >5ms=7168 >15ms=3488 >20ms=3273 >30ms=3249 | probes=7168 wrfail=0 down=0s maxout=0s
+ 191.109  t=188s RTT mean=36829 min=31540 max=50803 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7193 tot_to=0 maxever=62567 >2ms=7193 >5ms=7193 >15ms=3513 >20ms=3298 >30ms=3274 | probes=7194 wrfail=0 down=0s maxout=0s
+ 191.109  RPT pe: events=266 mean=4.66 mode=5 max=6 | 0:8 1:3 2:4 3:6 4:12 5:233
+ 191.109  t=189s RTT mean=35329 min=31540 max=49410 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7219 tot_to=0 maxever=62567 >2ms=7219 >5ms=7219 >15ms=3539 >20ms=3324 >30ms=3300 | probes=7220 wrfail=0 down=0s maxout=0s
+ 193.075  t=190s RTT mean=34357 min=31540 max=41911 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7245 tot_to=0 maxever=62567 >2ms=7245 >5ms=7245 >15ms=3565 >20ms=3350 >30ms=3326 | probes=7246 wrfail=0 down=0s maxout=0s
+ 193.134  RPT pe: events=267 mean=4.81 mode=5 max=6 | 0:2 1:5 2:4 3:2 4:4 5:250
+ 193.134  t=191s RTT mean=34687 min=31540 max=46090 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7272 tot_to=0 maxever=62567 >2ms=7272 >5ms=7272 >15ms=3592 >20ms=3377 >30ms=3353 | probes=7273 wrfail=0 down=0s maxout=0s
+ 195.080  t=192s RTT mean=34970 min=31538 max=49404 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7298 tot_to=0 maxever=62567 >2ms=7298 >5ms=7298 >15ms=3618 >20ms=3403 >30ms=3379 | probes=7299 wrfail=0 down=0s maxout=0s
+ 195.080  RPT pe: events=267 mean=4.74 mode=5 max=6 | 0:10 2:3 3:1 4:8 5:245
+ 195.141  t=193s RTT mean=35275 min=31540 max=43299 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7324 tot_to=0 maxever=62567 >2ms=7324 >5ms=7324 >15ms=3644 >20ms=3429 >30ms=3405 | probes=7325 wrfail=0 down=0s maxout=0s
+ 197.112  t=194s RTT mean=35582 min=31538 max=48017 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7350 tot_to=0 maxever=62567 >2ms=7350 >5ms=7350 >15ms=3670 >20ms=3455 >30ms=3431 | probes=7351 wrfail=0 down=0s maxout=0s
+ 197.112  RPT pe: events=267 mean=4.65 mode=5 max=6 | 0:9 1:4 2:3 3:7 4:8 5:236
+ 197.112  t=195s RTT mean=35564 min=31538 max=47567 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7376 tot_to=0 maxever=62567 >2ms=7376 >5ms=7376 >15ms=3696 >20ms=3481 >30ms=3457 | probes=7377 wrfail=0 down=0s maxout=0s
+ 199.079  t=196s RTT mean=35383 min=31540 max=52281 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7402 tot_to=0 maxever=62567 >2ms=7402 >5ms=7402 >15ms=3722 >20ms=3507 >30ms=3483 | probes=7403 wrfail=0 down=0s maxout=0s
+ 199.079  RPT pe: events=266 mean=4.63 mode=5 max=6 | 0:14 2:6 3:1 4:6 5:239
+ 199.139  t=197s RTT mean=36681 min=31540 max=49414 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7427 tot_to=0 maxever=62567 >2ms=7427 >5ms=7427 >15ms=3747 >20ms=3532 >30ms=3508 | probes=7428 wrfail=0 down=0s maxout=0s
+ 201.072  t=198s RTT mean=34582 min=31539 max=49414 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7454 tot_to=0 maxever=62567 >2ms=7454 >5ms=7454 >15ms=3774 >20ms=3559 >30ms=3535 | probes=7455 wrfail=0 down=0s maxout=0s
+ 201.133  RPT pe: events=267 mean=4.70 mode=5 max=6 | 0:9 1:3 2:4 3:3 4:4 5:244
+ 201.133  t=199s RTT mean=36042 min=31540 max=46540 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7479 tot_to=0 maxever=62567 >2ms=7479 >5ms=7479 >15ms=3799 >20ms=3584 >30ms=3560 | probes=7480 wrfail=0 down=0s maxout=0s
+ 203.092  t=200s RTT mean=35259 min=31539 max=41460 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7505 tot_to=0 maxever=62567 >2ms=7505 >5ms=7505 >15ms=3825 >20ms=3610 >30ms=3586 | probes=7506 wrfail=0 down=0s maxout=0s
+ 203.092  RPT pe: events=267 mean=4.67 mode=5 max=6 | 0:11 1:3 2:4 3:3 4:2 5:244
+ 203.150  t=201s RTT mean=35164 min=31540 max=42361 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7531 tot_to=0 maxever=62567 >2ms=7531 >5ms=7531 >15ms=3851 >20ms=3636 >30ms=3612 | probes=7532 wrfail=0 down=0s maxout=0s
+ 205.113  t=202s RTT mean=34811 min=31540 max=41460 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7558 tot_to=0 maxever=62567 >2ms=7558 >5ms=7558 >15ms=3878 >20ms=3663 >30ms=3639 | probes=7559 wrfail=0 down=0s maxout=0s
+ 205.113  RPT pe: events=266 mean=4.70 mode=5 max=6 | 0:7 1:4 2:4 3:6 4:4 5:241
+ 205.113  t=203s RTT mean=36377 min=31539 max=50803 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7583 tot_to=0 maxever=62567 >2ms=7583 >5ms=7583 >15ms=3903 >20ms=3688 >30ms=3664 | probes=7584 wrfail=0 down=0s maxout=0s
+ 207.080  t=204s RTT mean=37955 min=31540 max=49410 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7608 tot_to=0 maxever=62567 >2ms=7608 >5ms=7608 >15ms=3928 >20ms=3713 >30ms=3689 | probes=7608 wrfail=0 down=0s maxout=0s
+ 207.080  RPT pe: events=267 mean=4.39 mode=5 max=6 | 0:25 1:4 2:2 3:5 4:5 5:226
+ 207.138  t=205s RTT mean=39179 min=31540 max=58298 n=23 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7631 tot_to=0 maxever=62567 >2ms=7631 >5ms=7631 >15ms=3951 >20ms=3736 >30ms=3712 | probes=7632 wrfail=0 down=0s maxout=0s
+ 209.084  t=206s RTT mean=36411 min=31624 max=41911 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7657 tot_to=0 maxever=62567 >2ms=7657 >5ms=7657 >15ms=3977 >20ms=3762 >30ms=3738 | probes=7657 wrfail=0 down=0s maxout=0s
+ 209.084  RPT pe: events=267 mean=4.65 mode=5 max=6 | 0:8 1:6 2:3 3:5 4:9 5:236
+ 209.143  t=207s RTT mean=36284 min=31540 max=46089 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7682 tot_to=0 maxever=62567 >2ms=7682 >5ms=7682 >15ms=4002 >20ms=3787 >30ms=3763 | probes=7683 wrfail=0 down=0s maxout=0s
+ 211.117  t=208s RTT mean=35510 min=31537 max=48960 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7708 tot_to=0 maxever=62567 >2ms=7708 >5ms=7708 >15ms=4028 >20ms=3813 >30ms=3789 | probes=7709 wrfail=0 down=0s maxout=0s
+ 211.117  RPT pe: events=266 mean=4.83 mode=5 max=6 | 0:2 1:4 2:3 3:2 4:6 5:249
+ 211.117  t=209s RTT mean=34184 min=31540 max=41906 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7735 tot_to=0 maxever=62567 >2ms=7735 >5ms=7735 >15ms=4055 >20ms=3840 >30ms=3816 | probes=7736 wrfail=0 down=0s maxout=0s
+ 213.109  t=210s RTT mean=35835 min=31540 max=49405 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7760 tot_to=0 maxever=62567 >2ms=7760 >5ms=7760 >15ms=4080 >20ms=3865 >30ms=3841 | probes=7761 wrfail=0 down=0s maxout=0s
+ 213.109  RPT pe: events=267 mean=4.64 mode=5 max=6 | 0:12 1:2 2:4 3:6 4:3 5:240
+ 213.109  t=211s RTT mean=36140 min=31539 max=48008 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7786 tot_to=0 maxever=62567 >2ms=7786 >5ms=7786 >15ms=4106 >20ms=3891 >30ms=3867 | probes=7787 wrfail=0 down=0s maxout=0s
+ 215.112  t=212s RTT mean=35111 min=31541 max=46624 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7812 tot_to=0 maxever=62567 >2ms=7812 >5ms=7812 >15ms=4132 >20ms=3917 >30ms=3893 | probes=7813 wrfail=0 down=0s maxout=0s
+ 215.112  RPT pe: events=267 mean=4.79 mode=5 max=6 | 0:7 2:2 3:4 4:5 5:249
+ 215.113  t=213s RTT mean=34357 min=31540 max=45144 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7839 tot_to=0 maxever=62567 >2ms=7839 >5ms=7839 >15ms=4159 >20ms=3944 >30ms=3920 | probes=7840 wrfail=0 down=0s maxout=0s
+ 217.084  t=214s RTT mean=34987 min=31540 max=47567 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7865 tot_to=0 maxever=62567 >2ms=7865 >5ms=7865 >15ms=4185 >20ms=3970 >30ms=3946 | probes=7866 wrfail=0 down=0s maxout=0s
+ 217.084  RPT pe: events=266 mean=4.81 mode=5 max=6 | 0:6 1:1 2:4 3:2 4:1 5:251 6:1
+ 217.144  t=215s RTT mean=34358 min=31540 max=39125 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7892 tot_to=0 maxever=62567 >2ms=7892 >5ms=7892 >15ms=4212 >20ms=3997 >30ms=3973 | probes=7893 wrfail=0 down=0s maxout=0s
+ 219.125  t=216s RTT mean=35894 min=31539 max=48958 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7917 tot_to=0 maxever=62567 >2ms=7917 >5ms=7917 >15ms=4237 >20ms=4022 >30ms=3998 | probes=7918 wrfail=0 down=0s maxout=0s
+ 219.125  RPT pe: events=267 mean=4.73 mode=5 max=6 | 0:6 1:3 2:5 3:5 4:3 5:245
+ 219.125  t=217s RTT mean=34252 min=31539 max=41910 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7944 tot_to=0 maxever=62567 >2ms=7944 >5ms=7944 >15ms=4264 >20ms=4049 >30ms=4025 | probes=7945 wrfail=0 down=0s maxout=0s
+ 221.094  t=218s RTT mean=34291 min=31537 max=41461 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7971 tot_to=0 maxever=62567 >2ms=7971 >5ms=7971 >15ms=4291 >20ms=4076 >30ms=4052 | probes=7972 wrfail=0 down=0s maxout=0s
+ 221.094  RPT pe: events=267 mean=4.69 mode=5 max=6 | 0:7 1:7 2:2 3:4 4:5 5:242
+ 221.154  t=219s RTT mean=35977 min=31540 max=49410 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=7997 tot_to=0 maxever=62567 >2ms=7997 >5ms=7997 >15ms=4317 >20ms=4102 >30ms=4078 | probes=7997 wrfail=0 down=0s maxout=0s
+ 223.119  t=220s RTT mean=34644 min=31540 max=45148 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8023 tot_to=0 maxever=62567 >2ms=8023 >5ms=8023 >15ms=4343 >20ms=4128 >30ms=4104 | probes=8024 wrfail=0 down=0s maxout=0s
+ 223.119  RPT pe: events=267 mean=4.66 mode=5 max=6 | 0:7 1:4 2:5 3:4 4:16 5:231
+ 223.119  t=221s RTT mean=36454 min=31539 max=53671 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8048 tot_to=0 maxever=62567 >2ms=8048 >5ms=8048 >15ms=4368 >20ms=4153 >30ms=4129 | probes=8049 wrfail=0 down=0s maxout=0s
+ 225.117  t=222s RTT mean=35276 min=31539 max=52731 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8074 tot_to=0 maxever=62567 >2ms=8074 >5ms=8074 >15ms=4394 >20ms=4179 >30ms=4155 | probes=8075 wrfail=0 down=0s maxout=0s
+ 225.117  RPT pe: events=267 mean=4.67 mode=5 max=6 | 0:8 1:5 2:5 3:3 4:7 5:239
+ 225.117  t=223s RTT mean=35852 min=31539 max=52647 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8100 tot_to=0 maxever=62567 >2ms=8100 >5ms=8100 >15ms=4420 >20ms=4205 >30ms=4181 | probes=8101 wrfail=0 down=0s maxout=0s
+ 227.136  t=224s RTT mean=35835 min=31535 max=48962 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8126 tot_to=0 maxever=62567 >2ms=8126 >5ms=8126 >15ms=4446 >20ms=4231 >30ms=4207 | probes=8127 wrfail=0 down=0s maxout=0s
+ 227.136  RPT pe: events=266 mean=4.65 mode=5 max=6 | 0:9 1:3 2:4 3:8 4:7 5:235
+ 227.136  t=225s RTT mean=35928 min=31540 max=48017 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8151 tot_to=0 maxever=62567 >2ms=8151 >5ms=8151 >15ms=4471 >20ms=4256 >30ms=4232 | probes=8152 wrfail=0 down=0s maxout=0s
+ 229.080  t=226s RTT mean=34740 min=31540 max=42361 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8178 tot_to=0 maxever=62567 >2ms=8178 >5ms=8178 >15ms=4498 >20ms=4283 >30ms=4259 | probes=8179 wrfail=0 down=0s maxout=0s
+ 229.140  RPT pe: events=267 mean=4.78 mode=5 max=6 | 0:8 1:1 2:3 4:5 5:250
+ 229.141  t=227s RTT mean=34628 min=31540 max=41910 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8204 tot_to=0 maxever=62567 >2ms=8204 >5ms=8204 >15ms=4524 >20ms=4309 >30ms=4285 | probes=8205 wrfail=0 down=0s maxout=0s
+ 231.131  t=228s RTT mean=35243 min=31540 max=46090 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8231 tot_to=0 maxever=62567 >2ms=8231 >5ms=8231 >15ms=4551 >20ms=4336 >30ms=4312 | probes=8231 wrfail=0 down=0s maxout=0s
+ 231.131  RPT pe: events=266 mean=4.73 mode=5 max=6 | 0:4 1:4 2:10 3:1 4:2 5:245
+ 231.131  t=229s RTT mean=35004 min=31539 max=43304 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8257 tot_to=0 maxever=62567 >2ms=8257 >5ms=8257 >15ms=4577 >20ms=4362 >30ms=4338 | probes=8258 wrfail=0 down=0s maxout=0s
+ 233.112  t=230s RTT mean=34970 min=31540 max=52280 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8283 tot_to=0 maxever=62567 >2ms=8283 >5ms=8283 >15ms=4603 >20ms=4388 >30ms=4364 | probes=8284 wrfail=0 down=0s maxout=0s
+ 233.112  RPT pe: events=267 mean=4.76 mode=5 max=6 | 0:6 1:3 2:4 3:4 4:1 5:249
+ 233.112  t=231s RTT mean=35004 min=31540 max=50803 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8309 tot_to=0 maxever=62567 >2ms=8309 >5ms=8309 >15ms=4629 >20ms=4414 >30ms=4390 | probes=8310 wrfail=0 down=0s maxout=0s
+ 235.109  t=232s RTT mean=34185 min=31536 max=40517 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8336 tot_to=0 maxever=62567 >2ms=8336 >5ms=8336 >15ms=4656 >20ms=4441 >30ms=4417 | probes=8337 wrfail=0 down=0s maxout=0s
+ 235.109  RPT pe: events=267 mean=4.71 mode=5 max=6 | 0:7 1:4 2:5 3:3 4:5 5:243
+ 235.109  t=233s RTT mean=37054 min=31539 max=53590 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8361 tot_to=0 maxever=62567 >2ms=8361 >5ms=8361 >15ms=4681 >20ms=4466 >30ms=4442 | probes=8362 wrfail=0 down=0s maxout=0s
+ 237.077  t=234s RTT mean=35275 min=31540 max=49411 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8387 tot_to=0 maxever=62567 >2ms=8387 >5ms=8387 >15ms=4707 >20ms=4492 >30ms=4468 | probes=8388 wrfail=0 down=0s maxout=0s
+ 237.130  RPT pe: events=266 mean=4.78 mode=5 max=6 | 0:4 1:3 2:5 3:4 4:3 5:247
+ 237.130  t=235s RTT mean=33957 min=31540 max=41460 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8414 tot_to=0 maxever=62567 >2ms=8414 >5ms=8414 >15ms=4734 >20ms=4519 >30ms=4495 | probes=8415 wrfail=0 down=0s maxout=0s
+ 239.134  t=236s RTT mean=35223 min=31540 max=45147 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8440 tot_to=0 maxever=62567 >2ms=8440 >5ms=8440 >15ms=4760 >20ms=4545 >30ms=4521 | probes=8441 wrfail=0 down=0s maxout=0s
+ 239.134  RPT pe: events=267 mean=4.70 mode=5 max=6 | 0:9 1:5 2:1 3:3 4:4 5:245
+ 239.134  t=237s RTT mean=35094 min=31539 max=49412 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8466 tot_to=0 maxever=62567 >2ms=8466 >5ms=8466 >15ms=4786 >20ms=4571 >30ms=4547 | probes=8467 wrfail=0 down=0s maxout=0s
+ 241.100  t=238s RTT mean=35098 min=31539 max=41912 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8492 tot_to=0 maxever=62567 >2ms=8492 >5ms=8492 >15ms=4812 >20ms=4597 >30ms=4573 | probes=8493 wrfail=0 down=0s maxout=0s
+ 241.100  RPT pe: events=267 mean=4.62 mode=5 max=6 | 0:11 1:5 2:5 3:2 4:5 5:239
+ 241.159  t=239s RTT mean=35852 min=31540 max=49406 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8518 tot_to=0 maxever=62567 >2ms=8518 >5ms=8518 >15ms=4838 >20ms=4623 >30ms=4599 | probes=8519 wrfail=0 down=0s maxout=0s
+ 243.105  t=240s RTT mean=39383 min=31538 max=52731 n=23 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8541 tot_to=0 maxever=62567 >2ms=8541 >5ms=8541 >15ms=4861 >20ms=4646 >30ms=4622 | probes=8542 wrfail=0 down=0s maxout=0s
+ 243.105  PCTL target=160 tot=1553 to=0 p50=34 p90=41 p99=50 p99.9=55 max=58 g30=1553 g100=0 (ms/counts)
+ 243.105  LOADRAMP: target=170 KBps for 60s
+ 243.105  RPT pe: events=266 mean=4.33 mode=5 max=6 | 0:30 1:4 2:3 4:3 5:226
+ 243.105  t=241s RTT mean=37223 min=31539 max=55517 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8567 tot_to=0 maxever=62567 >2ms=8567 >5ms=8567 >15ms=4887 >20ms=4672 >30ms=4648 | probes=8568 wrfail=0 down=0s maxout=0s
+ 245.109  t=242s RTT mean=37554 min=31567 max=69040 n=24 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8591 tot_to=0 maxever=69040 >2ms=8591 >5ms=8591 >15ms=4911 >20ms=4696 >30ms=4672 | probes=8592 wrfail=0 down=0s maxout=0s
+ 245.109  RPT pe: events=267 mean=4.35 mode=5 max=6 | 0:27 1:5 2:3 3:1 4:5 5:226
+ 245.164  t=243s RTT mean=38334 min=31534 max=54040 n=24 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8615 tot_to=0 maxever=69040 >2ms=8615 >5ms=8615 >15ms=4935 >20ms=4720 >30ms=4696 | probes=8616 wrfail=0 down=0s maxout=0s
+ 247.134  t=244s RTT mean=36540 min=31538 max=52197 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8641 tot_to=0 maxever=69040 >2ms=8641 >5ms=8641 >15ms=4961 >20ms=4746 >30ms=4722 | probes=8642 wrfail=0 down=0s maxout=0s
+ 247.134  RPT pe: events=267 mean=4.68 mode=5 max=6 | 0:9 1:4 2:4 3:2 4:7 5:241
+ 247.134  t=245s RTT mean=34427 min=31540 max=41910 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8667 tot_to=0 maxever=69040 >2ms=8667 >5ms=8667 >15ms=4987 >20ms=4772 >30ms=4748 | probes=8668 wrfail=0 down=0s maxout=0s
+ 249.108  t=246s RTT mean=34688 min=31540 max=41910 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8694 tot_to=0 maxever=69040 >2ms=8694 >5ms=8694 >15ms=5014 >20ms=4799 >30ms=4775 | probes=8695 wrfail=0 down=0s maxout=0s
+ 249.109  RPT pe: events=267 mean=4.73 mode=5 max=6 | 0:4 1:7 2:5 3:3 4:2 5:246
+ 249.109  t=247s RTT mean=35665 min=31540 max=46622 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8719 tot_to=0 maxever=69040 >2ms=8719 >5ms=8719 >15ms=5039 >20ms=4824 >30ms=4800 | probes=8720 wrfail=0 down=0s maxout=0s
+ 251.099  t=248s RTT mean=37336 min=31540 max=52664 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8744 tot_to=0 maxever=69040 >2ms=8744 >5ms=8744 >15ms=5064 >20ms=4849 >30ms=4825 | probes=8745 wrfail=0 down=0s maxout=0s
+ 251.099  RPT pe: events=266 mean=4.63 mode=5 max=6 | 0:7 1:10 2:4 3:4 4:2 5:239
+ 251.159  t=249s RTT mean=34859 min=31538 max=44777 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8771 tot_to=0 maxever=69040 >2ms=8771 >5ms=8771 >15ms=5091 >20ms=4876 >30ms=4852 | probes=8772 wrfail=0 down=0s maxout=0s
+ 253.092  t=250s RTT mean=35742 min=31619 max=41911 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8796 tot_to=0 maxever=69040 >2ms=8796 >5ms=8796 >15ms=5116 >20ms=4901 >30ms=4877 | probes=8797 wrfail=0 down=0s maxout=0s
+ 253.092  RPT pe: events=267 mean=4.73 mode=5 max=6 | 0:4 1:8 2:2 3:4 4:6 5:243
+ 253.147  t=251s RTT mean=34842 min=31537 max=41911 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8823 tot_to=0 maxever=69040 >2ms=8823 >5ms=8823 >15ms=5143 >20ms=4928 >30ms=4904 | probes=8824 wrfail=0 down=0s maxout=0s
+ 255.100  t=252s RTT mean=34592 min=31540 max=48961 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8849 tot_to=0 maxever=69040 >2ms=8849 >5ms=8849 >15ms=5169 >20ms=4954 >30ms=4930 | probes=8850 wrfail=0 down=0s maxout=0s
+ 255.100  RPT pe: events=267 mean=4.76 mode=5 max=6 | 0:6 1:2 2:6 3:2 4:4 5:246 6:1
+ 255.100  t=253s RTT mean=35563 min=31540 max=50799 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8875 tot_to=0 maxever=69040 >2ms=8875 >5ms=8875 >15ms=5195 >20ms=4980 >30ms=4956 | probes=8876 wrfail=0 down=0s maxout=0s
+ 257.084  t=254s RTT mean=36921 min=31540 max=48977 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8900 tot_to=0 maxever=69040 >2ms=8900 >5ms=8900 >15ms=5220 >20ms=5005 >30ms=4981 | probes=8901 wrfail=0 down=0s maxout=0s
+ 257.144  RPT pe: events=266 mean=4.59 mode=5 max=6 | 0:12 1:8 2:2 3:5 5:239
+ 257.144  t=255s RTT mean=35980 min=31540 max=47568 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8926 tot_to=0 maxever=69040 >2ms=8926 >5ms=8926 >15ms=5246 >20ms=5031 >30ms=5007 | probes=8927 wrfail=0 down=0s maxout=0s
+ 259.090  t=256s RTT mean=34116 min=31540 max=40518 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8953 tot_to=0 maxever=69040 >2ms=8953 >5ms=8953 >15ms=5273 >20ms=5058 >30ms=5034 | probes=8954 wrfail=0 down=0s maxout=0s
+ 259.090  RPT pe: events=267 mean=4.82 mode=5 max=6 | 0:4 2:7 3:2 4:1 5:253
+ 259.150  t=257s RTT mean=34715 min=31540 max=41460 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=8979 tot_to=0 maxever=69040 >2ms=8979 >5ms=8979 >15ms=5299 >20ms=5084 >30ms=5060 | probes=8980 wrfail=0 down=0s maxout=0s
+ 261.120  t=258s RTT mean=34740 min=31538 max=44696 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9006 tot_to=0 maxever=69040 >2ms=9006 >5ms=9006 >15ms=5326 >20ms=5111 >30ms=5087 | probes=9007 wrfail=0 down=0s maxout=0s
+ 261.121  RPT pe: events=267 mean=4.70 mode=5 max=6 | 0:8 1:2 2:7 3:4 4:1 5:245
+ 261.121  t=259s RTT mean=36736 min=31620 max=44698 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9031 tot_to=0 maxever=69040 >2ms=9031 >5ms=9031 >15ms=5351 >20ms=5136 >30ms=5112 | probes=9032 wrfail=0 down=0s maxout=0s
+ 263.091  t=260s RTT mean=35276 min=31540 max=43304 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9057 tot_to=0 maxever=69040 >2ms=9057 >5ms=9057 >15ms=5377 >20ms=5162 >30ms=5138 | probes=9058 wrfail=0 down=0s maxout=0s
+ 263.091  RPT pe: events=266 mean=4.76 mode=5 max=6 | 0:2 1:1 2:12 3:5 4:3 5:243
+ 263.150  t=261s RTT mean=35164 min=31540 max=43360 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9083 tot_to=0 maxever=69040 >2ms=9083 >5ms=9083 >15ms=5403 >20ms=5188 >30ms=5164 | probes=9084 wrfail=0 down=0s maxout=0s
+ 265.133  t=262s RTT mean=34826 min=31540 max=42361 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9109 tot_to=0 maxever=69040 >2ms=9109 >5ms=9109 >15ms=5429 >20ms=5214 >30ms=5190 | probes=9110 wrfail=0 down=0s maxout=0s
+ 265.133  RPT pe: events=267 mean=4.79 mode=5 max=6 | 0:6 1:1 2:3 3:5 4:1 5:251
+ 265.133  t=263s RTT mean=35017 min=31540 max=41911 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9136 tot_to=0 maxever=69040 >2ms=9136 >5ms=9136 >15ms=5456 >20ms=5241 >30ms=5217 | probes=9136 wrfail=0 down=0s maxout=0s
+ 267.126  t=264s RTT mean=36622 min=31537 max=55518 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9161 tot_to=0 maxever=69040 >2ms=9161 >5ms=9161 >15ms=5481 >20ms=5266 >30ms=5242 | probes=9162 wrfail=0 down=0s maxout=0s
+ 267.126  RPT pe: events=267 mean=4.62 mode=5 max=6 | 0:8 1:8 2:5 3:5 4:2 5:239
+ 267.126  t=265s RTT mean=35745 min=31540 max=46170 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9187 tot_to=0 maxever=69040 >2ms=9187 >5ms=9187 >15ms=5507 >20ms=5292 >30ms=5268 | probes=9187 wrfail=0 down=0s maxout=0s
+ 269.087  t=266s RTT mean=35538 min=31540 max=50805 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9212 tot_to=0 maxever=69040 >2ms=9212 >5ms=9212 >15ms=5532 >20ms=5317 >30ms=5293 | probes=9213 wrfail=0 down=0s maxout=0s
+ 269.147  RPT pe: events=266 mean=4.80 mode=5 max=6 | 0:4 1:2 2:2 3:5 4:9 5:244
+ 269.148  t=267s RTT mean=34687 min=31540 max=45231 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9239 tot_to=0 maxever=69040 >2ms=9239 >5ms=9239 >15ms=5559 >20ms=5344 >30ms=5320 | probes=9240 wrfail=0 down=0s maxout=0s
+ 271.133  t=268s RTT mean=35293 min=31537 max=49410 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9265 tot_to=0 maxever=69040 >2ms=9265 >5ms=9265 >15ms=5585 >20ms=5370 >30ms=5346 | probes=9266 wrfail=0 down=0s maxout=0s
+ 271.133  RPT pe: events=267 mean=4.71 mode=5 max=6 | 0:7 1:3 2:5 3:5 4:4 5:243
+ 271.133  t=269s RTT mean=35564 min=31539 max=45226 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9291 tot_to=0 maxever=69040 >2ms=9291 >5ms=9291 >15ms=5611 >20ms=5396 >30ms=5372 | probes=9292 wrfail=0 down=0s maxout=0s
+ 273.127  t=270s RTT mean=36078 min=31540 max=41911 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9316 tot_to=0 maxever=69040 >2ms=9316 >5ms=9316 >15ms=5636 >20ms=5421 >30ms=5397 | probes=9317 wrfail=0 down=0s maxout=0s
+ 273.127  RPT pe: events=267 mean=4.74 mode=5 max=6 | 0:5 1:5 2:5 3:2 4:4 5:246
+ 273.127  t=271s RTT mean=35386 min=31540 max=50804 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9342 tot_to=0 maxever=69040 >2ms=9342 >5ms=9342 >15ms=5662 >20ms=5447 >30ms=5423 | probes=9343 wrfail=0 down=0s maxout=0s
+ 275.086  t=272s RTT mean=35923 min=31540 max=49410 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9368 tot_to=0 maxever=69040 >2ms=9368 >5ms=9368 >15ms=5688 >20ms=5473 >30ms=5449 | probes=9369 wrfail=0 down=0s maxout=0s
+ 275.146  RPT pe: events=267 mean=4.72 mode=5 max=6 | 0:7 1:4 2:5 3:1 4:5 5:245
+ 275.146  t=273s RTT mean=34619 min=31540 max=41457 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9395 tot_to=0 maxever=69040 >2ms=9395 >5ms=9395 >15ms=5715 >20ms=5500 >30ms=5476 | probes=9395 wrfail=0 down=0s maxout=0s
+ 277.098  t=274s RTT mean=34192 min=31535 max=41460 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9421 tot_to=0 maxever=69040 >2ms=9421 >5ms=9421 >15ms=5741 >20ms=5526 >30ms=5502 | probes=9422 wrfail=0 down=0s maxout=0s
+ 277.098  RPT pe: events=266 mean=4.73 mode=5 max=6 | 0:7 1:2 2:5 3:5 4:3 5:244
+ 277.152  t=275s RTT mean=35959 min=31538 max=48960 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9447 tot_to=0 maxever=69040 >2ms=9447 >5ms=9447 >15ms=5767 >20ms=5552 >30ms=5528 | probes=9448 wrfail=0 down=0s maxout=0s
+ 279.092  t=276s RTT mean=35386 min=31535 max=47570 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9473 tot_to=0 maxever=69040 >2ms=9473 >5ms=9473 >15ms=5793 >20ms=5578 >30ms=5554 | probes=9474 wrfail=0 down=0s maxout=0s
+ 279.093  RPT pe: events=267 mean=4.78 mode=5 max=6 | 0:4 1:4 2:4 3:3 4:4 5:248
+ 279.153  t=277s RTT mean=34148 min=31540 max=51254 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9500 tot_to=0 maxever=69040 >2ms=9500 >5ms=9500 >15ms=5820 >20ms=5605 >30ms=5581 | probes=9501 wrfail=0 down=0s maxout=0s
+ 281.124  t=278s RTT mean=34970 min=31541 max=41462 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9526 tot_to=0 maxever=69040 >2ms=9526 >5ms=9526 >15ms=5846 >20ms=5631 >30ms=5607 | probes=9527 wrfail=0 down=0s maxout=0s
+ 281.124  RPT pe: events=267 mean=4.49 mode=5 max=6 | 0:17 1:8 2:4 3:1 4:3 5:234
+ 281.124  t=279s RTT mean=40033 min=31538 max=56462 n=23 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9549 tot_to=0 maxever=69040 >2ms=9549 >5ms=9549 >15ms=5869 >20ms=5654 >30ms=5630 | probes=9550 wrfail=0 down=0s maxout=0s
+ 283.133  t=280s RTT mean=39646 min=31535 max=56913 n=24 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9573 tot_to=0 maxever=69040 >2ms=9573 >5ms=9573 >15ms=5893 >20ms=5678 >30ms=5654 | probes=9574 wrfail=0 down=0s maxout=0s
+ 283.134  RPT pe: events=266 mean=4.30 mode=5 max=6 | 0:32 1:2 2:4 4:6 5:222
+ 283.134  t=281s RTT mean=37847 min=31540 max=56911 n=24 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9597 tot_to=0 maxever=69040 >2ms=9597 >5ms=9597 >15ms=5917 >20ms=5702 >30ms=5678 | probes=9598 wrfail=0 down=0s maxout=0s
+ 285.132  t=282s RTT mean=34756 min=31535 max=41461 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9624 tot_to=0 maxever=69040 >2ms=9624 >5ms=9624 >15ms=5944 >20ms=5729 >30ms=5705 | probes=9624 wrfail=0 down=0s maxout=0s
+ 285.133  RPT pe: events=267 mean=4.74 mode=5 max=6 | 0:4 1:3 2:5 3:8 4:5 5:242
+ 285.133  t=283s RTT mean=34933 min=31537 max=49407 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9650 tot_to=0 maxever=69040 >2ms=9650 >5ms=9650 >15ms=5970 >20ms=5755 >30ms=5731 | probes=9651 wrfail=0 down=0s maxout=0s
+ 287.146  t=284s RTT mean=34287 min=31540 max=44701 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9677 tot_to=0 maxever=69040 >2ms=9677 >5ms=9677 >15ms=5997 >20ms=5782 >30ms=5758 | probes=9678 wrfail=0 down=0s maxout=0s
+ 287.146  RPT pe: events=267 mean=4.68 mode=5 max=6 | 0:5 1:8 2:4 3:5 4:5 5:240
+ 287.146  t=285s RTT mean=36942 min=31620 max=48015 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9702 tot_to=0 maxever=69040 >2ms=9702 >5ms=9702 >15ms=6022 >20ms=5807 >30ms=5783 | probes=9702 wrfail=0 down=0s maxout=0s
+ 289.112  t=286s RTT mean=36378 min=31538 max=51254 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9727 tot_to=0 maxever=69040 >2ms=9727 >5ms=9727 >15ms=6047 >20ms=5832 >30ms=5808 | probes=9728 wrfail=0 down=0s maxout=0s
+ 289.112  RPT pe: events=266 mean=4.49 mode=5 max=6 | 0:4 1:23 2:4 3:3 4:5 5:227
+ 289.172  t=287s RTT mean=36699 min=31540 max=48019 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9752 tot_to=0 maxever=69040 >2ms=9752 >5ms=9752 >15ms=6072 >20ms=5857 >30ms=5833 | probes=9753 wrfail=0 down=0s maxout=0s
+ 291.095  t=288s RTT mean=35671 min=31540 max=42365 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9778 tot_to=0 maxever=69040 >2ms=9778 >5ms=9778 >15ms=6098 >20ms=5883 >30ms=5859 | probes=9779 wrfail=0 down=0s maxout=0s
+ 291.095  RPT pe: events=267 mean=4.71 mode=5 max=6 | 0:8 1:7 3:4 4:2 5:245 6:1
+ 291.150  t=289s RTT mean=34239 min=31540 max=40519 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9805 tot_to=0 maxever=69040 >2ms=9805 >5ms=9805 >15ms=6125 >20ms=5910 >30ms=5886 | probes=9806 wrfail=0 down=0s maxout=0s
+ 293.123  t=290s RTT mean=36584 min=31559 max=49862 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9830 tot_to=0 maxever=69040 >2ms=9830 >5ms=9830 >15ms=6150 >20ms=5935 >30ms=5911 | probes=9831 wrfail=0 down=0s maxout=0s
+ 293.123  RPT pe: events=267 mean=4.58 mode=5 max=6 | 0:12 1:1 2:10 3:6 4:4 5:234
+ 293.123  t=291s RTT mean=36436 min=31619 max=45147 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9855 tot_to=0 maxever=69040 >2ms=9855 >5ms=9855 >15ms=6175 >20ms=5960 >30ms=5936 | probes=9856 wrfail=0 down=0s maxout=0s
+ 295.130  t=292s RTT mean=35005 min=31538 max=45147 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9881 tot_to=0 maxever=69040 >2ms=9881 >5ms=9881 >15ms=6201 >20ms=5986 >30ms=5962 | probes=9882 wrfail=0 down=0s maxout=0s
+ 295.130  RPT pe: events=266 mean=4.66 mode=5 max=6 | 0:8 1:6 2:4 3:3 4:6 5:239
+ 295.131  t=293s RTT mean=36429 min=31538 max=45148 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9907 tot_to=0 maxever=69040 >2ms=9907 >5ms=9907 >15ms=6227 >20ms=6012 >30ms=5988 | probes=9908 wrfail=0 down=0s maxout=0s
+ 297.133  t=294s RTT mean=36810 min=31540 max=48018 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9932 tot_to=0 maxever=69040 >2ms=9932 >5ms=9932 >15ms=6252 >20ms=6037 >30ms=6013 | probes=9933 wrfail=0 down=0s maxout=0s
+ 297.133  RPT pe: events=267 mean=4.67 mode=5 max=6 | 0:9 1:4 2:5 3:4 4:4 5:241
+ 297.133  t=295s RTT mean=35966 min=31539 max=47569 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9957 tot_to=0 maxever=69040 >2ms=9957 >5ms=9957 >15ms=6277 >20ms=6062 >30ms=6038 | probes=9958 wrfail=0 down=0s maxout=0s
+ 299.125  t=296s RTT mean=35511 min=31538 max=41910 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=9983 tot_to=0 maxever=69040 >2ms=9983 >5ms=9983 >15ms=6303 >20ms=6088 >30ms=6064 | probes=9984 wrfail=0 down=0s maxout=0s
+ 299.125  RPT pe: events=267 mean=4.64 mode=5 max=6 | 0:9 1:7 2:4 3:3 4:3 5:241
+ 299.125  t=297s RTT mean=36866 min=31540 max=48958 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10008 tot_to=0 maxever=69040 >2ms=10008 >5ms=10008 >15ms=6328 >20ms=6113 >30ms=6089 | probes=10009 wrfail=0 down=0s maxout=0s
+ 301.137  t=298s RTT mean=39664 min=31629 max=73300 n=24 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10032 tot_to=0 maxever=73300 >2ms=10032 >5ms=10032 >15ms=6352 >20ms=6137 >30ms=6113 | probes=10033 wrfail=0 down=0s maxout=0s
+ 301.137  RPT pe: events=267 mean=4.47 mode=5 max=6 | 0:14 1:7 2:8 3:5 4:7 5:226
+ 301.137  t=299s RTT mean=35910 min=31538 max=48957 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10057 tot_to=0 maxever=73300 >2ms=10057 >5ms=10057 >15ms=6377 >20ms=6162 >30ms=6138 | probes=10058 wrfail=0 down=0s maxout=0s
+ 303.102  t=300s RTT mean=36811 min=31540 max=51254 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10082 tot_to=0 maxever=73300 >2ms=10082 >5ms=10082 >15ms=6402 >20ms=6187 >30ms=6163 | probes=10083 wrfail=0 down=0s maxout=0s
+ 303.103  PCTL target=170 tot=1542 to=0 p50=34 p90=41 p99=51 p99.9=56 max=73 g30=1542 g100=0 (ms/counts)
+ 303.103  LOADRAMP: target=180 KBps for 60s
+ 303.103  RPT pe: events=266 mean=4.61 mode=5 max=6 | 0:13 1:2 2:5 3:6 4:2 5:238
+ 303.163  t=301s RTT mean=36700 min=31539 max=49410 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10108 tot_to=0 maxever=73300 >2ms=10108 >5ms=10108 >15ms=6428 >20ms=6213 >30ms=6189 | probes=10108 wrfail=0 down=0s maxout=0s
+ 305.132  t=302s RTT mean=36211 min=31540 max=48962 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10133 tot_to=0 maxever=73300 >2ms=10133 >5ms=10133 >15ms=6453 >20ms=6238 >30ms=6214 | probes=10134 wrfail=0 down=0s maxout=0s
+ 305.133  RPT pe: events=267 mean=4.62 mode=5 max=6 | 0:9 1:5 2:8 3:4 4:2 5:239
+ 305.133  t=303s RTT mean=37553 min=31550 max=48959 n=24 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10157 tot_to=0 maxever=73300 >2ms=10157 >5ms=10157 >15ms=6477 >20ms=6262 >30ms=6238 | probes=10158 wrfail=0 down=0s maxout=0s
+ 307.143  t=304s RTT mean=34236 min=31540 max=41465 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10184 tot_to=0 maxever=73300 >2ms=10184 >5ms=10184 >15ms=6504 >20ms=6289 >30ms=6265 | probes=10185 wrfail=0 down=0s maxout=0s
+ 307.143  RPT pe: events=267 mean=4.83 mode=5 max=6 | 0:2 1:1 2:6 3:5 4:3 5:250
+ 307.143  t=305s RTT mean=34461 min=31538 max=41460 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10211 tot_to=0 maxever=73300 >2ms=10211 >5ms=10211 >15ms=6531 >20ms=6316 >30ms=6292 | probes=10212 wrfail=0 down=0s maxout=0s
+ 309.129  t=306s RTT mean=34516 min=31535 max=41912 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10238 tot_to=0 maxever=73300 >2ms=10238 >5ms=10238 >15ms=6558 >20ms=6343 >30ms=6319 | probes=10239 wrfail=0 down=0s maxout=0s
+ 309.129  RPT pe: events=266 mean=4.82 mode=5 max=6 | 0:6 1:1 3:5 4:3 5:251
+ 309.129  t=307s RTT mean=34427 min=31540 max=47564 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10264 tot_to=0 maxever=73300 >2ms=10264 >5ms=10264 >15ms=6584 >20ms=6369 >30ms=6345 | probes=10265 wrfail=0 down=0s maxout=0s
+ 311.102  t=308s RTT mean=35437 min=31539 max=48960 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10290 tot_to=0 maxever=73300 >2ms=10290 >5ms=10290 >15ms=6610 >20ms=6395 >30ms=6371 | probes=10291 wrfail=0 down=0s maxout=0s
+ 311.103  RPT pe: events=267 mean=4.74 mode=5 max=6 | 0:7 1:3 2:4 3:3 4:2 5:248
+ 311.159  t=309s RTT mean=35386 min=31620 max=41911 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10316 tot_to=0 maxever=73300 >2ms=10316 >5ms=10316 >15ms=6636 >20ms=6421 >30ms=6397 | probes=10317 wrfail=0 down=0s maxout=0s
+ 313.150  t=310s RTT mean=35455 min=31541 max=43303 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10342 tot_to=0 maxever=73300 >2ms=10342 >5ms=10342 >15ms=6662 >20ms=6447 >30ms=6423 | probes=10343 wrfail=0 down=0s maxout=0s
+ 313.150  RPT pe: events=267 mean=4.78 mode=5 max=6 | 0:7 2:4 3:3 4:5 5:248
+ 313.150  t=311s RTT mean=34793 min=31538 max=41910 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10369 tot_to=0 maxever=73300 >2ms=10369 >5ms=10369 >15ms=6689 >20ms=6474 >30ms=6450 | probes=10370 wrfail=0 down=0s maxout=0s
+ 315.109  t=312s RTT mean=34769 min=31538 max=44697 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10395 tot_to=0 maxever=73300 >2ms=10395 >5ms=10395 >15ms=6715 >20ms=6500 >30ms=6476 | probes=10396 wrfail=0 down=0s maxout=0s
+ 315.109  RPT pe: events=267 mean=4.79 mode=5 max=6 | 0:6 1:1 2:5 3:3 4:1 5:251
+ 315.162  t=313s RTT mean=34752 min=31540 max=40513 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10421 tot_to=0 maxever=73300 >2ms=10421 >5ms=10421 >15ms=6741 >20ms=6526 >30ms=6502 | probes=10422 wrfail=0 down=0s maxout=0s
+ 317.121  t=314s RTT mean=36980 min=31538 max=48961 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10446 tot_to=0 maxever=73300 >2ms=10446 >5ms=10446 >15ms=6766 >20ms=6551 >30ms=6527 | probes=10447 wrfail=0 down=0s maxout=0s
+ 317.121  RPT pe: events=266 mean=4.71 mode=5 max=6 | 0:8 1:4 2:2 3:7 4:1 5:244
+ 317.175  t=315s RTT mean=34426 min=31534 max=41461 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10473 tot_to=0 maxever=73300 >2ms=10473 >5ms=10473 >15ms=6793 >20ms=6578 >30ms=6554 | probes=10474 wrfail=0 down=0s maxout=0s
+ 319.138  t=316s RTT mean=35148 min=31537 max=45148 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10499 tot_to=0 maxever=73300 >2ms=10499 >5ms=10499 >15ms=6819 >20ms=6604 >30ms=6580 | probes=10500 wrfail=0 down=0s maxout=0s
+ 319.138  RPT pe: events=267 mean=4.74 mode=5 max=6 | 0:6 1:2 2:4 3:8 4:3 5:244
+ 319.138  t=317s RTT mean=35563 min=31540 max=42358 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10525 tot_to=0 maxever=73300 >2ms=10525 >5ms=10525 >15ms=6845 >20ms=6630 >30ms=6606 | probes=10526 wrfail=0 down=0s maxout=0s
+ 321.112  t=318s RTT mean=35691 min=31540 max=43303 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10551 tot_to=0 maxever=73300 >2ms=10551 >5ms=10551 >15ms=6871 >20ms=6656 >30ms=6632 | probes=10552 wrfail=0 down=0s maxout=0s
+ 321.112  RPT pe: events=266 mean=4.69 mode=5 max=6 | 0:8 1:3 2:4 3:5 4:6 5:240
+ 321.166  t=319s RTT mean=35259 min=31540 max=49412 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10577 tot_to=0 maxever=73300 >2ms=10577 >5ms=10577 >15ms=6897 >20ms=6682 >30ms=6658 | probes=10578 wrfail=0 down=0s maxout=0s
+ 323.126  t=320s RTT mean=35742 min=31534 max=44697 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10603 tot_to=0 maxever=73300 >2ms=10603 >5ms=10603 >15ms=6923 >20ms=6708 >30ms=6684 | probes=10604 wrfail=0 down=0s maxout=0s
+ 323.126  RPT pe: events=267 mean=4.59 mode=5 max=6 | 0:10 1:8 2:4 3:4 4:5 5:236
+ 323.126  t=321s RTT mean=36342 min=31539 max=45145 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10628 tot_to=0 maxever=73300 >2ms=10628 >5ms=10628 >15ms=6948 >20ms=6733 >30ms=6709 | probes=10629 wrfail=0 down=0s maxout=0s
+ 325.127  t=322s RTT mean=37110 min=31538 max=51273 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10653 tot_to=0 maxever=73300 >2ms=10653 >5ms=10653 >15ms=6973 >20ms=6758 >30ms=6734 | probes=10654 wrfail=0 down=0s maxout=0s
+ 325.127  RPT pe: events=267 mean=4.60 mode=5 max=6 | 0:6 1:16 2:1 3:3 4:3 5:238
+ 325.127  t=323s RTT mean=35275 min=31539 max=47569 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10679 tot_to=0 maxever=73300 >2ms=10679 >5ms=10679 >15ms=6999 >20ms=6784 >30ms=6760 | probes=10680 wrfail=0 down=0s maxout=0s
+ 327.113  t=324s RTT mean=37110 min=31541 max=47567 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10704 tot_to=0 maxever=73300 >2ms=10704 >5ms=10704 >15ms=7024 >20ms=6809 >30ms=6785 | probes=10705 wrfail=0 down=0s maxout=0s
+ 327.113  RPT pe: events=267 mean=4.61 mode=5 max=6 | 0:7 1:9 2:5 3:4 4:8 5:234
+ 327.170  t=325s RTT mean=34698 min=31540 max=41460 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10730 tot_to=0 maxever=73300 >2ms=10730 >5ms=10730 >15ms=7050 >20ms=6835 >30ms=6811 | probes=10731 wrfail=0 down=0s maxout=0s
+ 329.097  t=326s RTT mean=35547 min=31538 max=54061 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10756 tot_to=0 maxever=73300 >2ms=10756 >5ms=10756 >15ms=7076 >20ms=6861 >30ms=6837 | probes=10757 wrfail=0 down=0s maxout=0s
+ 329.152  RPT pe: events=267 mean=4.61 mode=5 max=6 | 0:8 1:5 2:10 3:4 4:5 5:235
+ 329.153  t=327s RTT mean=36157 min=31540 max=45231 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10782 tot_to=0 maxever=73300 >2ms=10782 >5ms=10782 >15ms=7102 >20ms=6887 >30ms=6863 | probes=10783 wrfail=0 down=0s maxout=0s
+ 331.102  t=328s RTT mean=35910 min=31539 max=43753 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10807 tot_to=0 maxever=73300 >2ms=10807 >5ms=10807 >15ms=7127 >20ms=6912 >30ms=6888 | probes=10808 wrfail=0 down=0s maxout=0s
+ 331.162  RPT pe: events=266 mean=4.57 mode=5 max=6 | 0:5 1:1 2:21 3:6 4:8 5:225
+ 331.162  t=329s RTT mean=36412 min=31620 max=49411 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10833 tot_to=0 maxever=73300 >2ms=10833 >5ms=10833 >15ms=7153 >20ms=6938 >30ms=6914 | probes=10834 wrfail=0 down=0s maxout=0s
+ 333.130  t=330s RTT mean=35165 min=31537 max=44697 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10859 tot_to=0 maxever=73300 >2ms=10859 >5ms=10859 >15ms=7179 >20ms=6964 >30ms=6940 | probes=10860 wrfail=0 down=0s maxout=0s
+ 333.130  RPT pe: events=267 mean=4.71 mode=5 max=6 | 0:5 1:4 2:9 3:1 4:6 5:242
+ 333.130  t=331s RTT mean=35114 min=31540 max=47568 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10885 tot_to=0 maxever=73300 >2ms=10885 >5ms=10885 >15ms=7205 >20ms=6990 >30ms=6966 | probes=10886 wrfail=0 down=0s maxout=0s
+ 335.103  t=332s RTT mean=35040 min=31539 max=45146 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10911 tot_to=0 maxever=73300 >2ms=10911 >5ms=10911 >15ms=7231 >20ms=7016 >30ms=6992 | probes=10912 wrfail=0 down=0s maxout=0s
+ 335.159  RPT pe: events=266 mean=4.67 mode=5 max=6 | 0:9 2:3 3:13 4:7 5:234
+ 335.159  t=333s RTT mean=36140 min=31620 max=43303 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10937 tot_to=0 maxever=73300 >2ms=10937 >5ms=10937 >15ms=7257 >20ms=7042 >30ms=7018 | probes=10938 wrfail=0 down=0s maxout=0s
+ 337.110  t=334s RTT mean=35276 min=31540 max=49411 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10963 tot_to=0 maxever=73300 >2ms=10963 >5ms=10963 >15ms=7283 >20ms=7068 >30ms=7044 | probes=10964 wrfail=0 down=0s maxout=0s
+ 337.110  RPT pe: events=267 mean=4.73 mode=5 max=6 | 0:4 1:3 2:7 3:6 4:5 5:242
+ 337.171  t=335s RTT mean=35041 min=31538 max=45231 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=10989 tot_to=0 maxever=73300 >2ms=10989 >5ms=10989 >15ms=7309 >20ms=7094 >30ms=7070 | probes=10990 wrfail=0 down=0s maxout=0s
+ 339.133  t=336s RTT mean=34880 min=31540 max=48018 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11015 tot_to=0 maxever=73300 >2ms=11015 >5ms=11015 >15ms=7335 >20ms=7120 >30ms=7096 | probes=11016 wrfail=0 down=0s maxout=0s
+ 339.134  RPT pe: events=267 mean=4.71 mode=5 max=6 | 0:4 1:3 2:8 3:7 4:6 5:239
+ 339.134  t=337s RTT mean=36122 min=31540 max=43307 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11041 tot_to=0 maxever=73300 >2ms=11041 >5ms=11041 >15ms=7361 >20ms=7146 >30ms=7122 | probes=11042 wrfail=0 down=0s maxout=0s
+ 341.150  t=338s RTT mean=35005 min=31540 max=43300 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11067 tot_to=0 maxever=73300 >2ms=11067 >5ms=11067 >15ms=7387 >20ms=7172 >30ms=7148 | probes=11068 wrfail=0 down=0s maxout=0s
+ 341.150  RPT pe: events=266 mean=4.69 mode=5 max=6 | 0:6 1:7 2:3 3:3 4:8 5:239
+ 341.150  t=339s RTT mean=36866 min=31540 max=48018 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11092 tot_to=0 maxever=73300 >2ms=11092 >5ms=11092 >15ms=7412 >20ms=7197 >30ms=7173 | probes=11093 wrfail=0 down=0s maxout=0s
+ 343.152  t=340s RTT mean=34934 min=31537 max=41911 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11118 tot_to=0 maxever=73300 >2ms=11118 >5ms=11118 >15ms=7438 >20ms=7223 >30ms=7199 | probes=11119 wrfail=0 down=0s maxout=0s
+ 343.152  RPT pe: events=267 mean=4.69 mode=5 max=6 | 0:9 1:4 2:2 3:5 4:5 5:242
+ 343.152  t=341s RTT mean=36976 min=31538 max=50803 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11143 tot_to=0 maxever=73300 >2ms=11143 >5ms=11143 >15ms=7463 >20ms=7248 >30ms=7224 | probes=11144 wrfail=0 down=0s maxout=0s
+ 345.150  t=342s RTT mean=35745 min=31540 max=48017 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11169 tot_to=0 maxever=73300 >2ms=11169 >5ms=11169 >15ms=7489 >20ms=7274 >30ms=7250 | probes=11170 wrfail=0 down=0s maxout=0s
+ 345.150  RPT pe: events=267 mean=4.71 mode=5 max=6 | 0:5 1:3 2:4 3:10 4:7 5:238
+ 345.150  t=343s RTT mean=35509 min=31619 max=41461 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11195 tot_to=0 maxever=73300 >2ms=11195 >5ms=11195 >15ms=7515 >20ms=7300 >30ms=7276 | probes=11196 wrfail=0 down=0s maxout=0s
+ 347.138  t=344s RTT mean=34688 min=31540 max=47566 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11222 tot_to=0 maxever=73300 >2ms=11222 >5ms=11222 >15ms=7542 >20ms=7327 >30ms=7303 | probes=11223 wrfail=0 down=0s maxout=0s
+ 347.138  RPT pe: events=266 mean=4.83 mode=5 max=6 | 0:2 1:1 2:5 3:5 4:4 5:249
+ 347.138  t=345s RTT mean=33906 min=31537 max=40062 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11249 tot_to=0 maxever=73300 >2ms=11249 >5ms=11249 >15ms=7569 >20ms=7354 >30ms=7330 | probes=11250 wrfail=0 down=0s maxout=0s
+ 349.120  t=346s RTT mean=36022 min=31540 max=49405 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11274 tot_to=0 maxever=73300 >2ms=11274 >5ms=11274 >15ms=7594 >20ms=7379 >30ms=7355 | probes=11275 wrfail=0 down=0s maxout=0s
+ 349.120  RPT pe: events=267 mean=4.66 mode=5 max=6 | 0:9 1:3 2:5 3:5 4:7 5:238
+ 349.176  t=347s RTT mean=36321 min=31538 max=49410 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11300 tot_to=0 maxever=73300 >2ms=11300 >5ms=11300 >15ms=7620 >20ms=7405 >30ms=7381 | probes=11301 wrfail=0 down=0s maxout=0s
+ 351.133  t=348s RTT mean=34699 min=31540 max=47568 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11326 tot_to=0 maxever=73300 >2ms=11326 >5ms=11326 >15ms=7646 >20ms=7431 >30ms=7407 | probes=11327 wrfail=0 down=0s maxout=0s
+ 351.133  RPT pe: events=267 mean=4.71 mode=5 max=6 | 0:8 1:4 2:4 3:1 4:5 5:245
+ 351.133  t=349s RTT mean=36140 min=31539 max=48020 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11352 tot_to=0 maxever=73300 >2ms=11352 >5ms=11352 >15ms=7672 >20ms=7457 >30ms=7433 | probes=11352 wrfail=0 down=0s maxout=0s
+ 353.138  t=350s RTT mean=36455 min=31537 max=50803 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11377 tot_to=0 maxever=73300 >2ms=11377 >5ms=11377 >15ms=7697 >20ms=7482 >30ms=7458 | probes=11378 wrfail=0 down=0s maxout=0s
+ 353.138  RPT pe: events=267 mean=4.73 mode=5 max=6 | 0:11 1:1 2:2 3:2 4:3 5:248
+ 353.138  t=351s RTT mean=34681 min=31540 max=41911 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11403 tot_to=0 maxever=73300 >2ms=11403 >5ms=11403 >15ms=7723 >20ms=7508 >30ms=7484 | probes=11404 wrfail=0 down=0s maxout=0s
+ 355.123  t=352s RTT mean=36141 min=31532 max=45232 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11429 tot_to=0 maxever=73300 >2ms=11429 >5ms=11429 >15ms=7749 >20ms=7534 >30ms=7510 | probes=11430 wrfail=0 down=0s maxout=0s
+ 355.123  RPT pe: events=266 mean=4.73 mode=5 max=6 | 0:5 1:3 2:6 3:6 4:4 5:242
+ 355.183  t=353s RTT mean=34716 min=31538 max=43763 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11455 tot_to=0 maxever=73300 >2ms=11455 >5ms=11455 >15ms=7775 >20ms=7560 >30ms=7536 | probes=11456 wrfail=0 down=0s maxout=0s
+ 357.155  t=354s RTT mean=35436 min=31536 max=44717 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11481 tot_to=0 maxever=73300 >2ms=11481 >5ms=11481 >15ms=7801 >20ms=7586 >30ms=7562 | probes=11482 wrfail=0 down=0s maxout=0s
+ 357.155  RPT pe: events=267 mean=4.79 mode=5 max=6 | 0:6 1:2 2:3 3:2 4:4 5:250
+ 357.155  t=355s RTT mean=33577 min=31537 max=41911 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11508 tot_to=0 maxever=73300 >2ms=11508 >5ms=11508 >15ms=7828 >20ms=7613 >30ms=7589 | probes=11509 wrfail=0 down=0s maxout=0s
+ 359.130  t=356s RTT mean=35457 min=31538 max=50804 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11534 tot_to=0 maxever=73300 >2ms=11534 >5ms=11534 >15ms=7854 >20ms=7639 >30ms=7615 | probes=11535 wrfail=0 down=0s maxout=0s
+ 359.130  RPT pe: events=267 mean=4.77 mode=5 max=6 | 0:6 1:4 2:1 3:1 4:8 5:247
+ 359.187  t=357s RTT mean=34235 min=31540 max=44783 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11561 tot_to=0 maxever=73300 >2ms=11561 >5ms=11561 >15ms=7881 >20ms=7666 >30ms=7642 | probes=11562 wrfail=0 down=0s maxout=0s
+ 361.158  t=358s RTT mean=35691 min=31539 max=41913 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11587 tot_to=0 maxever=73300 >2ms=11587 >5ms=11587 >15ms=7907 >20ms=7692 >30ms=7668 | probes=11588 wrfail=0 down=0s maxout=0s
+ 361.158  RPT pe: events=266 mean=4.76 mode=5 max=6 | 0:4 1:2 2:6 3:6 4:5 5:243
+ 361.158  t=359s RTT mean=34461 min=31540 max=41460 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11614 tot_to=0 maxever=73300 >2ms=11614 >5ms=11614 >15ms=7934 >20ms=7719 >30ms=7695 | probes=11615 wrfail=0 down=0s maxout=0s
+ 363.120  t=360s RTT mean=35205 min=31540 max=43754 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11640 tot_to=0 maxever=73300 >2ms=11640 >5ms=11640 >15ms=7960 >20ms=7745 >30ms=7721 | probes=11641 wrfail=0 down=0s maxout=0s
+ 363.121  RPT pe: events=267 mean=4.69 mode=5 max=6 | 0:4 1:5 2:9 3:6 4:3 5:240
+ 363.121  PCTL target=180 tot=1559 to=0 p50=34 p90=41 p99=48 p99.9=50 max=54 g30=1559 g100=0 (ms/counts)
+ 363.121  LOADRAMP: target=190 KBps for 60s
+ 363.181  t=361s RTT mean=35452 min=31532 max=43299 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11666 tot_to=0 maxever=73300 >2ms=11666 >5ms=11666 >15ms=7986 >20ms=7771 >30ms=7747 | probes=11667 wrfail=0 down=0s maxout=0s
+ 365.119  t=362s RTT mean=36455 min=31541 max=44698 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11691 tot_to=0 maxever=73300 >2ms=11691 >5ms=11691 >15ms=8011 >20ms=7796 >30ms=7772 | probes=11692 wrfail=0 down=0s maxout=0s
+ 365.119  RPT pe: events=267 mean=4.64 mode=5 max=6 | 0:6 1:2 2:15 3:4 4:3 5:237
+ 365.175  t=363s RTT mean=34290 min=31540 max=48017 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11718 tot_to=0 maxever=73300 >2ms=11718 >5ms=11718 >15ms=8038 >20ms=7823 >30ms=7799 | probes=11719 wrfail=0 down=0s maxout=0s
+ 367.138  t=364s RTT mean=35742 min=31538 max=44697 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11744 tot_to=0 maxever=73300 >2ms=11744 >5ms=11744 >15ms=8064 >20ms=7849 >30ms=7825 | probes=11744 wrfail=0 down=0s maxout=0s
+ 367.139  RPT pe: events=266 mean=4.65 mode=5 max=6 | 0:8 1:4 2:9 3:2 4:4 5:239
+ 367.139  t=365s RTT mean=35609 min=31538 max=45231 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11769 tot_to=0 maxever=73300 >2ms=11769 >5ms=11769 >15ms=8089 >20ms=7874 >30ms=7850 | probes=11770 wrfail=0 down=0s maxout=0s
+ 369.115  t=366s RTT mean=34359 min=31540 max=44697 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11796 tot_to=0 maxever=73300 >2ms=11796 >5ms=11796 >15ms=8116 >20ms=7901 >30ms=7877 | probes=11797 wrfail=0 down=0s maxout=0s
+ 369.116  RPT pe: events=267 mean=4.66 mode=5 max=6 | 0:6 1:2 2:6 3:15 4:3 5:235
+ 369.176  t=367s RTT mean=36033 min=31537 max=42360 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11822 tot_to=0 maxever=73300 >2ms=11822 >5ms=11822 >15ms=8142 >20ms=7927 >30ms=7903 | probes=11823 wrfail=0 down=0s maxout=0s
+ 371.144  t=368s RTT mean=35910 min=31540 max=43304 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11847 tot_to=0 maxever=73300 >2ms=11847 >5ms=11847 >15ms=8167 >20ms=7952 >30ms=7928 | probes=11848 wrfail=0 down=0s maxout=0s
+ 371.144  RPT pe: events=267 mean=4.67 mode=5 max=6 | 0:3 1:5 2:4 3:18 4:4 5:233
+ 371.144  t=369s RTT mean=35724 min=31541 max=48012 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11873 tot_to=0 maxever=73300 >2ms=11873 >5ms=11873 >15ms=8193 >20ms=7978 >30ms=7954 | probes=11874 wrfail=0 down=0s maxout=0s
+ 373.141  t=370s RTT mean=35387 min=31540 max=49412 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11899 tot_to=0 maxever=73300 >2ms=11899 >5ms=11899 >15ms=8219 >20ms=8004 >30ms=7980 | probes=11900 wrfail=0 down=0s maxout=0s
+ 373.141  RPT pe: events=266 mean=4.74 mode=5 max=6 | 0:9 1:2 2:2 3:3 4:2 5:248
+ 373.141  t=371s RTT mean=34529 min=31536 max=42354 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11926 tot_to=0 maxever=73300 >2ms=11926 >5ms=11926 >15ms=8246 >20ms=8031 >30ms=8007 | probes=11927 wrfail=0 down=0s maxout=0s
+ 375.150  t=372s RTT mean=34012 min=31540 max=42358 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11953 tot_to=0 maxever=73300 >2ms=11953 >5ms=11953 >15ms=8273 >20ms=8058 >30ms=8034 | probes=11954 wrfail=0 down=0s maxout=0s
+ 375.150  RPT pe: events=267 mean=4.77 mode=5 max=6 | 0:5 1:2 2:3 3:4 4:10 5:243
+ 375.150  t=373s RTT mean=35627 min=31540 max=43304 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=11978 tot_to=0 maxever=73300 >2ms=11978 >5ms=11978 >15ms=8298 >20ms=8083 >30ms=8059 | probes=11979 wrfail=0 down=0s maxout=0s
+ 377.121  t=374s RTT mean=35617 min=31536 max=44688 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12004 tot_to=0 maxever=73300 >2ms=12004 >5ms=12004 >15ms=8324 >20ms=8109 >30ms=8085 | probes=12005 wrfail=0 down=0s maxout=0s
+ 377.121  RPT pe: events=267 mean=4.66 mode=5 max=6 | 0:10 1:2 2:5 3:5 4:6 5:239
+ 377.175  t=375s RTT mean=36087 min=31539 max=41909 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12030 tot_to=0 maxever=73300 >2ms=12030 >5ms=12030 >15ms=8350 >20ms=8135 >30ms=8111 | probes=12031 wrfail=0 down=0s maxout=0s
+ 379.113  t=376s RTT mean=36211 min=31557 max=43754 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12055 tot_to=0 maxever=73300 >2ms=12055 >5ms=12055 >15ms=8375 >20ms=8160 >30ms=8136 | probes=12056 wrfail=0 down=0s maxout=0s
+ 379.114  RPT pe: events=267 mean=4.73 mode=5 max=6 | 0:8 1:1 2:4 3:6 4:4 5:244
+ 379.174  t=377s RTT mean=35275 min=31540 max=43751 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12081 tot_to=0 maxever=73300 >2ms=12081 >5ms=12081 >15ms=8401 >20ms=8186 >30ms=8162 | probes=12082 wrfail=0 down=0s maxout=0s
+ 381.153  t=378s RTT mean=35329 min=31540 max=48962 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12107 tot_to=0 maxever=73300 >2ms=12107 >5ms=12107 >15ms=8427 >20ms=8212 >30ms=8188 | probes=12108 wrfail=0 down=0s maxout=0s
+ 381.154  RPT pe: events=266 mean=4.75 mode=5 max=6 | 0:5 1:2 2:7 3:5 4:1 5:246
+ 381.154  t=379s RTT mean=34636 min=31540 max=43306 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12134 tot_to=0 maxever=73300 >2ms=12134 >5ms=12134 >15ms=8454 >20ms=8239 >30ms=8215 | probes=12135 wrfail=0 down=0s maxout=0s
+ 383.125  t=380s RTT mean=34681 min=31539 max=41911 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12160 tot_to=0 maxever=73300 >2ms=12160 >5ms=12160 >15ms=8480 >20ms=8265 >30ms=8241 | probes=12161 wrfail=0 down=0s maxout=0s
+ 383.125  RPT pe: events=267 mean=4.84 mode=5 max=6 | 0:2 1:3 2:2 3:5 4:4 5:251
+ 383.185  t=381s RTT mean=34859 min=31539 max=49410 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12187 tot_to=0 maxever=73300 >2ms=12187 >5ms=12187 >15ms=8507 >20ms=8292 >30ms=8268 | probes=12188 wrfail=0 down=0s maxout=0s
+ 385.125  t=382s RTT mean=35222 min=31540 max=43301 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12213 tot_to=0 maxever=73300 >2ms=12213 >5ms=12213 >15ms=8533 >20ms=8318 >30ms=8294 | probes=12214 wrfail=0 down=0s maxout=0s
+ 385.126  RPT pe: events=267 mean=4.74 mode=5 max=6 | 0:6 1:1 2:8 3:4 4:2 5:246
+ 385.177  t=383s RTT mean=35275 min=31540 max=49411 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12239 tot_to=0 maxever=73300 >2ms=12239 >5ms=12239 >15ms=8559 >20ms=8344 >30ms=8320 | probes=12240 wrfail=0 down=0s maxout=0s
+ 387.128  t=384s RTT mean=36455 min=31540 max=48965 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12264 tot_to=0 maxever=73300 >2ms=12264 >5ms=12264 >15ms=8584 >20ms=8369 >30ms=8345 | probes=12265 wrfail=0 down=0s maxout=0s
+ 387.128  RPT pe: events=266 mean=4.73 mode=5 max=6 | 0:8 1:3 2:1 3:6 4:4 5:244
+ 387.184  t=385s RTT mean=35275 min=31541 max=44697 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12290 tot_to=0 maxever=73300 >2ms=12290 >5ms=12290 >15ms=8610 >20ms=8395 >30ms=8371 | probes=12291 wrfail=0 down=0s maxout=0s
+ 389.121  t=386s RTT mean=35222 min=31537 max=41462 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12316 tot_to=0 maxever=73300 >2ms=12316 >5ms=12316 >15ms=8636 >20ms=8421 >30ms=8397 | probes=12317 wrfail=0 down=0s maxout=0s
+ 389.121  RPT pe: events=267 mean=4.76 mode=5 max=6 | 0:6 1:2 2:2 3:9 4:2 5:246
+ 389.177  t=387s RTT mean=35436 min=31540 max=43302 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12342 tot_to=0 maxever=73300 >2ms=12342 >5ms=12342 >15ms=8662 >20ms=8447 >30ms=8423 | probes=12343 wrfail=0 down=0s maxout=0s
+ 391.129  t=388s RTT mean=35980 min=31540 max=49856 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12368 tot_to=0 maxever=73300 >2ms=12368 >5ms=12368 >15ms=8688 >20ms=8473 >30ms=8449 | probes=12369 wrfail=0 down=0s maxout=0s
+ 391.129  RPT pe: events=267 mean=4.70 mode=5 max=6 | 0:11 1:1 2:5 3:2 4:1 5:247
+ 391.187  t=389s RTT mean=35835 min=31538 max=49410 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12394 tot_to=0 maxever=73300 >2ms=12394 >5ms=12394 >15ms=8714 >20ms=8499 >30ms=8475 | probes=12395 wrfail=0 down=0s maxout=0s
+ 393.128  t=390s RTT mean=34410 min=31541 max=42361 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12420 tot_to=0 maxever=73300 >2ms=12420 >5ms=12420 >15ms=8740 >20ms=8525 >30ms=8501 | probes=12421 wrfail=0 down=0s maxout=0s
+ 393.128  RPT pe: events=266 mean=4.76 mode=5 max=6 | 0:7 1:4 2:2 3:3 5:250
+ 393.188  t=391s RTT mean=35580 min=31536 max=41914 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12446 tot_to=0 maxever=73300 >2ms=12446 >5ms=12446 >15ms=8766 >20ms=8551 >30ms=8527 | probes=12447 wrfail=0 down=0s maxout=0s
+ 395.117  t=392s RTT mean=34461 min=31540 max=41911 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12473 tot_to=0 maxever=73300 >2ms=12473 >5ms=12473 >15ms=8793 >20ms=8578 >30ms=8554 | probes=12474 wrfail=0 down=0s maxout=0s
+ 395.117  RPT pe: events=267 mean=4.79 mode=5 max=6 | 0:5 1:2 2:5 3:2 4:4 5:249
+ 395.175  t=393s RTT mean=35671 min=31540 max=59777 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12499 tot_to=0 maxever=73300 >2ms=12499 >5ms=12499 >15ms=8819 >20ms=8604 >30ms=8580 | probes=12500 wrfail=0 down=0s maxout=0s
+ 397.130  t=394s RTT mean=35743 min=31540 max=52196 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12524 tot_to=0 maxever=73300 >2ms=12524 >5ms=12524 >15ms=8844 >20ms=8629 >30ms=8605 | probes=12525 wrfail=0 down=0s maxout=0s
+ 397.130  RPT pe: events=267 mean=4.75 mode=5 max=6 | 0:7 1:2 2:3 3:6 4:2 5:247
+ 397.189  t=395s RTT mean=35328 min=31619 max=43304 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12550 tot_to=0 maxever=73300 >2ms=12550 >5ms=12550 >15ms=8870 >20ms=8655 >30ms=8631 | probes=12551 wrfail=0 down=0s maxout=0s
+ 399.167  t=396s RTT mean=36358 min=31538 max=42359 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12576 tot_to=0 maxever=73300 >2ms=12576 >5ms=12576 >15ms=8896 >20ms=8681 >30ms=8657 | probes=12577 wrfail=0 down=0s maxout=0s
+ 399.167  RPT pe: events=267 mean=4.70 mode=5 max=6 | 0:10 1:1 2:3 3:6 4:5 5:242
+ 399.167  t=397s RTT mean=35384 min=31540 max=43751 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12601 tot_to=0 maxever=73300 >2ms=12601 >5ms=12601 >15ms=8921 >20ms=8706 >30ms=8682 | probes=12602 wrfail=0 down=0s maxout=0s
+ 401.144  t=398s RTT mean=38555 min=31619 max=61171 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12626 tot_to=0 maxever=73300 >2ms=12626 >5ms=12626 >15ms=8946 >20ms=8731 >30ms=8707 | probes=12627 wrfail=0 down=0s maxout=0s
+ 401.144  RPT pe: events=266 mean=4.59 mode=5 max=6 | 0:9 1:7 2:9 3:3 4:3 5:235
+ 401.145  t=399s RTT mean=35777 min=31539 max=43754 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12651 tot_to=0 maxever=73300 >2ms=12651 >5ms=12651 >15ms=8971 >20ms=8756 >30ms=8732 | probes=12652 wrfail=0 down=0s maxout=0s
+ 403.117  t=400s RTT mean=36429 min=31537 max=58754 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12677 tot_to=0 maxever=73300 >2ms=12677 >5ms=12677 >15ms=8997 >20ms=8782 >30ms=8758 | probes=12678 wrfail=0 down=0s maxout=0s
+ 403.117  RPT pe: events=267 mean=4.68 mode=5 max=6 | 0:8 1:5 2:5 3:2 4:4 5:243
+ 403.175  t=401s RTT mean=35114 min=31541 max=49410 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12703 tot_to=0 maxever=73300 >2ms=12703 >5ms=12703 >15ms=9023 >20ms=8808 >30ms=8784 | probes=12704 wrfail=0 down=0s maxout=0s
+ 405.148  t=402s RTT mean=35725 min=31537 max=48960 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12729 tot_to=0 maxever=73300 >2ms=12729 >5ms=12729 >15ms=9049 >20ms=8834 >30ms=8810 | probes=12730 wrfail=0 down=0s maxout=0s
+ 405.148  RPT pe: events=267 mean=4.58 mode=5 max=6 | 0:13 1:3 2:8 3:3 4:5 5:235
+ 405.148  t=403s RTT mean=37361 min=31540 max=48962 n=24 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12753 tot_to=0 maxever=73300 >2ms=12753 >5ms=12753 >15ms=9073 >20ms=8858 >30ms=8834 | probes=12754 wrfail=0 down=0s maxout=0s
+ 407.146  t=404s RTT mean=35671 min=31541 max=42358 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12779 tot_to=0 maxever=73300 >2ms=12779 >5ms=12779 >15ms=9099 >20ms=8884 >30ms=8860 | probes=12780 wrfail=0 down=0s maxout=0s
+ 407.146  RPT pe: events=266 mean=4.68 mode=5 max=6 | 0:8 1:1 2:1 3:16 4:5 5:235
+ 407.146  t=405s RTT mean=35328 min=31540 max=51254 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12805 tot_to=0 maxever=73300 >2ms=12805 >5ms=12805 >15ms=9125 >20ms=8910 >30ms=8886 | probes=12806 wrfail=0 down=0s maxout=0s
+ 409.133  t=406s RTT mean=35692 min=31619 max=43303 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12831 tot_to=0 maxever=73300 >2ms=12831 >5ms=12831 >15ms=9151 >20ms=8936 >30ms=8912 | probes=12832 wrfail=0 down=0s maxout=0s
+ 409.133  RPT pe: events=268 mean=4.66 mode=5 max=6 | 0:6 1:5 2:3 3:14 4:2 5:238
+ 409.193  t=407s RTT mean=35041 min=31540 max=44697 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12857 tot_to=0 maxever=73300 >2ms=12857 >5ms=12857 >15ms=9177 >20ms=8962 >30ms=8938 | probes=12858 wrfail=0 down=0s maxout=0s
+ 411.138  t=408s RTT mean=34513 min=31537 max=44693 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12884 tot_to=0 maxever=73300 >2ms=12884 >5ms=12884 >15ms=9204 >20ms=8989 >30ms=8965 | probes=12885 wrfail=0 down=0s maxout=0s
+ 411.138  RPT pe: events=266 mean=4.67 mode=5 max=6 | 0:7 1:4 2:5 3:7 4:6 5:237
+ 411.194  t=409s RTT mean=36098 min=31540 max=43304 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12909 tot_to=0 maxever=73300 >2ms=12909 >5ms=12909 >15ms=9229 >20ms=9014 >30ms=8990 | probes=12910 wrfail=0 down=0s maxout=0s
+ 413.160  t=410s RTT mean=35244 min=31540 max=47568 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12936 tot_to=0 maxever=73300 >2ms=12936 >5ms=12936 >15ms=9256 >20ms=9041 >30ms=9017 | probes=12936 wrfail=0 down=0s maxout=0s
+ 413.160  RPT pe: events=266 mean=4.65 mode=5 max=6 | 0:6 1:3 2:5 3:7 4:22 5:223
+ 413.160  t=411s RTT mean=35222 min=31539 max=41910 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12962 tot_to=0 maxever=73300 >2ms=12962 >5ms=12962 >15ms=9282 >20ms=9067 >30ms=9043 | probes=12963 wrfail=0 down=0s maxout=0s
+ 415.112  t=412s RTT mean=34970 min=31540 max=42378 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=12988 tot_to=0 maxever=73300 >2ms=12988 >5ms=12988 >15ms=9308 >20ms=9093 >30ms=9069 | probes=12989 wrfail=0 down=0s maxout=0s
+ 415.113  RPT pe: events=267 mean=4.71 mode=5 max=6 | 0:6 1:4 2:4 3:4 4:10 5:238 6:1
+ 416.160  t=413s RTT mean=35453 min=31533 max=49415 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13014 tot_to=0 maxever=73300 >2ms=13014 >5ms=13014 >15ms=9334 >20ms=9119 >30ms=9095 | probes=13015 wrfail=0 down=0s maxout=0s
+ 416.160  t=414s RTT mean=35276 min=31538 max=46090 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13040 tot_to=0 maxever=73300 >2ms=13040 >5ms=13040 >15ms=9360 >20ms=9145 >30ms=9121 | probes=13041 wrfail=0 down=0s maxout=0s
+ 417.103  RPT pe: events=267 mean=4.74 mode=5 max=6 | 0:6 1:4 2:4 3:2 4:6 5:244 6:1
+ 417.164  t=415s RTT mean=35798 min=31540 max=46619 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13066 tot_to=0 maxever=73300 >2ms=13066 >5ms=13066 >15ms=9386 >20ms=9171 >30ms=9147 | probes=13067 wrfail=0 down=0s maxout=0s
+ 419.123  t=416s RTT mean=36081 min=31540 max=49413 n=25 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13091 tot_to=0 maxever=73300 >2ms=13091 >5ms=13091 >15ms=9411 >20ms=9196 >30ms=9172 | probes=13092 wrfail=0 down=0s maxout=0s
+ 419.123  RPT pe: events=266 mean=4.68 mode=5 max=6 | 0:8 1:7 2:3 3:1 4:4 5:243
+ 419.178  t=417s RTT mean=34755 min=31540 max=45145 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13118 tot_to=0 maxever=73300 >2ms=13118 >5ms=13118 >15ms=9438 >20ms=9223 >30ms=9199 | probes=13119 wrfail=0 down=0s maxout=0s
+ 421.140  t=418s RTT mean=35204 min=31541 max=49410 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13144 tot_to=0 maxever=73300 >2ms=13144 >5ms=13144 >15ms=9464 >20ms=9249 >30ms=9225 | probes=13145 wrfail=0 down=0s maxout=0s
+ 421.140  RPT pe: events=267 mean=4.79 mode=5 max=6 | 0:5 1:3 2:4 4:5 5:250
+ 421.196  t=419s RTT mean=34200 min=31540 max=43300 n=27 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13171 tot_to=0 maxever=73300 >2ms=13171 >5ms=13171 >15ms=9491 >20ms=9276 >30ms=9252 | probes=13171 wrfail=0 down=0s maxout=0s
+ 423.134  t=420s RTT mean=34628 min=31540 max=41911 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13197 tot_to=0 maxever=73300 >2ms=13197 >5ms=13197 >15ms=9517 >20ms=9302 >30ms=9278 | probes=13198 wrfail=0 down=0s maxout=0s
+ 423.134  RPT pe: events=267 mean=4.73 mode=5 max=6 | 0:5 1:4 2:5 3:2 4:11 5:240
+ 423.195  t=421s RTT mean=35563 min=31540 max=46169 n=26 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13223 tot_to=0 maxever=73300 >2ms=13223 >5ms=13223 >15ms=9543 >20ms=9328 >30ms=9304 | probes=13224 wrfail=0 down=0s maxout=0s
+ 423.195  PCTL target=190 tot=1558 to=0 p50=34 p90=41 p99=48 p99.9=58 max=61 g30=1558 g100=0 (ms/counts)
+ 423.195  LOADRAMP: cycle complete
+ 423.195  LOADRAMP: target=0 KBps for 60s
+ 425.132  t=422s RTT mean=13106 min=11469 max=34859 n=62 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13285 tot_to=0 maxever=73300 >2ms=13285 >5ms=13285 >15ms=9549 >20ms=9330 >30ms=9306 | probes=13286 wrfail=0 down=0s maxout=0s
+ 425.132  RPT pe: events=267 mean=1.14 mode=1 max=6 | 0:8 1:245 2:3 5:11
+ 425.192  t=423s RTT mean=12255 min=11911 max=19422 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13351 tot_to=0 maxever=73300 >2ms=13351 >5ms=13351 >15ms=9552 >20ms=9330 >30ms=9306 | probes=13351 wrfail=0 down=0s maxout=0s
+ 427.143  t=424s RTT mean=12028 min=11467 max=19414 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13417 tot_to=0 maxever=73300 >2ms=13417 >5ms=13417 >15ms=9553 >20ms=9330 >30ms=9306 | probes=13418 wrfail=0 down=0s maxout=0s
+ 427.144  RPT pe: events=267 mean=0.98 mode=1 max=6 | 0:4 1:262 2:1
+ 427.144  t=425s RTT mean=12383 min=11908 max=19422 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13481 tot_to=0 maxever=73300 >2ms=13481 >5ms=13481 >15ms=9557 >20ms=9330 >30ms=9306 | probes=13482 wrfail=0 down=0s maxout=0s
+ 429.153  t=426s RTT mean=12255 min=11909 max=19414 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13547 tot_to=0 maxever=73300 >2ms=13547 >5ms=13547 >15ms=9560 >20ms=9330 >30ms=9306 | probes=13547 wrfail=0 down=0s maxout=0s
+ 429.153  RPT pe: events=267 mean=0.97 mode=1 max=6 | 0:8 1:257 2:2
+ 429.153  t=427s RTT mean=12500 min=11464 max=19861 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13611 tot_to=0 maxever=73300 >2ms=13611 >5ms=13611 >15ms=9565 >20ms=9330 >30ms=9306 | probes=13612 wrfail=0 down=0s maxout=0s
+ 431.137  t=428s RTT mean=12383 min=11904 max=19415 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13675 tot_to=0 maxever=73300 >2ms=13675 >5ms=13675 >15ms=9569 >20ms=9330 >30ms=9306 | probes=13676 wrfail=0 down=0s maxout=0s
+ 431.138  RPT pe: events=266 mean=0.98 mode=1 max=6 | 0:7 1:257 2:2
+ 431.138  t=429s RTT mean=12026 min=11466 max=19414 n=67 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13742 tot_to=0 maxever=73300 >2ms=13742 >5ms=13742 >15ms=9570 >20ms=9330 >30ms=9306 | probes=13742 wrfail=0 down=0s maxout=0s
+ 433.146  t=430s RTT mean=11914 min=11469 max=12359 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13808 tot_to=0 maxever=73300 >2ms=13808 >5ms=13808 >15ms=9570 >20ms=9330 >30ms=9306 | probes=13809 wrfail=0 down=0s maxout=0s
+ 433.147  RPT pe: events=267 mean=0.98 mode=1 max=6 | 0:5 1:261 2:1
+ 433.147  t=431s RTT mean=12376 min=11911 max=19420 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13873 tot_to=0 maxever=73300 >2ms=13873 >5ms=13873 >15ms=9574 >20ms=9330 >30ms=9306 | probes=13874 wrfail=0 down=0s maxout=0s
+ 435.169  t=432s RTT mean=13003 min=11466 max=27359 n=62 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13935 tot_to=0 maxever=73300 >2ms=13935 >5ms=13935 >15ms=9581 >20ms=9332 >30ms=9306 | probes=13936 wrfail=0 down=0s maxout=0s
+ 435.169  RPT pe: events=267 mean=0.95 mode=1 max=6 | 0:15 1:249 2:3
+ 435.169  t=433s RTT mean=12628 min=11910 max=19422 n=63 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=13998 tot_to=0 maxever=73300 >2ms=13998 >5ms=13998 >15ms=9587 >20ms=9332 >30ms=9306 | probes=13999 wrfail=0 down=0s maxout=0s
+ 437.129  t=434s RTT mean=12142 min=11467 max=19410 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14064 tot_to=0 maxever=73300 >2ms=14064 >5ms=14064 >15ms=9589 >20ms=9332 >30ms=9306 | probes=14065 wrfail=0 down=0s maxout=0s
+ 437.129  RPT pe: events=267 mean=1.02 mode=1 max=6 | 0:4 1:253 2:10
+ 437.189  t=435s RTT mean=12026 min=11468 max=19422 n=67 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14131 tot_to=0 maxever=73300 >2ms=14131 >5ms=14131 >15ms=9590 >20ms=9332 >30ms=9306 | probes=14131 wrfail=0 down=0s maxout=0s
+ 439.145  t=436s RTT mean=12260 min=11911 max=19413 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14196 tot_to=0 maxever=73300 >2ms=14196 >5ms=14196 >15ms=9593 >20ms=9332 >30ms=9306 | probes=14197 wrfail=0 down=0s maxout=0s
+ 439.145  RPT pe: events=266 mean=0.98 mode=1 max=6 | 0:3 1:263
+ 439.145  t=437s RTT mean=11914 min=11911 max=11923 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14262 tot_to=0 maxever=73300 >2ms=14262 >5ms=14262 >15ms=9593 >20ms=9332 >30ms=9306 | probes=14263 wrfail=0 down=0s maxout=0s
+ 441.133  t=438s RTT mean=12376 min=11469 max=19413 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14327 tot_to=0 maxever=73300 >2ms=14327 >5ms=14327 >15ms=9597 >20ms=9332 >30ms=9306 | probes=14328 wrfail=0 down=0s maxout=0s
+ 441.133  RPT pe: events=267 mean=0.98 mode=1 max=6 | 0:6 1:259 2:2
+ 441.184  t=439s RTT mean=12141 min=11469 max=19413 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14393 tot_to=0 maxever=73300 >2ms=14393 >5ms=14393 >15ms=9599 >20ms=9332 >30ms=9306 | probes=14394 wrfail=0 down=0s maxout=0s
+ 443.153  t=440s RTT mean=12028 min=11467 max=19414 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14459 tot_to=0 maxever=73300 >2ms=14459 >5ms=14459 >15ms=9600 >20ms=9332 >30ms=9306 | probes=14460 wrfail=0 down=0s maxout=0s
+ 443.153  RPT pe: events=267 mean=1.02 mode=1 max=6 | 0:6 1:248 2:13
+ 443.153  t=441s RTT mean=12028 min=11465 max=19414 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14525 tot_to=0 maxever=73300 >2ms=14525 >5ms=14525 >15ms=9601 >20ms=9332 >30ms=9306 | probes=14526 wrfail=0 down=0s maxout=0s
+ 445.165  t=442s RTT mean=12376 min=11469 max=19859 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14590 tot_to=0 maxever=73300 >2ms=14590 >5ms=14590 >15ms=9605 >20ms=9332 >30ms=9306 | probes=14591 wrfail=0 down=0s maxout=0s
+ 445.165  RPT pe: events=266 mean=0.97 mode=1 max=6 | 0:8 1:256 2:2
+ 445.165  t=443s RTT mean=12500 min=11911 max=19423 n=64 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14654 tot_to=0 maxever=73300 >2ms=14654 >5ms=14654 >15ms=9610 >20ms=9332 >30ms=9306 | probes=14655 wrfail=0 down=0s maxout=0s
+ 447.148  t=444s RTT mean=12261 min=11908 max=19415 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14719 tot_to=0 maxever=73300 >2ms=14719 >5ms=14719 >15ms=9613 >20ms=9332 >30ms=9306 | probes=14720 wrfail=0 down=0s maxout=0s
+ 447.148  RPT pe: events=267 mean=0.97 mode=1 max=6 | 0:7 1:259 2:1
+ 447.148  t=445s RTT mean=12260 min=11469 max=19414 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14784 tot_to=0 maxever=73300 >2ms=14784 >5ms=14784 >15ms=9616 >20ms=9332 >30ms=9306 | probes=14785 wrfail=0 down=0s maxout=0s
+ 449.116  t=446s RTT mean=12142 min=11469 max=19414 n=66 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14850 tot_to=0 maxever=73300 >2ms=14850 >5ms=14850 >15ms=9618 >20ms=9332 >30ms=9306 | probes=14851 wrfail=0 down=0s maxout=0s
+ 449.170  RPT pe: events=267 mean=0.98 mode=1 max=6 | 0:7 1:258 2:2
+ 449.170  t=447s RTT mean=12382 min=11911 max=19422 n=65 to=0 | cancels=0(+0/s) seqbad=0 len_bad=0 disc=0(0x00) | tot_n=14915 tot_to=0 maxever=73300 >2ms=14915 >5ms=14915 >15ms=9622 >20ms=9332 >30ms=9306 | probes=14916 wrfail=0 down=0s maxout=0s

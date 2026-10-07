@@ -1,0 +1,132 @@
+{
+  "status": "ABBA-CONFIRMED",
+  "contract": {
+    "arm_seq": [
+      "f150",
+      "f100",
+      "f100",
+      "f150"
+    ],
+    "expect_step": 800,
+    "tol_ticks": 4,
+    "estimator": "((A1-B1)+(A2-B2))/2"
+  },
+  "lineage": {
+    "source_commit": "eb1fa4a8fe74fee833933af2049b82ee56d38940",
+    "analyze_q2": "872e5192982e55c44dd322807a2e0fb34a25298bb52b97dea185afc405920099",
+    "analyze_q3": "31ae7c687785a62be3ff29c3f0a2b5db29ce8660cd00416ed8522cde9d763b3c",
+    "combine_abba": "5cd88e47a86fcc9638aca50bba0bfa7bc536b2d0d42098aa04cd1fe537c564bc",
+    "protocol": "da2ef5d19a3236ef02fe636ea0f768e10c10667805c9eb3d4e3c7cf617c8bdbf",
+    "contract": {
+      "step_tol": 4,
+      "expect_step": 800,
+      "dur_tol_ms": 1500,
+      "guard_ticks": 160000,
+      "min_plateau": 30,
+      "baseline_tol_ticks": 2,
+      "retention_min": 0.95,
+      "xval_tol_us": 8,
+      "null_thr_ticks": 64,
+      "host_jitter_ms": 50,
+      "boundary_slop_ms": 1000,
+      "changepoint": "max-abs-mean-split",
+      "reg_min": 100,
+      "reg_max": 150,
+      "reg_phys": 1,
+      "reg_types": 3,
+      "expect_pre_us": 150,
+      "expect_post_us": 100,
+      "plateau_iqr_max": 16,
+      "plateau_drift_max": 5,
+      "plateau_blocks": 4,
+      "plateau_block_max": 5,
+      "plateau_conc_eps": 10,
+      "plateau_conc_frac": 0.95,
+      "phase_retention_min": 0.95,
+      "steady_tol_ticks": 4,
+      "steady_settle_min_ms": 2000,
+      "abba_arm_seq": [
+        "f150",
+        "f100",
+        "f100",
+        "f150"
+      ],
+      "abba_expect_step": 800,
+      "abba_tol_ticks": 4
+    }
+  },
+  "inputs": [
+    {
+      "dir": "b2-abba-0-f150",
+      "arm": "f150",
+      "abba_seq": 0,
+      "median": 3047,
+      "onchip_med": 140,
+      "AA": "0xd4946076",
+      "manifest_sha256": "a8c5de365dba54aaf8af964c1121703ec77ec1e90c5a1ba31fcb4a3f78ae8011",
+      "source_commit": "eb1fa4a8fe74fee833933af2049b82ee56d38940",
+      "sha256": {
+        "obs": "06587b28d3824102989cb25c34b5ffb9deba34bce457b5c401faa41b5dacb6e7",
+        "central": "f4ecc564b596d61603236f441c70595e667cc124e482831b4b2748b9c595d001",
+        "periph": "e6f7319bab72eb85c43001e2f62d0c9ccccde1ddaad7a4ab3dbfbec970dff130"
+      }
+    },
+    {
+      "dir": "b2-abba-1-f100",
+      "arm": "f100",
+      "abba_seq": 1,
+      "median": 2249,
+      "onchip_med": 90,
+      "AA": "0x7219f851",
+      "manifest_sha256": "bcb232a51ffe41b6907a97a5a0a450467e498fdd889479fec000d269a0089504",
+      "source_commit": "eb1fa4a8fe74fee833933af2049b82ee56d38940",
+      "sha256": {
+        "obs": "0e8685b46c38f2d4d69c09afc8e71c667b5d45cc11d8338323389771f48b9a6e",
+        "central": "8845ec85b6b99a0966f288b36910fc44004e2f9ab37ddfa1c7303f34d4700a65",
+        "periph": "5830c6a34535caf4b7158d7e065a97eabd49787cd87348e6a305f1554c165583"
+      }
+    },
+    {
+      "dir": "b2-abba-2-f100",
+      "arm": "f100",
+      "abba_seq": 2,
+      "median": 2249,
+      "onchip_med": 90,
+      "AA": "0x6f41e650",
+      "manifest_sha256": "eacccf3d35822aae111a1c428c8b0e239ba75e56b21b20fbc4f8d46c163b6545",
+      "source_commit": "eb1fa4a8fe74fee833933af2049b82ee56d38940",
+      "sha256": {
+        "obs": "74ca4c99fcbc122bd752974f96b1b075dbfdc40d66885c74e7225eb293209ee1",
+        "central": "a86595b799c58840eff86baabb2508532ebc3dbef41220370210402d0b2aecac",
+        "periph": "1efad5efdf8e7f508acf5602dd1dc721031bd7a176a84865c091342fb181a13a"
+      }
+    },
+    {
+      "dir": "b2-abba-3-f150",
+      "arm": "f150",
+      "abba_seq": 3,
+      "median": 3049,
+      "onchip_med": 140,
+      "AA": "0x25353793",
+      "manifest_sha256": "014a352cf2928919c0af2a5fc33d2828d1bcf8817265a9a499f1b6b2286d7ade",
+      "source_commit": "eb1fa4a8fe74fee833933af2049b82ee56d38940",
+      "sha256": {
+        "obs": "150a6c82768d62321264f0901de5929cc651e4072a48250ba83e20e869782d22",
+        "central": "ba5f84433fec70d08612f23eb4052ddf2df49db287ca3dfd13bee8c28521f1af",
+        "periph": "a97bbbab02503d26354bfe0f39122720a709715a1921ace62fdf28a9f5053a57"
+      }
+    }
+  ],
+  "medians": [
+    3047,
+    2249,
+    2249,
+    3049
+  ],
+  "step_A1_B1": 798,
+  "step_A2_B2": 800,
+  "estimate_ticks": 799.0,
+  "drift_half_ticks": -1.0,
+  "deviation_ticks": 1.0,
+  "estimate_tifs_step_us": 49.9375
+}

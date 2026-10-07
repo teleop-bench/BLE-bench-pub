@@ -1,0 +1,60 @@
+    0.58 *** Booting Zephyr OS build v4.4.1-14-g9999e0404460 ***
+    0.58 [00:00:00.002,876] [0m<inf> bt_hci_core: HW Platform: Nordic Semiconductor (0x0002)[0m
+    0.59 [00:00:00.002,889] [0m<inf> bt_hci_core: HW Variant: nRF54Lx (0x0005)[0m
+    0.60 [00:00:00.002,900] [0m<inf> bt_hci_core: Firmware: Standard Bluetooth controller (0x00) Version 4.4 Build 1[0m
+    0.61 [00:00:00.003,230] [0m<inf> bt_hci_core: HCI transport: Controller[0m
+    0.61 [00:00:00.003,277] [0m<inf> bt_hci_core: Identity: FC:BE:FF:FA:E6:8B (random)[0m
+    0.62 [00:00:00.003,294] [0m<inf> bt_hci_core: HCI: version 5.4 (0x0d) revision 0x0000, manufacturer 0x05f1[0m
+    0.63 [00:00:00.003,308] [0m<inf> bt_hci_core: LMP: version 5.4 (0x0d) subver 0xffff[0m
+    0.63 
+    0.64 === nRF54L15 L2CAP CoC UPLINK BLASTER (Zephyr 4.4.1; #46073-motivated) run=3311 boot_tag=0x00000833 ===
+    0.64 L2CAP server on PSM 0x0080
+    0.65 Advertising as 'zenoh-nrf-l2cap' run=3311
+    2.10 GAP connected: interval=6 peer=D6:C7:60:B1:D3:0E (random) run=3311 sess=1 aa=0xddac7ce8
+    2.10 peripheral DLE req rc=0
+    2.10 DLE updated: tx_max=251 rx_max=27 run=3311
+    2.11 [00:00:00.836,185] [1;33m<wrn> bt_l2cap: Segmentation disabled but MTU > MPS, truncating MTU[0m
+    2.12 CoC up: tx.mtu=512 tx.mps=247 run=3311 sess=1 aa=0xddac7ce8 (unpaced blaster armed)
+    2.13 uplink blasting 244-byte SDUs... run=3311 aa=0xddac7ce8
+    2.13 PHY updated: tx=2 rx=2 run=3311
+    2.14 DLE updated: tx_max=251 rx_max=251 run=3311
+    2.15 UPLINK tx: 26 KiB/s (win_bytes=27328 total=27328) sub=112 cmp=101 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0xddac7ce8
+    3.32 UPLINK tx: 117 KiB/s (win_bytes=120048 total=147376) sub=604 cmp=593 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0xddac7ce8
+    3.33 UPLINK tx: 113 KiB/s (win_bytes=116144 total=263520) sub=1080 cmp=1069 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0xddac7ce8
+    5.32 UPLINK tx: 122 KiB/s (win_bytes=124928 total=388448) sub=1592 cmp=1581 out=11 fail=0 poolwait=0 rel=0 | run=3311 sess=1 aa=0xddac7ce8
+    5.33 UPLINK tx: 28 KiB/s (win_bytes=29036 total=417484) sub=1711 cmp=1700 out=11 fail=0 poolwait=14 rel=0 | run=3311 sess=1 aa=0xddac7ce8
+    7.32 UPLINK tx: 0 KiB/s (win_bytes=0 total=417484) sub=1711 cmp=1700 out=11 fail=0 poolwait=34 rel=0 | run=3311 sess=1 aa=0xddac7ce8
+    7.33 UPLINK tx: 0 KiB/s (win_bytes=0 total=417484) sub=1711 cmp=1700 out=11 fail=0 poolwait=54 rel=0 | run=3311 sess=1 aa=0xddac7ce8
+    8.65 UPLINK tx: 0 KiB/s (win_bytes=0 total=417484) sub=1711 cmp=1700 out=11 fail=0 poolwait=74 rel=0 | run=3311 sess=1 aa=0xddac7ce8
+    8.66 CoC down: submitted=1711 completed=1700 outstanding=11 send_failed=0 pool_wait=79 released=0 | run=3311 sess=1 aa=0xddac7ce8
+    8.66 CoC released: run=3311 sess=1 aa=0xddac7ce8 (total released=1)
+    8.67 GAP disconnected (0x08) run=3311 aa=0xddac7ce8
+    8.67 Advertising as 'zenoh-nrf-l2cap' run=3311
+    8.68 GAP connected: interval=6 peer=D6:C7:60:B1:D3:0E (random) run=3311 sess=2 aa=0xca8cca05
+    8.68 peripheral DLE req rc=0
+    8.68 DLE updated: tx_max=251 rx_max=27 run=3311
+    8.69 [00:00:08.350,008] [1;33m<wrn> bt_l2cap: Segmentation disabled but MTU > MPS, truncating MTU[0m
+    8.70 CoC up: tx.mtu=512 tx.mps=247 run=3311 sess=2 aa=0xca8cca05 (unpaced blaster armed)
+    8.70 uplink blasting 244-byte SDUs... run=3311 aa=0xca8cca05
+    8.71 PHY updated: tx=2 rx=2 run=3311
+    8.71 DLE updated: tx_max=251 rx_max=251 run=3311
+   10.32 UPLINK tx: 1 KiB/s (win_bytes=1952 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=13 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   10.33 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=33 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   12.32 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=53 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   12.33 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=73 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   14.32 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=93 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   14.33 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=113 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   16.32 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=133 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   16.33 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=153 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   18.32 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=173 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   18.33 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=193 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   20.32 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=213 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   20.33 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=233 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   22.32 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=253 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   22.33 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=273 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   24.32 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=292 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   24.33 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=312 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   26.32 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=332 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   26.33 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=352 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   28.32 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=372 rel=0 | run=3311 sess=2 aa=0xca8cca05
+   28.33 UPLINK tx: 0 KiB/s (win_bytes=0 total=419436) sub=8 cmp=0 out=8 fail=0 poolwait=392 rel=0 | run=3311 sess=2 aa=0xca8cca05

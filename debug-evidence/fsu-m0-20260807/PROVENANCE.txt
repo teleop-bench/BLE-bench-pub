@@ -1,0 +1,157 @@
+M0 FSU physics-gate campaign, nRF54L15-DK pair, 2026-08-07.
+M0 CLOSURE: M0 implementation and core bench evaluation complete; no
+observed 2M duplex payoff under the registered masked system test; direct
+on-air confirmation remains the formal physical gate; the revised
+load-ramp campaign is deferred. Phase 4 and the original full Phase 5 are
+NOT claimed complete.
+Firmware: zephyr branch fsu-m0 (4.4.1 + fsu-m0-series.patch, 4 commits);
+apps z54-lat-{central,periph} with fragments recorded per cell (.config
+snapshots for sweep + phys + 1m30/1m43 cells committed alongside).
+
+CHRONOLOGY (all logs retained, including failures):
+1. m0-smoke-run1..2, m0-diag-run3..5: negotiation bring-up. Two on-air
+   bugs found+fixed (transitional receive windows; RSP encoded from
+   cleared masks). Diag printks used in run3-5 builds, removed after.
+2. m0-sweep-f150/100/70/52: negotiation sweep PASSED (SELECTED =
+   requested; zero disconnects).
+3. m0-phys-f*: 2M completion-floor sweep. Preregistered slope gate FAILED
+   flat — later understood as non-identifying: observed ~5 pairs/event in
+   every arm (same realized quantization bin) + the ~157 KiB/s pump
+   ceiling + batched completion gaps. Not evidence against adoption.
+4. m0-1m-f*-t*: 1M/7.5 ms discriminator at 52 us. All 8 cells FATAL 36 =
+   stock LL_ASSERT_DBG (lll_conn_central_is_abort_cb, lll_conn.c:248)
+   under the 1M/7.5 ms saturated-blast condition (pair-overrun plausible,
+   not independently isolated). Order was ABAB (methodology error, review
+   -caught); produced no data so no analysis used it.
+5. m0-1m30-smoke*: asserts-off bring-up. 52 us arm died 0x08 ~4 s after
+   FSU (1M + tIFS<=60 = historically failing region; 100 us survived the
+   measurement-length trials -> arm changed 52->100, amendment recorded
+   pre-series). smoke2/3 also exposed the tifs-reset-on-param-update
+   ordering hazard -> FSU delayed to +12 s (APP_SDC6X_DELAY_S).
+6. m0-1m30s-f*: counterbalanced series at 30 ms. FLAT (-0.55%) —
+   diagnosed from absolutes: quantization COLLISION (overhead <384 us
+   puts both arms at 12 pairs) + credit ceiling at BT_BUF_ACL_TX_COUNT=10.
+7. m0-1m43-smoke100/150: corrected geometry (53.75 ms, deep buffers).
+   NOTE: an earlier build batch failed while piped through tail (exit
+   codes swallowed); two stale-firmware captures were mislabeled as these
+   smokes and DELETED before any analysis; pipefail adopted; the retained
+   smoke logs are from verified builds. Smokes were READ (disclosed) and
+   motivated registering the cgap step as secondary observable.
+8. m0-1m43s-f*-t*: the formal series, AB BA BA AB, analyzed by
+   analyze_1m.py rev 3.1 (rev 2 archived; rev 3 registered mid-flight
+   before any series data was read; 3.1 fixed a windowed-disconnect
+   line-index bug — flags only, numbers unchanged).
+
+RESULT (series, all gates in analyzer output):
+PRIMARY: mean paired delta +5.72%, 95% CI [+1.13, +10.31], n=4
+(registered quantized model +4.76% inside the CI; zero outside);
+cancellation-rate gate MATCHED (17 vs 18 /s medians); order effect
++5.19% (AB) vs +6.25% (BA). Sensitivity: the two flag-free pairs give
++8.14%/+8.05%; the two pairs containing capture-head-truncated cells gave
++4.44%/+2.25%.
+SECONDARY: within-run completion-gap step on every 100-arm:
+-103/-102/-103/-102 us vs registered -100 +/- 15 (PASS 4/4); 150-arms
+flat at 2465 (model 2468); 100-arm post-FSU 2362-2364 (model 2368) —
+absolute pair-time agreement within ~5 us at both spacings.
+
+INTERPRETATION (registered, asymmetric; wording per review): the
+indirect physics discriminator passes — strong evidence that negotiated
+150->100 us spacing changes on-air packet pacing at 1M. Direct physical
+verification remains pending (completion timing is corroboration, not
+physical proof — fsu-m0-plan.md Phase 4). Bounds: measured under sustained trx-busy
+cancellation dynamics (~17-18/s, arm-matched, asserts-off fallthrough);
+1M/100-vs-150 only — the 52 us floor and 2M spacings are HCI-verified
+but not physically discriminated by this campaign; qualified on-air
+capture remains the formal physical gate.
+
+ADDENDUM (2026-08-07, review round): analyzer rev 3.2 classifies reboots
+by window — all series 'REBOOT' flags were capture-head boot sequences
+(flash-reset + capture-reset), ZERO in-window reboots; cancel medians
+recomputed over the throughput window: 17 vs 17 /s, MATCHED. Accurate
+flag summary: zero spacing-confirm exclusions; seven cells carried
+capture-head boot flags (window-classified benign); two cells carry
+head-truncation suspicion (late CDC sync) — pairs 1-2 are the
+non-truncated pairs (+8.14/+8.05%). Resolved .configs for the final 1m43
+cells recovered from the live build dirs and committed
+(1m43-f{100,150}-central.config, 1m43-periph.config) — the earlier
+PROVENANCE claim that they were already committed was premature.
+
+SOAK + REGRESSION (2026-08-07, analyze_soak.py criteria registered
+pre-read): SOAK (2M/52 us latency rig, 780 s + peripheral-reset reconnect
+probe at 660 s): PASS on all liveness/stability criteria — 2x spacing=52
+HCI confirms (the second after the probe = reconnect/default-restoration
+witness), pre-probe disc delta 0, timeout delta 0, cancels 0, 10.4 min at
+the negotiated floor, post-probe exactly 1 disc + renegotiation. FAIL on
+the registered RTT sanity band: median 12618 us vs band [11800,12100].
+CORRECTED interpretation (review round): no discrete step was
+established at the first HCI update (only 3 RTT seconds precede it);
+after the reconnect probe, the three complete pre-update seconds
+(t=665-667) were near baseline; variability returned within
+approximately three seconds after renegotiation (t~670) — sequential evidence cannot distinguish an FSU-on scheduling
+effect from run/environment differences, and a 52 us scheduling effect
+remains quite plausible. Estimator precisely: median of per-second RTT
+MEANS = 12618 us. OPEN QUESTION requiring the counterbalanced latency
+A/B (scheduled next, before Phase 5) before any 2M/52 latency figure is
+quoted. Soak analyzer rev 2 re-checked BOTH boards' logs for fault
+markers and counters (periph disc=0 after the probe is EXPECTED — the probe reboots the
+peripheral, resetting its counters; the central's disc=1 is the probe
+witness; both logs marker-clean). Liveness at the
+floor is NOT in question (zero losses/disconnects/timeouts).
+
+REGRESSION (m0-reg-off, 660 s, plain builds, FSU config off): PASS all
+bounds — RTT median 11915 us (within +/-1% of the 11.92 ms B1 baseline),
+disc/timeout deltas 0, cancels 0, no FSU lines, no fault markers. M0's
+FSU-off behavior is inside the registered envelope (behavioral bounds;
+hash-identity unavailable by design since the M0 code compiles in
+unconditionally).
+
+LATENCY A/B (m0-latab, 2026-08-07, analyze_latab.py rev 2 amended
+mid-flight per review, logs unread until complete): ALL 8 CELLS VALID
+under the strengthened checks (A-control request positively verified,
+B request+completion, PHY 2/2, zero disc/timeout/cancel, >=100 rows).
+PRIMARY (median-of-per-second-means, B-A): +28 us, 95% CI [-62, +119],
+n=4 — entirely inside the registered +/-150 us equivalence band ->
+"no practically meaningful effect detected". SECONDARY (median-of-mins):
++0 us [0, 0] — all eight cell median-of-minima values were reported as
+11911 us (anchor/timer-quantized metric); every paired difference was
+zero. Order effect: AB +0 vs BA +57 us. CONCLUSION (wording per review):
+the counterbalanced experiment found no practically meaningful
+reproducible effect of 52 us spacing on the median of per-second
+serialized-RTT means during fresh 150-second runs. It excludes a
+persistent effect comparable to the soak's ~700 us elevation, but the
+isolated soak anomaly's cause remains unidentified — it was not
+reproduced as a systematic 52 us main effect in the counterbalanced
+fresh-run cells; a rare, stateful, or duration-dependent interaction is
+not excluded. The RTT sanity gate FAIL stands as a fact about that run.
+
+PHASE-5 DUPLEX D-CELL (m0-dx2m, 2026-08-07, analyze_dx2m.py rev 3):
+8/8 ACCEPTED cells valid (explicit frozen manifest, NOT a glob; cell 8's
+original capture t1786132711 REJECTED for ~58 s truncation and superseded
+by rerun rr1786142027 — quarantined with hash+reason). Validity rev 3 =
+post-settle disconnect INCREMENT on BOTH boards (consistent with the
+latency-A/B rule + reviewer's "increments"), timeouts, cancels, PHY 2/2,
+spacing confirms, >=100 samples/direction. RESULT: aggregate mean -2.33%,
+95% CI [-6.07, +1.41], n=4 pairs; per-direction fwd -2.47% / rev -2.18%
+(symmetric, no ASYMMETRIC flags any cell); order AB -1.44% vs BA -3.22%.
+Outcome derived from the CI (analyzer rev 4, not hardcoded): NO observed
+duplex payoff (CI spans 0) under the masked system test; consistent with
+the 2M payoff A/B -0.98% [-11.05,+9.09]; says nothing about radio-level
+benefit. POST-HOC DESCRIPTIVE SENSITIVITY
+(rev 5; devised after seeing the data, 2 pairs/subgroup, no intervals):
+setup-disc-affected pairs (1-2) point estimate -4.12%, disconnect-free
+pairs (3-4) point estimate -0.53% — both subgroup point estimates
+non-positive; the -2.33% is partly sensitive to early-session
+instability. Descriptive only, not inferential. OBSERVATION (reported, non-
+invalidating): the first three chronological cells each showed one
+PRE-settle disconnect at t=5 s (setup-phase, before the 20 s settle and
+the +12 s FSU request), then ran clean through the measured window; the
+disc window is now aligned exactly to the throughput settle boundary
+(rev 4). Whether this correlates with fresh-flash state is NOT
+established — described only as the first three chronological cells.
+
+PHASE-5 RAMP ARM: PAUSED. First attempt's four cells REJECTED for
+central-capture truncation (see REJECTED-m0-ramp5-CAPTURE.reason) —
+instrumentation-path failure established, precise mechanism NOT.
+Repair (RAM-aggregated per-stage logging = a measurement-instrument
+change, recorded as a preregistration amendment) + full-ramp smoke
+pending before the four cells are re-run.

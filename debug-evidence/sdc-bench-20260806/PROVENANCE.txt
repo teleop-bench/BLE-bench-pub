@@ -1,0 +1,190 @@
+SDC benchmark — arm 0b (SoftDevice Controller), cell B1
+Date: 2026-08-06
+Boards: nRF54L15-DK 1057719509 (central), 1057794857 (peripheral), VDD 3.0 V
+Toolchain: nRF Connect SDK v3.4.0, toolchain bundle ccc010f809
+Controller: CONFIG_BT_LL_SOFTDEVICE=y; boot banner: HCI 6.3 (0x11) rev 0x3039,
+  manufacturer 0x0059, firmware Version 200.12506 Build 888207768
+Firmware: z54-lat-central / z54-lat-periph @ repo HEAD, port shims only
+  (lll_conn_trx_busy_cancels stub, INEVENT_ECHO conf line removed);
+  bench.conf NOT applied (no HB/watchdog); pin_interval=true (7.5 ms, B1)
+Resolved configs: central-b1.config, periph-b1.config (this directory)
+Method: 5 runs, each: debugger reset both boards (DEVIATION: reset, not
+  physical power cycle), 40 s warm-up excluded, 185 s capture both consoles.
+  All runs >=10,000 accepted samples (14,776-14,854).
+Results (central, weighted over per-second stats):
+  run1 n=14793 mean=11994us min=11467 max=41923 to=0 disc=0 >15ms=126 >30ms=6
+  run2 n=14801 mean=11976us min=11467 max=41916 to=0 disc=0 >15ms=89  >30ms=7
+  run3 n=14776 mean=12002us min=8205  max=49415 to=0 disc=0 >15ms=127 >30ms=9
+  run4 n=14827 mean=11956us min=11467 max=41915 to=0 disc=0 >15ms=74  >30ms=2
+  run5 n=14854 mean=11929us min=11418 max=26914 to=0 disc=0 >15ms=28  >30ms=0
+Comparison: open ll_sw_split (upstream Zephyr 4.4.1 @ 1f6485ec) at the same
+  pinned 7.5 ms cadence: mean ~11915-11920 us -> parity (~0.5% delta).
+  SDC (proprietary) results: labeled per sdc-benchmark-plan.md ground rules.
+
+--- F1 / S1 / S1b (same date, same toolchain/controller) ---
+F1 (FSU on, pinned 7.5 ms): central sdc-f1.conf (FSU request [0..52] us).
+  FSU negotiated spacing=70 us (phys=0x3, ACL both dirs) in 5/5 runs.
+  RTT means 11.93-12.01 ms = identical to B1 (interval-dominated, as
+  predicted); FSU effect visible in RTT minimums (11.91 -> ~11.6 ms class).
+  Logs: f1-run*-{central,periph}.log. Config: central-f1.config.
+S1 (SCI, request 8x125us = 1 ms): first attempt rc=-22 (host validation:
+  CE length fields have HCI floor 1; fixed min_ce=1 max_ce=8). Second
+  attempt: negotiation OK but interval reverted to 7.5 ms ~5 s later -
+  peripheral's legacy GAP auto-param-update (prefers 7.5 ms) overrode the
+  negotiated rate; fixed with CONFIG_BT_GAP_AUTO_UPDATE_CONN_PARAMS=n
+  (periph-6x-noautoparam.config). Formal: 5/5 negotiations to 1000 us,
+  43,560-44,028 samples/run, means 1.928-1.960 ms, min 1.796 ms, 0
+  timeouts, 0 disconnects. Logs: s1-run*-{central,periph}.log.
+S1b (SCI floor probe, request 6x125us = 750 us): granted (rate_changed
+  interval=750 us). Stable, 0 timeouts, ~191 samples/s; mean ~2.14 ms,
+  min 1.409 ms - mean WORSE than at 1 ms: the serialized app-echo
+  turnaround (~1.8 ms host path) misses the 2nd event at 750 us spacing
+  and rides the 3rd (alignment effect, not a controller deficiency).
+  Config: central-s1b-750us.config. Smoke only (no 5-run cell).
+Track-2 discrimination: SDC negotiated fast timing 10/10 times today
+  (5x1ms + 750us probes + smokes) with zero establishment failures ->
+  the open-stack 1 ms establishment wedge (Track 2) is an open-LL
+  implementation artifact, not radio physics.
+
+--- S1b formal + throughput cells T0/T1 (+T2 probe) ---
+S1b formal (750 us): 5/5 negotiations; 41,163-42,043 samples/run; means
+  2.164-2.253 ms, min 1.407 ms, 0 timeouts, 0 disconnects. Alignment effect
+  confirmed with formal statistics (mean worse than at 1 ms, best-case better).
+Throughput instrument: central APP_TPUT_BLAST (max-payload GATT
+  write-without-response flood), periph rxkBps counter. MTU 247, 2M PHY,
+  DLE via BT_AUTO_DATA_LEN_UPDATE=y (initially missing -> 27-byte PDUs and
+  37 KB/s: the SAME missing-DLE failure mode as the BLE5 rig's false uplink
+  asymmetry, third sighting), SDC LL TX/RX packet counts raised 3/2 -> 10.
+T0 (FSU off, 7.5 ms): 5 runs, means 92.3-93.4 KB/s (medians 94-95).
+T1 (FSU on = 70 us, verified in all 5 runs): means 93.1-94.1 KB/s.
+  CONTROLLED RESULT: <=1% delta - no material FSU throughput gain at 7.5 ms;
+  the SDC packs ~3 pairs/event there (scheduler budget), spacing not binding.
+T2 probe (SCI to 50 ms + 50 ms event length, smokes only): long events work
+  (~20 pairs/event) BUT total rate identical ~398 writes/s (~94 KB/s) across
+  ALL configurations -> a HOST-side pump ceiling (~2.5 ms/write through the
+  GATT WWR path in this minimal blast loop), masking any radio-side FSU gain.
+  SCI upward negotiation (7.5 -> 50 ms) also demonstrated (rate_changed
+  interval=50000 us). The dedicated open-stack throughput methodology reached
+  ~157 KB/s on identical silicon -> the unmasked FSU throughput comparison
+  requires porting that pump class under NCS. OPEN.
+
+CORRECTION (rev 2, same date, per external review): the earlier line
+"the SDC packs ~3 pairs/event there (scheduler budget)" is RETRACTED as an
+explanation. The measured rate is ~398 writes/s at BOTH 7.5 ms (2.99/event)
+and 50 ms (19.9/event); the 50 ms datum refutes a 3-pair scheduler budget as
+binding, and the constant rate is the signature of the host pump ceiling.
+T0/T1 is a controlled but PUMP-MASKED null; cause resolution = U2 in
+fsu-throughput-plan.md. Additional unexplained datum for that diagnosis:
+pre-DLE (27 B PDUs) the same loop ran ~160 writes/s, so per-write cost is
+not constant across PDU configurations.
+
+CORRECTION 2 (rev 3, same date): the rev-2 correction above itself
+over-attributed — "the signature of the host pump ceiling" locates the
+bottleneck without evidence. SUPERSEDING STATEMENT (replaces both the
+original "scheduler budget" and the rev-2 "host pump" causal conclusions;
+historical text retained above unedited): the constant ~398 writes/s across
+intervals is consistent with a shared INSTRUMENT-SIDE bottleneck of
+UNDETERMINED location (host TX path, HCI flow control, controller
+buffering/credits, or CPU scheduling). Discrimination = Phase A + cell U2 of
+fsu-throughput-plan.md.
+
+--- Phase A resolution + U0/U1: THE FSU THROUGHPUT MEASUREMENT (2026-08-06) ---
+Phase A diagnosis chain (fsu-throughput-plan.md): first-16-call trace showed
+pools fill fast (55-193 us) -> completions paced at min 2392 us; payload-cap
+test gave call_time = ~380 us + ~8 us/byte; PHY confirmed 2M during blast ->
+ROOT CAUSE: the peripheral's default app-echo notified every blast write
+back at full size - every byte flew TWICE; 94 KB/s each way = the 2M air
+ceiling. 2392 us = 1048(TX) + 150 + 1048(echo) + 150 exactly. With sink mode
+(CONFIG_APP_TPUT_SINK) completions dropped to min 1390 us = the one-way 2M
+pair time (1048+150+44+150) - instrument now air-serialized by construction
+(each write blocks until its pair completes on air).
+Retractions now final: NOT the scheduler, NOT a host pump, NOT event
+extension - the instrument's own echo.
+U0/U1 (SCI 50 ms + 50 ms events, sink, counterbalanced AB BA BA AB AB BA,
+45 s warm-up excluded, first 15 connected seconds dropped, per-run
+verification): U0 146.5-159.8 KB/s; U1 173.3-180.9 KB/s.
+**Paired FSU delta +15.03%, 95% t-CI [+12.37%, +17.69%], n=6 pairs.**
+Airtime-model prediction +13.0% - within CI. FSU spacing=70 verified (HCI)
+in 6/6 U1 runs; SCI interval=50000 in 12/12 runs. U1 absolute ~178 KB/s >
+open-stack ~157 KB/s reference (new project GATT record on this silicon).
+CAVEAT (per plan): HCI-level verification only; qualified on-air spacing
+capture pending - the model-agreement is corroborating, not physical, proof.
+U2 (7.5 ms with sink instrument) still pending.
+Logs: u-pair{1..6}-{A,B}-{central,periph}.log; configs central-u0/u1,
+periph-u-sink.
+
+CORRECTION 3 (rev 4, per review): the arithmetic above wrote "= 2392 ... 
+exactly"; the correct model sums are 2396 us (1048+150+1048+150) and 1392 us
+(1048+150+44+150) - the OBSERVED floors 2392/1390 agree with the model to
+-4/-2 us, i.e. "approximately", and the completion callback witnesses buffer
+release, not the RF edge; on-air capture pending. The U0/U1 result is
+labeled PROVISIONAL: the plan's validity gate is not fully passed
+(independent pump-headroom, CPU-idle, +/-15% model sweep, on-air capture
+pending; the continuous-backlog criterion is satisfied in formally revised
+form - blocking-write semantics make -ENOMEM impossible and call-block time
+tracking the completion gap is the equivalent evidence). Analysis is now
+committed: analyze_u_pairs.py + u-pairs.csv (per-pair rates, deltas, CI
+arithmetic; CI is a within-session paired t-CI on one board pair). An
+independent re-analysis with a seconds-15-229 window reproduced
+15.00 [12.34, 17.66].
+
+--- Latency-under-load ramp, nRF54, three arms (2026-08-06 evening) ---
+Instrument: pings live + self-stepping bulk (244 B WWR to a dedicated sink
+char, targets 0/25/50/75/100/125/150 KB/s x 60 s; first 5 s of each stage
+excluded). One cycle per arm (n=1 cycle - shapes robust, values provisional).
+All arms 7.5 ms interval, 2M, DLE. Logs: loadramp-{open,sdc,sdcfsu}-*.log.
+  open:   mean RTT 12.1@0 -> 20.9@105 -> 32.0@137(max achieved)
+  sdc:    11.9@0 -> 30.5@104 -> 40.1@125(max);  worst spikes ~100 ms
+  sdcfsu: 11.9@0 -> 22.2@104 -> 34.9@134(max);  FSU verified via sdc-f1 conf
+Findings: (1) no flat region on nRF54 (nRF52's flat-to-100 does not
+replicate with this instrument); (2) FSU latency-under-load dividend -
+recovers most of plain SDC's queueing deficit and raises achievable load.
+Zero timeouts/disconnects all arms.
+
+Duplex analysis contract registered in duplex-plan.md 2026-08-06 ~21:50,
+BEFORE any dx-* logs were read (runner progress markers only). Symmetry to
+be established from rxkBps vs exkBps, not assumed; notify-rc caveat noted.
+
+CORRECTION (ramp, rev 2 per review): "shapes robust" and "FSU
+latency-under-load dividend" RETRACTED as claims - one sequential cycle per
+arm leaves controller, FSU, and run order confounded. Correct posture:
+single observed sweep, hypothesis-generating; replication with
+counterbalancing across sessions required before any dividend claim.
+Analysis now committed: analyze_loadramp.py + loadramp.csv.
+
+CORRECTION (2026-08-06, post-review): analyze_loadramp.py rev 2 — the rev-1
+achieved-load values used value-proximity bands over the WHOLE run, which
+cross-contaminate adjacent stages; rev 2 uses deterministic per-stage windows
+on the peripheral clock (onset = first of 3 consecutive blkkBps>10; 60 s
+windows; 5 s boundary trim; monotonic + sample-count asserts). Material
+change at the top step: sdc achieved 124.6 KiB/s (saturated, was ~125 but
+by accident of banding), sdcfsu 143.8 (was ~134), open 149.0 (was ~137).
+loadramp.csv and the HTML ramp panel regenerated from rev 2. Units: KiB/s
+(divisor 1024) — earlier "KB/s" labels in this campaign denote the same
+/1024 counters.
+
+DUPLEX CAMPAIGN FINAL (2026-08-06): 22/22 runs complete. Runner printed
+DUPLEX-COMPLETE (runner-side stdout marker only — the serial logs do not
+contain it). An interim duplex.csv written mid-campaign (before pair-6 logs
+existed) was DISCARDED and regenerated once by analyze_duplex.py rev 2
+(pinned confirmation patterns: 'rate_changed status=0x00 interval=50000 us',
+'status=0x00 spacing=70 us', 'GAP connected interval=7500' flag-only for the
+7.5 ms cells; post-settle disconnect-increment detection; df=1 t-value;
+KiB/s labels). Result: D-open75 181.1 / D-sdc75 180.4 KiB/s mean aggregate
+(5 runs each); all 22 runs imbalance <=0.1% (5% flag never tripped); FSU
+duplex delta +14.24%, 95% CI [+12.36, +16.12], n=6 counterbalanced pairs
+(AB BA BA AB AB BA), per-direction means +14.25%/+14.23%; zero exclusions,
+zero flags, zero post-settle disconnects.
+
+ADDENDUM (2026-08-06, review round 2): (1) analyze_duplex.py disc detection
+made BILATERAL — the central's disc= counter lives on its own status lines,
+not the exkBps lines, so the earlier check was peripheral-only; streams now
+parsed independently and aligned by log line order. Re-run: zero post-settle
+disconnects verified on BOTH boards, all 22 runs; numbers unchanged.
+(2) INTERPRETATION CORRECTION: the +14.24% FSU duplex gain numerically
+matches the one-way result but EXCEEDS the preregistered duplex airtime
+model's +7.2% (2396/2236) prediction — the CI [12.36,16.12] lies entirely
+above it. FSU-off measured ~175.5 KiB/s vs ~199 model; FSU-on ~200.4 vs
+~213. The simple model omits some event-boundary/scheduling/utilization
+effect; mechanism unresolved. Any earlier "as the model predicts" phrasing
+is retracted.

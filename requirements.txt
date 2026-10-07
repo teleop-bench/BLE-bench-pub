@@ -1,0 +1,5 @@
+# Host-side Python dependencies for the campaign tools and capture scripts (tools/, apps/misc/q2-central/).
+# Everything else they use is the Python standard library. Tested with Python 3.9.6 (macOS system python3).
+# Firmware builds additionally need west + the Zephyr SDK + Zephyr's own Python deps (`west packages pip --install`),
+# see REPRODUCE.md "Toolchain prerequisites"; flashing needs Nordic's nrfutil.
+pyserial>=3.5

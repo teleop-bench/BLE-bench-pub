@@ -1,0 +1,39 @@
+== building sdc into <SCRATCH>/b2777530-2abd-4537-b0c5-d116f2eaefd4/scratchpad/rep1007/b-sdc
+== design gate
+  6: MATCHED: arms differ ONLY in ['CONFIG_APP_FSU_MAX_US', 'CONFIG_APP_FSU_MIN_US'] (the variable under test). Clean isolation.
+  12: MATCHED: arms differ ONLY in ['CONFIG_APP_FSU_MAX_US', 'CONFIG_APP_FSU_MIN_US'] (the variable under test). Clean isolation.
+  20: MATCHED: arms differ ONLY in ['CONFIG_APP_FSU_MAX_US', 'CONFIG_APP_FSU_MIN_US'] (the variable under test). Clean isolation.
+  sink: FSU-capable, auto-update off
+  central 1057719509 /dev/cu.usbmodem0010577195093 / peripheral 1057794857 /dev/cu.usbmodem0010577948573
+{"tag": "cocsdc6_off_r1", "spacing": 150, "onset_s": 5.818, "dl": 91.2, "ul": 92.9, "agg": 184.1, "stall": null, "reject": []}
+{"tag": "cocsdc6_on_r2", "spacing": 65, "onset_s": 5.807, "dl": 91.2, "ul": 92.7, "agg": 183.9, "stall": null, "reject": []}
+{"tag": "cocsdc6_on_r3", "spacing": 65, "onset_s": 5.821, "dl": 91.4, "ul": 93.1, "agg": 184.5, "stall": null, "reject": []}
+{"tag": "cocsdc6_off_r4", "spacing": 150, "onset_s": 5.79, "dl": 91.3, "ul": 92.8, "agg": 184.1, "stall": null, "reject": []}
+{"tag": "cocsdc6_off_r5", "spacing": 150, "onset_s": 5.835, "dl": 91.5, "ul": 92.9, "agg": 184.4, "stall": null, "reject": []}
+{"tag": "cocsdc6_on_r6", "spacing": 65, "onset_s": 5.803, "dl": 91.5, "ul": 93.0, "agg": 184.5, "stall": null, "reject": []}
+{"tag": "cocsdc6_on_r7", "spacing": 65, "onset_s": 5.814, "dl": 91.5, "ul": 93.1, "agg": 184.7, "stall": null, "reject": []}
+{"tag": "cocsdc6_off_r8", "spacing": 150, "onset_s": 5.787, "dl": 91.5, "ul": 93.0, "agg": 184.4, "stall": null, "reject": []}
+{"tag": "cocsdc12_off_r1", "spacing": 150, "onset_s": 5.906, "dl": 91.5, "ul": 93.0, "agg": 184.5, "stall": null, "reject": []}
+{"tag": "cocsdc12_on_r2", "spacing": 65, "onset_s": 5.899, "dl": 94.2, "ul": 95.9, "agg": 190.1, "stall": null, "reject": []}
+{"tag": "cocsdc12_on_r3", "spacing": 65, "onset_s": 5.914, "dl": 94.0, "ul": 95.7, "agg": 189.7, "stall": null, "reject": []}
+{"tag": "cocsdc12_off_r4", "spacing": 150, "onset_s": 5.909, "dl": 91.3, "ul": 92.9, "agg": 184.2, "stall": null, "reject": []}
+{"tag": "cocsdc12_off_r5", "spacing": 150, "onset_s": 5.947, "dl": 91.5, "ul": 93.0, "agg": 184.5, "stall": null, "reject": []}
+{"tag": "cocsdc12_on_r6", "spacing": 65, "onset_s": 5.882, "dl": 94.2, "ul": 95.8, "agg": 190.0, "stall": null, "reject": []}
+{"tag": "cocsdc12_on_r7", "spacing": 65, "onset_s": 5.922, "dl": 94.2, "ul": 95.6, "agg": 189.8, "stall": null, "reject": []}
+{"tag": "cocsdc12_off_r8", "spacing": 150, "onset_s": 5.883, "dl": 91.4, "ul": 93.0, "agg": 184.4, "stall": null, "reject": []}
+{"tag": "cocsdc20_off_r1", "spacing": 150, "onset_s": 6.062, "dl": 92.4, "ul": 94.0, "agg": 186.4, "stall": null, "reject": []}
+{"tag": "cocsdc20_on_r2", "spacing": 65, "onset_s": 6.074, "dl": 102.2, "ul": 103.8, "agg": 206.0, "stall": null, "reject": []}
+{"tag": "cocsdc20_on_r3", "spacing": 65, "onset_s": 6.03, "dl": 102.3, "ul": 104.3, "agg": 206.6, "stall": null, "reject": []}
+{"tag": "cocsdc20_off_r4", "spacing": 150, "onset_s": 6.08, "dl": 92.5, "ul": 94.3, "agg": 186.8, "stall": null, "reject": []}
+{"tag": "cocsdc20_off_r5", "spacing": 150, "onset_s": 6.079, "dl": 89.6, "ul": 91.1, "agg": 180.8, "stall": null, "reject": []}
+{"tag": "cocsdc20_on_r6", "spacing": 65, "onset_s": 6.052, "dl": 102.1, "ul": 103.7, "agg": 205.9, "stall": null, "reject": []}
+{"tag": "cocsdc20_on_r7", "spacing": 65, "onset_s": 6.055, "dl": 102.2, "ul": 103.8, "agg": 206.0, "stall": null, "reject": []}
+{"tag": "cocsdc20_off_r8", "spacing": 150, "onset_s": 6.051, "dl": 92.5, "ul": 94.2, "agg": 186.8, "stall": null, "reject": []}
+
+=== SUMMARY (accepted reps only) ===
+  7.5 ms  off  184.2 (n=4)  on  184.4 (n=4)  FSU +0.1% ± 0.3% (Welch t95)  ranges overlap  rejected=0 (stalls=0)
+          per direction (dl/ul): off 91.4/92.9  on 91.4/93.0
+ 15.0 ms  off  184.4 (n=4)  on  189.9 (n=4)  FSU +3.0% ± 0.2% (Welch t95)  strict non-overlap  rejected=0 (stalls=0)
+          per direction (dl/ul): off 91.4/93.0  on 94.2/95.8
+ 25.0 ms  off  185.2 (n=4)  on  206.1 (n=4)  FSU +11.3% ± 2.5% (Welch t95)  strict non-overlap  rejected=0 (stalls=0)
+          per direction (dl/ul): off 91.8/93.4  on 102.2/103.9
