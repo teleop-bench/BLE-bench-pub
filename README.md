@@ -1,4 +1,7 @@
+Here is the human written overview: https://teleopbench.com.
+
 # BLE-bench — reproducible Bluetooth LE 5/6 throughput & latency benchmark
+
 
 An open, reproducible benchmark of **Bluetooth LE application throughput and latency** on real
 Nordic hardware, comparing the **open-source Zephyr controller** (`ll_sw_split`) against Nordic's
